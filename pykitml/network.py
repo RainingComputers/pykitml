@@ -8,7 +8,7 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
     This class implements the classic Feedforward Neural Network.
     '''
 
-    def __init__(self, layer_sizes, config = 'leakyrelu-softmax-cross_entropy'):
+    def __init__(self, layer_sizes, reg_param=0, config='leakyrelu-softmax-cross_entropy'):
         '''
         Parameters
         ----------
@@ -17,6 +17,8 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
             layer. For e.g. :code:`[784, 100, 100, 10]` describes a neural network with one input
             layer having 784 neurons, two hidden layers having 100 neurons each and a output layer
             with 10 neurons.
+        reg_param : int
+            Regulerization parameter for the network, also known as 'weight decay'.
         config : str
             The config string describes what activation functions and cost function to use for
             the network. The string should contain three function names seperated with '-' 
@@ -43,6 +45,10 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         func_names = config.split('-')
         func_names_prime = [func_name + '_prime' for func_name in func_names]
         
+        # Initialize regulurization parameter
+        self._reg_param = reg_param
+        self._reg_param_half = reg_param/2
+
         # Initilize functions
         self._activ_func = getattr(_functions, func_names[0])
         self._activ_func_prime = getattr(_functions, func_names_prime[0])
@@ -226,6 +232,8 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         # Calculate the partial derivatives of the cost w.r.t all the weights of layer 'l'
         def calc_dc_dw(l):
             dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1])
+            # Regulerization
+            dc_dw[l] += self._reg_param*self._params[W][l]
 
         # Calculate the partial derivatives of the cost function w.r.t the ouput layer's 
         # activations, weights, biases
@@ -259,6 +267,15 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
 
         # Calculate average cost
         cost = np.sum(self._cost_func(output_targets, testing_targets))/testing_data.shape[0]
+        # Add regulerization
+        if(self._reg_param != 0):
+            W = 0
+            norm = 0
+            # Calculate norm of the weights
+            for l in range(self.nlayers):
+                norm += (self._params[W][l]**2).sum()
+            # Add the norm to the cost
+            cost += self._reg_param_half*norm
 
         # return cost
         return round(cost, 2)
