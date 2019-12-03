@@ -265,8 +265,8 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         self.feedforward(testing_data)
         output_targets = self.get_output()
 
-        # Calculate average cost
-        cost = np.sum(self._cost_func(output_targets, testing_targets))/testing_data.shape[0]
+        # Calculate cost
+        cost = np.sum(self._cost_func(output_targets, testing_targets))
         # Add regulerization
         if(self._reg_param != 0):
             W = 0
@@ -275,7 +275,9 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
             for l in range(self.nlayers):
                 norm += (self._params[W][l]**2).sum()
             # Add the norm to the cost
-            cost += self._reg_param_half*norm
+            cost += (self._reg_param_half)*norm
+        # Average the cost
+        cost = cost/testing_data.shape[0]
 
         # return cost
         return round(cost, 2)
