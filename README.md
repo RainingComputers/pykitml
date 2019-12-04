@@ -31,7 +31,7 @@ digit_classifier.train(
     optimizer=pk.Adam(learning_rate=0.012, decay_rate=0.95), 
     testing_data=testing_data, 
     testing_targets=testing_targets,
-    testing_freq=10,
+    testing_freq=30,
     decay_freq=15
 )
     

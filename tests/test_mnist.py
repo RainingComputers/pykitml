@@ -28,7 +28,7 @@ def test_adagrad():
         optimizer=pk.Adagrad(learning_rate=0.07, decay_rate=0.99), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=10
     )
     
@@ -55,7 +55,7 @@ def test_nesterov():
         optimizer=pk.Nesterov(learning_rate=0.1, decay_rate=0.99), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=10
     )
     
@@ -82,7 +82,7 @@ def test_relu_nesterov():
         optimizer=pk.Nesterov(learning_rate=0.1, decay_rate=0.99), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=10
     )
     
@@ -108,7 +108,7 @@ def test_momentum():
         optimizer=pk.Momentum(learning_rate=0.1, decay_rate=0.95), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=20
     )
     
@@ -134,7 +134,7 @@ def test_gradient_descent():
         optimizer=pk.GradientDescent(learning_rate=0.2, decay_rate=0.99), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=20
     )
     
@@ -160,7 +160,7 @@ def test_adam():
         optimizer=pk.Adam(learning_rate=0.012, decay_rate=0.95), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=15
     )
     
@@ -186,7 +186,7 @@ def test_RMSprop():
         optimizer=pk.RMSprop(learning_rate=0.012, decay_rate=0.95), 
         testing_data=testing_data, 
         testing_targets=testing_targets,
-        testing_freq=10,
+        testing_freq=30,
         decay_freq=15
     )
     
