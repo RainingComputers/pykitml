@@ -197,16 +197,16 @@ class MinimizeModel(ABC):
 
     def result(self):
         '''
-        Returns index and activation of the node/neuron having the highest activation.
+        Returns index and activation of the node/neuron/node having the highest activation.
 
         Returns
         -------
         index : int
-            The index(starts at zero) of the node/neuron having the highest activation.
+            The index(starts at zero) of the node/neuron/node having the highest activation.
         activation : float
-            The activation of the node/neuron.
+            The activation of the node/neuron/node.
         '''
-        # return the output layer activations along with the node/neuron with the most activation
+        # return the output layer activations along with the node/neuron/node with the most activation
         activations = self.get_output()
         index = np.argmax(activations)
         return index, activations[index] 
@@ -262,25 +262,29 @@ class MinimizeModel(ABC):
         '''
         pass
 
-    @abstractmethod
     def get_output_one_hot(self):
         '''
-        Returns the output activations of the model as a one-hot array. A one-hot array
+        Returns the output layer activations of the model as a one-hot array. A one-hot array
         is an array of bits in which only `one` of the bits is high/true. In this case, the
-        corresponding bit to the node/neuron having the highest activation will be high/true.
+        corresponding bit to the neuron/node having the highest activation will be high/true.
         
         Returns
         -------
         numpy.array
             The one-hot output activations array. 
         '''
-        pass
+        # return output activations as onehot array
+        activations = self.get_output()
+        output = np.zeros(activations.shape[0])
+        index = np.argmax(activations)
+        output[index] = 1
+        return output 
 
     @abstractmethod
     def _backpropagate(self, targets):
         '''
         This function calculates gradient of the cost function w.r.t all weights and 
-        biases of the network by backpropagating the error through the network.
+        biases of the model by backpropagating the error through the model.
 
         Parameters
         ----------

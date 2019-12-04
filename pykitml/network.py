@@ -154,23 +154,6 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         '''
         return self._activations[-1]
 
-    def get_output_one_hot(self):
-        '''
-        Returns the output layer activations of the network as a one-hot array. A one-hot array
-        is an array of bits in which only `one` of the bits is high/true. In this case, the
-        corresponding bit to the neuron having the highest activation will be high/true.
-        
-        Returns
-        -------
-        numpy.array
-            The one-hot output activations array. 
-        '''
-        # return output activations as onehot array
-        output = np.zeros(self._lsize[-1])
-        neuron_index = np.argmax(self._activations[-1])
-        output[neuron_index] = 1
-        return output 
-
     def _backpropagate(self, target):
         # Constants
         W = 0 # Weights        
