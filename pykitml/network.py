@@ -98,6 +98,10 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         self._params = mparams
 
     @property
+    def _cost_function(self):
+        return self._cost_func
+
+    @property
     def nlayers(self):
         '''
         The number of layers in the network.
@@ -167,49 +171,7 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         output[neuron_index] = 1
         return output 
 
-    def result(self):
-        '''
-        Returns index and activation of the neuron having the highest activation.
-
-        Returns
-        -------
-        neuron_index : int
-            The index(starts at zero) of the neuron having the highest activation.
-        activation : float
-            The activation of the neuron.
-        '''
-        # return the output layer activations along with the neuron with the most activation
-        neuron_index = np.argmax(self._activations[-1])
-        return neuron_index, self._activations[-1][neuron_index] 
-
     def _backpropagate(self, target):
-        '''
-        This function calculates gradient of the cost function w.r.t all weights and 
-        biases of the network by backpropagating the error through the network.
-
-        Parameters
-        ----------
-        target : numpy.array
-            The correct activations that the output layer should have.
-
-        Returns
-        -------
-        dc_dw : list
-            List containing numpy arrays, each numpy array corresponding to the gradient of
-            weights of a layer.
-        dc_db : list
-            List containing numpy arrays, each numpy array corresponding to the gradient of
-            biases of a layer.
-
-        Raises
-        ------
-        ValueError
-            If the input data has invalid dimensions/shape.
-
-        Note
-        ----
-        You have to call :py:func:`~feedforward` before you call this function.
-        '''
         # Constants
         W = 0 # Weights        
         
@@ -254,67 +216,13 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
             dtype=object
         )
 
-    def _get_grad(self, input_data, target):
-        # Feedforward the input data
-        self.feedforward(input_data)
-        # Get gradients and return
-        return self._backpropagate(target)
-
-    def cost(self, testing_data, testing_targets):
-        # Evalute over all the testing data and get outputs
-        self.feedforward(testing_data)
-        output_targets = self.get_output()
-
-        # Calculate cost
-        cost = np.sum(self._cost_func(output_targets, testing_targets))
-        
-        # Add regulerization
+    def _get_norm_weights(self):
         if(self._reg_param != 0):
             W = 0
             norm = 0
             # Calculate norm of the weights
             for l in range(self.nlayers):
-                norm += (self._params[W][l]**2).sum()
-            # Add the norm to the cost
-            cost += (self._reg_param_half)*norm
-        
-        # Average the cost
-        cost = cost/testing_data.shape[0]
-
-        # return cost
-        return round(cost, 2)
-
-    def accuracy(self, testing_data, testing_targets):
-        '''
-        Tests the accuracy of the network on the testing data passed to the
-        function. This function should be only used for clssification.
-
-        Parameters
-        ----------
-        testing_data : numpy.array
-            numpy array containing testing data.
-        testing_targets : numpy.array
-            numpy array containing testing targets, corresponding to the testing data.
-        
-        Returns
-        -------
-        accuracy : float
-           The accuracy of the network over the testing data i.e how many testing examples
-           did the network predict correctly.
-        '''
-        # Evalute over all the testing data and get outputs
-        self.feedforward(testing_data)
-        output_targets = self.get_output()
-
-        # Create a onehot array from outputs
-        output_one_hot = np.zeros(output_targets.shape)
-        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
-
-        # Calculate how many examples it classified correctly
-        no_correct = (testing_targets == output_one_hot).all(axis=1).sum()
-        accuracy = (no_correct/testing_data.shape[0]) * 100
-
-        # return accuracy
-        return round(accuracy, 2)
-
-
+                norm += (self._reg_param_half)*(self._params[W][l]**2).sum()
+            return norm
+        else:
+            return 0
