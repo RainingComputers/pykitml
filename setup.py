@@ -8,7 +8,7 @@ setuptools.setup(
     version='0.0.1',
     author='RainingComputers',
     author_email='vishnu.vish.shankar@gmail.com',
-    description='Simple Machine Learning library written in Python and NumPy.',
+    description='Machine Learning library written in Python and NumPy.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     #url='https://github.com/pypa/sampleproject',

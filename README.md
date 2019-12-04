@@ -1,5 +1,5 @@
 # pykitml
-Simple Machine Learning library written in Python and NumPy.
+Machine Learning library written in Python and NumPy.
 
 # Demo (MNIST)
 ### Download MNIST:
