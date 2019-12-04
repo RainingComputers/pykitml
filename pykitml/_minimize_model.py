@@ -39,7 +39,7 @@ class MinimizeModel(ABC):
             training time.
         decay_freq : int
             How frequently the model should decay the learning rate. The learning rate
-            will decat after every :code:`decay_freq` epochs.
+            will decay after every :code:`decay_freq` epochs.
 
         Raises
         ------

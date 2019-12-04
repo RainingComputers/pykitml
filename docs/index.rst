@@ -2,7 +2,7 @@
    sphinx-quickstart on Thu Feb 21 17:21:36 2019.
 
 pykitml Docs
-==========
+============
 
 Documentation and reference for pykitml, simple Neural Network library written in Python and NumPy.
 
