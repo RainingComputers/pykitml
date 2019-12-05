@@ -58,6 +58,16 @@ def test_iris_normalization():
     # Save it
     pk.save(iris_classifier, 'iris_classifier.pkl') 
 
-
 if __name__ == '__main__':
-    test_iris_normalization()
+    test_iris()
+
+    # Load dataset
+    inputs, outputs = iris.load()
+
+    # Load model
+    iris_classifier = pk.load('iris_classifier.pkl')
+
+    # Print accuracy and plor performance
+    iris_classifier.plot_performance()
+    accuracy = iris_classifier.accuracy(inputs, outputs)
+    print('Accuracy:', accuracy)
