@@ -197,16 +197,16 @@ class MinimizeModel(ABC):
 
     def result(self):
         '''
-        Returns index and activation of the node/neuron/node having the highest activation.
+        Returns index and activation of the node/neuron having the highest activation.
 
         Returns
         -------
         index : int
-            The index(starts at zero) of the node/neuron/node having the highest activation.
+            The index(starts at zero) of the node/neuron having the highest activation.
         activation : float
             The activation of the node/neuron/node.
         '''
-        # return the output layer activations along with the node/neuron/node with the most activation
+        # return the output layer activations along with the node/neuron with the most activation
         activations = self.get_output()
         index = np.argmax(activations)
         return index, activations[index] 

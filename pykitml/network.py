@@ -109,24 +109,6 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         return self._nlayers
 
     def feedforward(self, input_data):
-        '''
-        Accepts input array and feeds it forward through the network.
-
-        Parameters
-        ----------
-        input_data : numpy.array
-            The input to feed forward through the network.
-
-        Raises
-        ------
-        ValueError
-            If the input data has invalid dimensions/shape.      
-
-        Note
-        ----
-        This function only feed-forwards the input data, to get the output after calling this
-        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result` 
-        '''
         # Constants
         W = 0 # Weights
         B = 1 # Biases
@@ -144,14 +126,6 @@ class NeuralNetwork(_minimize_model.MinimizeModel):
         self._activations[-1] = self._output_activ_func(self._weighted_sums[-1])
 
     def get_output(self):
-        '''
-        Returns the output layer activations of the network.
-
-        Returns
-        -------
-        numpy.array
-            The output layer activations.
-        '''
         return self._activations[-1]
 
     def _backpropagate(self, target):
