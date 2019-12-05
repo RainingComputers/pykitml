@@ -162,56 +162,6 @@ class MinimizeModel(ABC):
         # return cost
         return round(cost, 2)
 
-    def accuracy(self, testing_data, testing_targets):
-        '''
-        Tests the accuracy of the model on the testing data passed to the
-        function. This function should be only used for clssification.
-
-        Parameters
-        ----------
-        testing_data : numpy.array
-            numpy array containing testing data.
-        testing_targets : numpy.array
-            numpy array containing testing targets, corresponding to the testing data.
-        
-        Returns
-        -------
-        accuracy : float
-           The accuracy of the model over the testing data i.e how many testing examples
-           did the model predict correctly.
-        '''
-        # Evalute over all the testing data and get outputs
-        self.feedforward(testing_data)
-        output_targets = self.get_output()
-
-        # Create a onehot array from outputs
-        output_one_hot = np.zeros(output_targets.shape)
-        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
-
-        # Calculate how many examples it classified correctly
-        no_correct = (testing_targets == output_one_hot).all(axis=1).sum()
-        accuracy = (no_correct/testing_data.shape[0]) * 100
-
-        # return accuracy
-        return round(accuracy, 2)
-
-    def result(self):
-        '''
-        Returns index and activation of the node/neuron having the highest activation.
-
-        Returns
-        -------
-        index : int
-            The index(starts at zero) of the node/neuron having the highest activation.
-        activation : float
-            The activation of the node/neuron.
-        '''
-        # return the output layer activations along with the node/neuron with the most activation
-        activations = self.get_output()
-        index = np.argmax(activations)
-        return index, activations[index] 
-
-
     @property
     @abstractmethod
     def _mparams(self):
@@ -262,24 +212,6 @@ class MinimizeModel(ABC):
         '''
         pass
 
-    def get_output_one_hot(self):
-        '''
-        Returns the output layer activations of the model as a one-hot array. A one-hot array
-        is an array of bits in which only `one` of the bits is high/true. In this case, the
-        corresponding bit to the neuron/node having the highest activation will be high/true.
-        
-        Returns
-        -------
-        numpy.array
-            The one-hot output activations array. 
-        '''
-        # return output activations as onehot array
-        activations = self.get_output()
-        output = np.zeros(activations.shape[0])
-        index = np.argmax(activations)
-        output[index] = 1
-        return output 
-
     @abstractmethod
     def _backpropagate(self, targets):
         '''
@@ -322,3 +254,83 @@ class MinimizeModel(ABC):
         multiplied by the regulerization parameter.
         '''
         pass
+
+class Classifier(ABC):
+    '''
+    Mix-in class for classifier models.
+    '''
+
+    @abstractmethod
+    def get_output(self):
+        pass
+
+    @abstractmethod
+    def feedforward(self, input_data):
+        pass
+
+    def get_output_one_hot(self):
+        '''
+        Returns the output layer activations of the model as a one-hot array. A one-hot array
+        is an array of bits in which only `one` of the bits is high/true. In this case, the
+        corresponding bit to the neuron/node having the highest activation will be high/true.
+        
+        Returns
+        -------
+        numpy.array
+            The one-hot output activations array. 
+        '''
+        # return output activations as onehot array
+        activations = self.get_output()
+        output = np.zeros(activations.shape[0])
+        index = np.argmax(activations)
+        output[index] = 1
+        return output 
+
+    def accuracy(self, testing_data, testing_targets):
+        '''
+        Tests the accuracy of the model on the testing data passed to the
+        function. This function should be only used for clssification.
+
+        Parameters
+        ----------
+        testing_data : numpy.array
+            numpy array containing testing data.
+        testing_targets : numpy.array
+            numpy array containing testing targets, corresponding to the testing data.
+        
+        Returns
+        -------
+        accuracy : float
+           The accuracy of the model over the testing data i.e how many testing examples
+           did the model predict correctly.
+        '''
+        # Evalute over all the testing data and get outputs
+        self.feedforward(testing_data)
+        output_targets = self.get_output()
+
+        # Create a onehot array from outputs
+        output_one_hot = np.zeros(output_targets.shape)
+        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+
+        # Calculate how many examples it classified correctly
+        no_correct = (testing_targets == output_one_hot).all(axis=1).sum()
+        accuracy = (no_correct/testing_data.shape[0]) * 100
+
+        # return accuracy
+        return round(accuracy, 2)
+
+    def result(self):
+        '''
+        Returns index and activation of the node/neuron having the highest activation.
+
+        Returns
+        -------
+        index : int
+            The index(starts at zero) of the node/neuron having the highest activation.
+        activation : float
+            The activation of the node/neuron.
+        '''
+        # return the output layer activations along with the node/neuron with the most activation
+        activations = self.get_output()
+        index = np.argmax(activations)
+        return index, activations[index] 

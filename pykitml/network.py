@@ -3,7 +3,7 @@ import numpy as np
 from . import _minimize_model
 from . import _functions
 
-class NeuralNetwork(_minimize_model.MinimizeModel):
+class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
     '''
     This class implements the classic Feedforward Neural Network.
     '''

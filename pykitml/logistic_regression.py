@@ -1,9 +1,10 @@
 import numpy as np
 
 from . import _single_layer_model
+from . import _minimize_model
 from . import _functions
 
-class LogisticRegression(_single_layer_model.SingleLayerModel):
+class LogisticRegression(_single_layer_model.SingleLayerModel, _minimize_model.Classifier):
     '''
     Implements logistic regression for classification.
     '''
