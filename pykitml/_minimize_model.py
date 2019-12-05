@@ -204,7 +204,7 @@ class MinimizeModel(ABC):
         index : int
             The index(starts at zero) of the node/neuron having the highest activation.
         activation : float
-            The activation of the node/neuron/node.
+            The activation of the node/neuron.
         '''
         # return the output layer activations along with the node/neuron with the most activation
         activations = self.get_output()

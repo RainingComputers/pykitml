@@ -66,10 +66,10 @@ def load():
 
     Returns
     -------
-    input : numpy.array
+    inputs : numpy.array
         442x10 numpy array. 442 training examples, each example having 10 inputs(columns).
         The 10 columns correspond to: :code:`AGE SEX BMI BP S1 S2 S3 S4 S5 S6`
-    output : numpy.array
+    outputs : numpy.array
         numpy array with 442 elements.
         
     Raises

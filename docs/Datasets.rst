@@ -18,3 +18,10 @@ pykitml.diabetes module
 .. autofunction:: pykitml.diabetes.get
 
 .. autofunction:: pykitml.diabetes.load
+
+pykitml.iris module
+-------------------
+
+.. automodule:: pykitml.iris
+
+.. autofunction:: pykitml.iris.load
