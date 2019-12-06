@@ -60,20 +60,10 @@ class MinimizeModel(ABC):
         # Loop through each epoch
         with tqdm.trange(0, epochs, ncols=80, unit='epochs') as pbar:
             for epoch in pbar:
-                # Loop through rest of the batch
-                for batch in range(0, batch_size):
-                    # Add the calculated gradients to the total
-                    index = ((epoch*batch_size) + batch) % training_data.shape[0]
-                    # Feedforward the input data
-                    self.feedforward(training_data[index])
-                    # Get gradient
-                    total_gradient += self._backpropagate(targets[index])
+                total_gradient = self._get_batch_grad(epoch, batch_size, training_data, targets)
 
                 # After completing a batch, average the total sum of gradients and tweak the parameters
                 self._mparams = optimizer._optimize(self._mparams, total_gradient/batch_size)
-
-                # Zero the total 
-                total_gradient = 0
 
                 # Decay the learning rate
                 if(epoch % decay_freq == 0):
@@ -91,6 +81,21 @@ class MinimizeModel(ABC):
                     if(testing_data is not None):
                         cost_test = self.cost(testing_data, testing_targets)
                         self._performance_log['cost_test'].append(cost_test)
+
+    def _get_batch_grad(self, epoch, batch_size, training_data, targets):
+        total_gradient = 0
+        
+        # Loop through the batch
+        for batch in range(0, batch_size):
+            # Add the calculated gradients to the total
+            index = ((epoch*batch_size) + batch) % training_data.shape[0]
+            # Feedforward the input data
+            self.feedforward(training_data[index])
+            # Get gradient
+            total_gradient += self._backpropagate(targets[index])
+        
+        # return the total
+        return total_gradient
 
     def plot_performance(self):
         '''
