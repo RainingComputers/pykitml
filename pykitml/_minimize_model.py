@@ -53,6 +53,7 @@ class MinimizeModel(ABC):
         self._performance_log = {}
         self._performance_log['epoch'] = []
         self._performance_log['cost_train'] = []
+        self._performance_log['learning_rate'] = []
         if(testing_data is not None):
             self._performance_log['cost_test'] = []   
 
@@ -75,6 +76,9 @@ class MinimizeModel(ABC):
                 if((epoch+1)%testing_freq == 0):
                     # log epoch
                     self._performance_log['epoch'].append(epoch+1)
+                    # log learning rate
+                    learning_rate = optimizer._learning_rate
+                    self._performance_log['learning_rate'].append(learning_rate)
                     # get cost of the model on training data
                     cost_train = self.cost(training_data, targets)
                     pbar.set_postfix(cost=cost_train)
@@ -135,6 +139,9 @@ class MinimizeModel(ABC):
         # Window title
         plt.figure('Performance graph', figsize = (10, 7))
 
+        # First subplot
+        plt.subplot(2, 1, 1)
+
         # Plot average cost vs epochs on training data
         plt.plot(graph['epoch'], graph['cost_train'], label='Training data')
         
@@ -146,6 +153,17 @@ class MinimizeModel(ABC):
         plt.ylabel('Average cost')
         plt.xlabel('No. of epochs')
         plt.legend()
+
+        # Second subplot
+        plt.subplot(2, 1, 2)
+
+        # Plot learning rate vs epochs
+        plt.plot(graph['epoch'], graph['learning_rate'], label='Learning Rate')
+
+        # Axis labels
+        plt.ylabel('Learning Rate')
+        plt.xlabel('No. of epochs')
+        plt.legend()        
 
         # Show the plot
         plt.show()
