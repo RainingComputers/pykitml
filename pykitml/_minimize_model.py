@@ -46,6 +46,8 @@ class MinimizeModel(ABC):
         ValueError
             If :code:`training_data`, :code:`targets`, :code:`testing_data` or 
             :code:`testing_tagets` has invalid dimensions/shape. 
+        IndexError
+            If number of training examples is not divisible by :code:`batch_size`. 
         '''
         # Dictionary for holding performance log
         self._performance_log = {}
@@ -83,16 +85,34 @@ class MinimizeModel(ABC):
                         self._performance_log['cost_test'].append(cost_test)
 
     def _get_batch_grad(self, epoch, batch_size, training_data, targets):
+        '''
+        Calculates the sum of all the gradients fot the given batch
+
+        Parameters
+        ----------
+        epoch : int
+            Current epoch in the training process.
+        batch_size : int
+            Size of the batch.
+        training_data : numpy.array
+            numpy array containing training data.
+        targets : numpy.array
+            numpy array containing training targets, corresponding to the training data.
+        '''
+        # Total gradient for the batch 
         total_gradient = 0
         
+        # Feedforward the batch
+        start_index = (epoch*batch_size)%training_data.shape[0]
+        end_index = start_index+batch_size
+        self.feedforward(training_data[start_index:end_index])
+
         # Loop through the batch
-        for batch in range(0, batch_size):
+        for example in range(0, batch_size):
             # Add the calculated gradients to the total
-            index = ((epoch*batch_size) + batch) % training_data.shape[0]
-            # Feedforward the input data
-            self.feedforward(training_data[index])
+            index = ((epoch*batch_size) + example)%training_data.shape[0]
             # Get gradient
-            total_gradient += self._backpropagate(targets[index])
+            total_gradient += self._backpropagate(example, targets[index])
         
         # return the total
         return total_gradient
@@ -218,13 +238,15 @@ class MinimizeModel(ABC):
         pass
 
     @abstractmethod
-    def _backpropagate(self, targets):
+    def _backpropagate(self, index, targets):
         '''
         This function calculates gradient of the cost function w.r.t all weights and 
         biases of the model by backpropagating the error through the model.
 
         Parameters
         ----------
+        index : int
+            Index of the example in the batch that was fed using feedforward.
         target : numpy.array
             The correct activations that the output layer should have.
 

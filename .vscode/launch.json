@@ -18,6 +18,7 @@
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",
             "program": "${workspaceFolder}/tests/test_mnist.py",
+            "args": ["adam"],
             "console": "integratedTerminal"
         },
         {

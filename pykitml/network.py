@@ -128,7 +128,7 @@ class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
     def get_output(self):
         return self._activations[-1]
 
-    def _backpropagate(self, target):
+    def _backpropagate(self, index, target):
         # Constants
         W = 0 # Weights        
         
@@ -141,7 +141,7 @@ class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
         
         # Calculate activation_function'(z)
         def calc_da_dz(l):
-            da_dz[l] = self._activ_func_prime(self._weighted_sums[l], self._activations[l])
+            da_dz[l] = self._activ_func_prime(self._weighted_sums[l][index], self._activations[l][index])
         
         # Calculate the partial derivatives of the cost w.r.t all the biases of layer 
         # 'l' (NOT for output layer)
@@ -150,14 +150,14 @@ class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
 
         # Calculate the partial derivatives of the cost w.r.t all the weights of layer 'l'
         def calc_dc_dw(l):
-            dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1])
+            dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1][index])
             # Regulerization
             dc_dw[l] += self._reg_param*self._params[W][l]
 
         # Calculate the partial derivatives of the cost function w.r.t the ouput layer's 
         # activations, weights, biases
-        da_dz[-1] = self._output_activ_func_prime(self._weighted_sums[-1], self._activations[-1])
-        dc_db[-1] = self._cost_func_prime(self._activations[-1], target) * da_dz[-1]
+        da_dz[-1] = self._output_activ_func_prime(self._weighted_sums[-1][index], self._activations[-1][index])
+        dc_db[-1] = self._cost_func_prime(self._activations[-1][index], target) * da_dz[-1]
         calc_dc_dw(-1)
 
         # Calculate the partial derivatives of the cost function w.r.t the hidden layers'

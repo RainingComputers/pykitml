@@ -1,3 +1,5 @@
+import cProfile
+
 import numpy as np
 import pykitml as pk
 from pykitml import iris
@@ -55,7 +57,12 @@ def test_iris_normalization():
     pk.save(iris_classifier, 'iris_classifier.pkl') 
 
 if __name__ == '__main__':
-    test_iris()
+    try:
+        profiler = cProfile.Profile()
+        profiler.runcall(test_iris)
+        profiler.dump_stats('test_iris.dat') 
+    except AssertionError:
+        pass
 
     # Load dataset
     inputs, outputs = iris.load()

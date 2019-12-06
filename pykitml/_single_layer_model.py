@@ -70,15 +70,15 @@ class SingleLayerModel(_minimize_model.MinimizeModel, ABC):
     def get_output(self):
         return self._activations
 
-    def _backpropagate(self, target):
+    def _backpropagate(self, index, target):
         # Constants
         W = 0 # Weights
         B = 1 # Biases
 
         # Gradients
-        da_dz = self._activ_func_prime(self._weighted_sum, self._activations)
-        dc_db = self._cost_func_prime(self._activations, target) * da_dz
-        dc_dw = np.multiply.outer(dc_db, self._input_activations)
+        da_dz = self._activ_func_prime(self._weighted_sum[index], self._activations[index])
+        dc_db = self._cost_func_prime(self._activations[index], target) * da_dz
+        dc_dw = np.multiply.outer(dc_db, self._input_activations[index])
         
         # Add regulerization
         dc_dw += self._reg_param*self._params[W]

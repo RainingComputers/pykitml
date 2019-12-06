@@ -1,5 +1,6 @@
 import sys
 import os.path
+import cProfile
 
 import numpy as np
 import pykitml as pk
@@ -214,7 +215,9 @@ if __name__ == '__main__':
 
     # Run the requested optmizer test function
     try:
-        locals()['test_'+sys.argv[1]]()
+        profiler = cProfile.Profile()
+        profiler.runcall(locals()['test_'+sys.argv[1]])
+        profiler.dump_stats('test_mnist_'+sys.argv[1]+'.dat') 
     except AssertionError:
         pass
 

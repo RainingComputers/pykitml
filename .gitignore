@@ -37,6 +37,10 @@ MANIFEST
 # pytest
 .pytest_cache/
 
+# profiling
+*.dat
+profile_*.png
+
 # pyenv
 .python-version
 
