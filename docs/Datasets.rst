@@ -1,8 +1,8 @@
 Datasets
 ========
 
-pykitml.mnist module
---------------------
+MNIST - pykitml.mnist module
+----------------------------
 
 .. automodule:: pykitml.mnist
 
@@ -10,9 +10,16 @@ pykitml.mnist module
 
 .. autofunction:: pykitml.mnist.load
 
-pykitml.iris module
--------------------
+Iris - pykitml.iris module
+--------------------------
 
 .. automodule:: pykitml.iris
 
 .. autofunction:: pykitml.iris.load
+
+Fish length - pykitml.fishlength module
+---------------------------------------
+
+.. automodule:: pykitml.fishlength
+
+.. autofunction:: pykitml.fishlength.load

@@ -196,7 +196,7 @@ class MinimizeModel(ABC):
         Note
         ----
         This function only feed-forwards the input data, to get the output after calling this
-        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result` 
+        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result`
         '''
         pass
 
@@ -254,6 +254,7 @@ class MinimizeModel(ABC):
         multiplied by the regulerization parameter.
         '''
         pass
+
 
 class Classifier(ABC):
     '''

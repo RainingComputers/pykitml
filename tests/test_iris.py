@@ -33,10 +33,6 @@ def test_iris_normalization():
     # Normalize inputs in the dataset
     inputs_min, inputs_max = pk.get_minmax(inputs)
     inputs = pk.normalize_array(inputs, inputs_min, inputs_max)
-    
-    # Normalize outputs in the dataset
-    outputs_min, outputs_max = pk.get_minmax(outputs)
-    outputs = pk.normalize_array(outputs, outputs_min, outputs_max)
 
     # Create model
     iris_classifier = pk.LogisticRegression(4, 3)

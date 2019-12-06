@@ -7,6 +7,7 @@
 '''
 
 from .network import *
+from .linear_regression import *
 from .logistic_regression import *
 from .pklhandler import *
 from .normalize import *

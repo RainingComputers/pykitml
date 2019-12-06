@@ -10,8 +10,9 @@ Documentation and reference for pykitml, simple Neural Network library written i
    :maxdepth: 2
    :caption: Package Reference:
 
-   FeedForwardNetwork
+   Linear Regression
    LogisticRegression
+   FeedForwardNetwork
    Optimizers
    SavingAndLoading
    Datasets
