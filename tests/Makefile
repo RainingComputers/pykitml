@@ -23,3 +23,4 @@ clean:
 	rm -f -r __pycache__
 	rm -f *.dat
 	rm -f profile_*.png
+	rm -f *.gz

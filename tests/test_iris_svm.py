@@ -8,8 +8,8 @@ def test_iris_svm():
     # Load iris data set
     inputs, outputs = iris.load()
 
-    # Format the outputs
-    outputs = np.where(outputs==0, -1, 1)
+    # Format the outputs for svm training, zeroes to -1
+    outputs_train = np.where(outputs==0, -1, 1)
 
     # Create model
     svm_iris_classifier = pk.LinearSVM(4, 3)
@@ -17,7 +17,7 @@ def test_iris_svm():
     # Train the model
     svm_iris_classifier.train(
         training_data=inputs,
-        targets=outputs, 
+        targets=outputs_train, 
         batch_size=20, 
         epochs=1000, 
         optimizer=pk.Adam(learning_rate=3, decay_rate=0.95), 
@@ -26,7 +26,7 @@ def test_iris_svm():
     )
 
     # Test if it has enough accuracy
-    print(svm_iris_classifier.accuracy(inputs, outputs))
+    assert svm_iris_classifier.accuracy(inputs, outputs) >= 98
 
     # Save it
     pk.save(svm_iris_classifier, 'svm_iris_classifier.pkl')
