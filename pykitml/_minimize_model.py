@@ -46,8 +46,6 @@ class MinimizeModel(ABC):
         ValueError
             If :code:`training_data`, :code:`targets`, :code:`testing_data` or 
             :code:`testing_tagets` has invalid dimensions/shape. 
-        IndexError
-            If number of training examples is not divisible by :code:`batch_size`. 
         '''
         # Dictionary for holding performance log
         self._performance_log = {}
@@ -109,7 +107,8 @@ class MinimizeModel(ABC):
         # Feedforward the batch
         start_index = (epoch*batch_size)%training_data.shape[0]
         end_index = start_index+batch_size
-        self.feedforward(training_data[start_index:end_index])
+        indices = np.arange(start_index, end_index) % training_data.shape[0]
+        self.feedforward(training_data[indices])
 
         # Loop through the batch
         for example in range(0, batch_size):
