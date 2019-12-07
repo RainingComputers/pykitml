@@ -1,6 +1,9 @@
 # Pickle files
 *.pkl
 
+# Datasets
+*.data
+
 # TODO list
 TODO.txt
 

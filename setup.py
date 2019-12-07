@@ -23,5 +23,6 @@ setuptools.setup(
         'Operating System :: OS Independent',
         'Development Status :: 1 - Planning',
         'Topic :: Scientific/Engineering :: Artificial Intelligence'
-    ]
+    ],
+    keywords='pykitml'
 )
