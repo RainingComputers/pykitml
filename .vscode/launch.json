@@ -5,6 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Fish Length",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_fishlength.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Heart Disease",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_heartdisease.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Iris SVM",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_iris_svm.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Iris",
             "type": "python",
             "request": "launch",
@@ -19,14 +43,6 @@
             "cwd": "${workspaceFolder}/tests",
             "program": "${workspaceFolder}/tests/test_mnist.py",
             "args": ["adam"],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Diabetes",
-            "type": "python",
-            "request": "launch",
-            "cwd": "${workspaceFolder}/tests",
-            "program": "${workspaceFolder}/tests/test_diabetes.py",
             "console": "integratedTerminal"
         },
     ]

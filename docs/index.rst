@@ -12,6 +12,7 @@ Documentation and reference for pykitml, simple Neural Network library written i
 
    Linear Regression
    LogisticRegression
+   LinearSVM
    FeedForwardNetwork
    Optimizers
    SavingAndLoading

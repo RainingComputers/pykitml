@@ -110,4 +110,16 @@ def cross_entropy_prime(output, target):
     Returns the derivative of the cross entropy cost.
     '''
     return (output-target) / (output * (1-output))
+
+def hinge_loss(output, target):
+    '''
+    Returns hinge loss of the output for SVMs.
+    '''
+    return np.maximum(0, 1 - target*output)
+
+def hinge_loss_prime(output, target):
+    '''
+    Returns derivative of hinge loss.
+    '''
+    return np.where((target*output)>1, 0, -1*target)
     

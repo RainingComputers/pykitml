@@ -17,7 +17,7 @@ Iris - pykitml.iris module
 
 .. autofunction:: pykitml.iris.load
 
-Fish length - pykitml.fishlength module
+Fish Length - pykitml.fishlength module
 ---------------------------------------
 
 .. automodule:: pykitml.fishlength
