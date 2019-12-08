@@ -49,3 +49,7 @@ if __name__ == '__main__':
     svm_iris_classifier.plot_performance()
     accuracy = svm_iris_classifier.accuracy(inputs, outputs)
     print('Accuracy:', accuracy)
+
+    # Plot confusion matrix
+    svm_iris_classifier.confusion_matrix(inputs, outputs, 
+        gnames=['Setosa', 'Versicolor', 'Virginica'])
