@@ -20,3 +20,5 @@ Logistic Regression
     .. automethod:: cost
 
     .. automethod:: accuracy
+
+    .. automethod:: confusion_matrix

@@ -231,3 +231,6 @@ if __name__ == '__main__':
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
     print('Test Accuracy:', accuracy)
     digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)

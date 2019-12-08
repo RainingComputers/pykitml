@@ -102,6 +102,10 @@ class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
         return self._cost_func
 
     @property
+    def _out_size(self):
+        return self._lsize[-1]
+
+    @property
     def nlayers(self):
         '''
         The number of layers in the network.

@@ -1,9 +1,12 @@
 from abc import ABC, abstractmethod
+import itertools
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 import tqdm
+
+from . import _heatmap
 
 class MinimizeModel(ABC):
     '''
@@ -47,6 +50,8 @@ class MinimizeModel(ABC):
             If :code:`training_data`, :code:`targets`, :code:`testing_data` or 
             :code:`testing_tagets` has invalid dimensions/shape. 
         '''
+        print('Training Model...')
+
         # Dictionary for holding performance log
         self._performance_log = {}
         self._performance_log['epoch'] = []
@@ -136,7 +141,7 @@ class MinimizeModel(ABC):
         graph = self._performance_log
 
         # Window title
-        plt.figure('Performance graph', figsize = (10, 7))
+        plt.figure('Performance graph', figsize=(10, 7))
 
         # First subplot
         plt.subplot(2, 1, 1)
@@ -313,6 +318,14 @@ class Classifier(ABC):
     def feedforward(self, input_data):
         pass
 
+    @property
+    @abstractmethod
+    def _out_size(self):
+        '''
+        Returns number of nodes/neurons in the output layer.
+        '''
+        pass
+
     def get_output_one_hot(self):
         '''
         Returns the output layer activations of the model as a one-hot array. A one-hot array
@@ -324,12 +337,14 @@ class Classifier(ABC):
         numpy.array
             The one-hot output activations array. 
         '''
-        # return output activations as onehot array
-        activations = self.get_output()
-        output = np.zeros(activations.shape[0])
-        index = np.argmax(activations)
-        output[index] = 1
-        return output 
+        output_targets = self.get_output()
+
+        # Create a onehot array from outputs
+        output_one_hot = np.zeros(output_targets.shape)
+        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+
+        # Return one hot array
+        return output_one_hot
 
     def accuracy(self, testing_data, testing_targets):
         '''
@@ -379,3 +394,80 @@ class Classifier(ABC):
         activations = self.get_output()
         index = np.argmax(activations)
         return index, activations[index] 
+
+    def confusion_matrix(self, test_data, test_targets, plot=True, gnames=[]):   
+        '''
+        Returns and plots confusion matrix on the given test data.
+
+        Parameters
+        ----------
+        test_data : numpy.array
+            Numpy array containing test data
+        test_targets : numpy.array
+            Numpy array containing the targets corresponding to the test data.
+        plt : bool
+            If set to false, will not plot the matrix. Default is true.
+        gnames : list
+            List of string names for each class/group.
+
+        Returns
+        -------
+        confusion_matrix : numpy.array
+            The confusion matrix. 
+        '''
+        print('Creating Confusion Matrix...')
+
+        # Feedforward the data
+        self.feedforward(test_data)
+
+        # Get output
+        outputs = self.get_output_one_hot()
+
+        # Number of groups
+        ngroups = self._out_size
+
+        # Column/Row labels
+        if(len(gnames) != 0):
+            labels = gnames
+        else:
+            labels = [str(x) for x in range(0, ngroups)]
+
+        # Confusion matrix
+        conf_mat = np.zeros((ngroups, ngroups))
+
+        # Loop through every possibility and count them
+        pairs = list(itertools.product(range(0, ngroups), repeat=2))
+        for predicted, actual in tqdm.tqdm(pairs, ncols=80, unit='pairs'):
+            # Make one hot vector for predicted
+            pred_vec = np.zeros((ngroups))
+            pred_vec[predicted] = 1
+
+            # Make one hot vector for actual
+            act_vec = np.zeros((ngroups))
+            act_vec[actual] = 1
+
+            # Count
+            out_count = np.all(outputs == pred_vec, axis=1)
+            target_count  = np.all(test_targets == act_vec, axis=1)
+            tot_count = np.logical_and(out_count, target_count).sum()
+            conf_mat[predicted][actual] = tot_count
+
+        # Plot the confusin matrix
+        if(plot):
+            # Plot confusion matrix
+            fig, ax = plt.subplots(figsize=(10, 7))
+            im, _ = _heatmap.heatmap(conf_mat, labels, labels, ax=ax,
+                            cmap="YlGn", cbarlabel="Count")
+            _heatmap.annotate_heatmap(im, valfmt="{x:.0f}")
+
+            # Labels
+            fig.canvas.set_window_title('Confusion Matrix') 
+            ax.set_xlabel('Actual')
+            ax.xaxis.set_label_position('top') 
+            ax.set_ylabel('Predicted')
+
+            # Show
+            plt.show()
+
+        # return
+        return conf_mat

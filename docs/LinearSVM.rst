@@ -20,3 +20,5 @@ Support Vector Machine with Linear Kernel
     .. automethod:: cost
 
     .. automethod:: accuracy
+
+    .. automethod:: confusion_matrix

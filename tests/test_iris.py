@@ -70,7 +70,11 @@ if __name__ == '__main__':
     # Load model
     iris_classifier = pk.load('iris_classifier.pkl')
 
-    # Print accuracy and plor performance
+    # Print accuracy and plot performance
     iris_classifier.plot_performance()
     accuracy = iris_classifier.accuracy(inputs, outputs)
     print('Accuracy:', accuracy)
+
+    # Plot confusion matrix
+    iris_classifier.confusion_matrix(inputs, outputs, 
+        gnames=['Setosa', 'Versicolor', 'Virginica'])

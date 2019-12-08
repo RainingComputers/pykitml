@@ -57,6 +57,10 @@ class SingleLayerModel(_minimize_model.MinimizeModel, ABC):
     def _cost_function(self):
         return self._cost_func
 
+    @property
+    def _out_size(self):
+        return self._output_size
+
     def feedforward(self, input_data):
         # Constants
         W = 0 # Weights

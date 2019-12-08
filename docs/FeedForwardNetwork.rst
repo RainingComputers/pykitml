@@ -21,4 +21,6 @@ Feedforward Neural Network
 
     .. automethod:: accuracy
 
+    .. automethod:: confusion_matrix
+
     .. autoattribute:: nlayers
