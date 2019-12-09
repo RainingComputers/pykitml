@@ -5,7 +5,7 @@ Logistic Regression
     
     .. automethod:: __init__
 
-    .. automethod:: feedforward
+    .. automethod:: feed
 
     .. automethod:: get_output
 

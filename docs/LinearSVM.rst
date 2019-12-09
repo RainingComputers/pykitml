@@ -5,7 +5,7 @@ Support Vector Machine with Linear Kernel
     
     .. automethod:: __init__
 
-    .. automethod:: feedforward
+    .. automethod:: feed
 
     .. automethod:: get_output
 

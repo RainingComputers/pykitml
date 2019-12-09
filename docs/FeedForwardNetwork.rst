@@ -1,11 +1,11 @@
-Feedforward Neural Network
+feed Neural Network
 ==========================
 
 .. autoclass:: pykitml.NeuralNetwork
     
     .. automethod:: __init__
 
-    .. automethod:: feedforward
+    .. automethod:: feed
 
     .. automethod:: get_output
 
