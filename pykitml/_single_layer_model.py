@@ -61,12 +61,12 @@ class SingleLayerModel(_base.MinimizeModel, ABC):
     def _out_size(self):
         return self._output_size
 
-    def feedforward(self, input_data):
+    def feed(self, input_data):
         # Constants
         W = 0 # Weights
         B = 1 # Biases
 
-        # Feedforward
+        # feed
         self._input_activations = input_data
         self._weighted_sum = (input_data@self._params[W].transpose()) + self._params[B]
         self._activations = self._activ_func(self._weighted_sum)

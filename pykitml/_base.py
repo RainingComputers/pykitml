@@ -109,11 +109,11 @@ class MinimizeModel(ABC):
         # Total gradient for the batch 
         total_gradient = 0
         
-        # Feedforward the batch
+        # feed the batch
         start_index = (epoch*batch_size)%training_data.shape[0]
         end_index = start_index+batch_size
         indices = np.arange(start_index, end_index) % training_data.shape[0]
-        self.feedforward(training_data[indices])
+        self.feed(training_data[indices])
 
         # Loop through the batch
         for example in range(0, batch_size):
@@ -195,7 +195,7 @@ class MinimizeModel(ABC):
             If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.      
         '''
         # Evalute over all the testing data and get outputs
-        self.feedforward(testing_data)
+        self.feed(testing_data)
         output_targets = self.get_output()
 
         # Calculate cost
@@ -226,7 +226,7 @@ class MinimizeModel(ABC):
         pass
 
     @abstractmethod
-    def feedforward(self, input_data):
+    def feed(self, input_data):
         '''
         Accepts input array and feeds it forward through the model.
 
@@ -268,7 +268,7 @@ class MinimizeModel(ABC):
         Parameters
         ----------
         index : int
-            Index of the example in the batch that was fed using feedforward.
+            Index of the example in the batch that was fed using feed.
         target : numpy.array
             The correct activations that the output layer should have.
 
@@ -284,7 +284,7 @@ class MinimizeModel(ABC):
 
         Note
         ----
-        You have to call :py:func:`~feedforward` before you call this function.
+        You have to call :py:func:`~feed` before you call this function.
         ''' 
         pass
 
@@ -315,7 +315,7 @@ class Classifier(ABC):
         pass
 
     @abstractmethod
-    def feedforward(self, input_data):
+    def feed(self, input_data):
         pass
 
     @property
@@ -365,7 +365,7 @@ class Classifier(ABC):
            did the model predict correctly.
         '''
         # Evalute over all the testing data and get outputs
-        self.feedforward(testing_data)
+        self.feed(testing_data)
         output_targets = self.get_output()
 
         # Create a onehot array from outputs
@@ -417,8 +417,8 @@ class Classifier(ABC):
         '''
         print('Creating Confusion Matrix...')
 
-        # Feedforward the data
-        self.feedforward(test_data)
+        # feed the data
+        self.feed(test_data)
 
         # Get output
         outputs = self.get_output_one_hot()
