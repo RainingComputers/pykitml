@@ -1,9 +1,9 @@
 import numpy as np
 
-from . import _minimize_model
+from . import _base
 from . import _functions
 
-class NeuralNetwork(_minimize_model.MinimizeModel, _minimize_model.Classifier):
+class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
     '''
     This class implements the classic Feedforward Neural Network.
     '''

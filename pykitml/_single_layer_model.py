@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from . import _minimize_model
+from . import _base
 
-class SingleLayerModel(_minimize_model.MinimizeModel, ABC):
+class SingleLayerModel(_base.MinimizeModel, ABC):
     '''
     General base class for single layer models.
     '''
