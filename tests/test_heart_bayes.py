@@ -14,9 +14,9 @@ def test_heart_bayes():
     outputs = pk.onehot(outputs)
 
     distrbutions = [
-        'normal', 'binomial', 'multinomial',
-        'normal', 'normal', 'binomial', 'multinomial',
-        'normal', 'binomial', 'normal', 'multinomial',
+        'gaussian', 'binomial', 'multinomial',
+        'gaussian', 'gaussian', 'binomial', 'multinomial',
+        'gaussian', 'binomial', 'gaussian', 'multinomial',
         'multinomial', 'multinomial'
     ]
 
@@ -27,7 +27,7 @@ def test_heart_bayes():
     bayes_heart_classifier.train(inputs, outputs)
 
     # Check accuracy
-    assert (bayes_heart_classifier.accuracy(inputs, outputs)) > 73
+    assert (bayes_heart_classifier.accuracy(inputs, outputs)) > 84
 
     # Save it
     pk.save(bayes_heart_classifier, 'bayes_heart_classifier.pkl')

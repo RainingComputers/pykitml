@@ -9,6 +9,11 @@ from . import _distributions
 class NaiveBayes(_base.Classifier):
     '''
     Implements Naive Bayes classifier.
+
+    Note
+    ----
+    Consider using :class:`.GaussianNaiveBayes` if all of your
+    features are continuous.
     '''
 
     def __init__(self, input_size, output_size, distributions=[], reg_param=0):
@@ -43,10 +48,6 @@ class NaiveBayes(_base.Classifier):
         self._input_size = input_size
         self._output_size = output_size
         self._reg_param = reg_param
-
-        # Choose distribution
-        if(len(distributions) == 0):
-            distributions = ['gaussian']*input_size
 
         self._dists = distributions
 
@@ -83,14 +84,14 @@ class NaiveBayes(_base.Classifier):
             # So the result will be log(p(x|Ci)) instead of p(x|Ci)
             p_xci = np.zeros((input_data.shape[0]))
             for x in range(0, self._input_size):
-                # p(xi|ci) if catgorical feature
+                # p(xi|Ci) if catgorical feature
                 if(self._dists[x] != 'gaussian'):
                     p_xici = self._freqp[C][x][input_data[:, x].astype(int)]
-                # p(xi|ci) if continues feature
+                # p(xi|Ci) if continues feature
                 else:    
                     p_xici = self._pdist[x](input_data[:, x], self._mean[C][x], self._std_dev[C][x])
                 
-                # log(p(x|ci)) = sum(log(p(xi|ci)))
+                # log(p(x|Ci)) = sum(log(p(xi|Ci)))
                 p_xci += np.log(p_xici)
             
             # log(p(Ci)) = log(p(Ci))+log(p(x|Ci))
@@ -150,9 +151,64 @@ class NaiveBayes(_base.Classifier):
             # group example
             freqp = np.bincount(group_examples[:, feature].astype(int))
             freqp = freqp/group_examples.shape[0]
-            # Replce with reg_param where p(xi|ci) is zero
+            # Replace with reg_param where p(xi|Ci) is zero
             # AKA regulerization            
             pad_length = int(self._max[feature]-freqp.shape[0])+1
             freqp = np.pad(freqp, (0, pad_length), 'constant', constant_values=0)
             freqp = np.where(freqp==0, self._reg_param, freqp)
             self._freqp[group][feature] = freqp
+
+
+class GaussianNaiveBayes(NaiveBayes):
+    def __init__(self, input_size, output_size):
+        '''
+        Parameters
+        ----------
+        input_size : int
+            Size of input data or number of input features.
+        output_size: int
+            Number of categories or groups.
+
+        Raises
+        ------
+        AttributeError
+            If invalid distribution.
+        IndexError
+            If the input_size does not match the length of distribution length.
+        '''
+        # Save info
+        self._input_size = input_size
+        self._output_size = output_size
+
+        # for each class/group, p(class), std_dev, mean, freq and range
+        self._pclass = np.zeros((output_size))
+        self._mean = np.zeros((output_size, input_size))
+        self._std_dev = np.zeros((output_size, input_size))
+
+        # Output
+        self._output = None
+
+    def feed(self, input_data):
+        # Set output to correct size
+        self._output = np.zeros((input_data.shape[0], self._output_size))
+        
+        # Loop through each group and find probabilty
+        for C in range(0, self._output_size):
+            # Calculate p(xi|Ci)
+            p_xici = _distributions.gaussian(input_data, self._mean[C], self._std_dev[C])
+            
+            # log(p(x|Ci)) = sum(log(p(xi|Ci)))
+            p_xci = np.log(p_xici).sum(axis=1)
+            
+            # log(p(Ci)) = log(p(Ci))+log(p(x|Ci))
+            self._output[:, C] = np.log(self._pclass[C])+p_xci
+
+    def train(self, training_data, targets):
+        print('Training Model...')
+
+        # Loop through each group
+        for group in tqdm.trange(0, self._output_size, ncols=80, unit='groups'):
+            # Get examples for the group
+            group_examples = self._get_group_examples(training_data, targets, group)
+            # Get mean and standard deviation for the group examples
+            self._get_mean_std(group, group_examples, training_data.shape[0])

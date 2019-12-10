@@ -9,7 +9,7 @@ def test_iris_bayes():
     inputs, outputs = iris.load()
 
     # Create model
-    bayes_iris_classifier = pk.NaiveBayes(4, 3)
+    bayes_iris_classifier = pk.GaussianNaiveBayes(4, 3)
 
     # Train
     bayes_iris_classifier.train(inputs, outputs)
