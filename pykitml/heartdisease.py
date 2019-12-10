@@ -5,6 +5,11 @@ import numpy as np
 
 from . import pklhandler
 
+'''
+    This module contains helper functions to download and load
+    the heart disease dataset. 
+'''
+
 def get():
     '''
     Downloads heartdisease dataset from
@@ -56,16 +61,33 @@ def load():
     Loads heart disease dataset from saved pickle file `heartdisease.pkl` to numpy arrays.
     Loads data without any preprocessing.
 
-
-
     Returns
     -------
     inputs : numpy.array
-        297x14 numpy array. 297 training examples, each example having 14 inputs(columns).
-        The 14 columns correspond to: :code:`TODO`
+        297x13 numpy array. 297 training examples, each example having 13 inputs(columns).
+        The 13 columns corresponds to: 
+        :code:`age sex cp trestbps chol fbs restecg thalach exang oldpeak slope ca thal`.
+
+        - age : Age in years
+        - sex : 1=male, 0=female
+        - cp : Chest pain type (1=typical-angina, 2=atypical-angina 3=non-anginal 4=asymptomatic)
+        - trestbps :  Resting blood pressure in mmHg
+        - chol : Serum cholestoral in mg/dl
+        - fbs : Fasting blood sugar > 120 mg/dl? (1=true, 0=false)
+        - restecg : Resting electrocardiographic results (0=normal, 1=ST-T-abnormality 2= left-ventricular-hypertrophy)
+        - thalach : Maximum heart rate achieved 
+        - exang : Exercise induced angina (1=yes, 0=no) 
+        - oldpeak : ST depression induced by exercise relative to rest
+        - slope: Slope of the peak exercise ST segment (1=upsloping 2=flat 3=downsloping)
+        - ca : Number of major vessels colored by flourosopy (0-3)
+        - thal: 3=normal, 6=fixed-defect, 7=reversable-defect
+
     outputs : numpy.array
-        numpy array with 297 elements.
+        Numpy array with 297 elements. 
         
+        - 0: < 50% diameter narrowing 
+        - 1: > 50% diameter narrowing    
+
     Raises
     ------
         FileNotFoundError

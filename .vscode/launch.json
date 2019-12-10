@@ -17,7 +17,15 @@
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",
-            "program": "${workspaceFolder}/tests/test_heartdisease.py",
+            "program": "${workspaceFolder}/tests/test_heart_bayes.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Iris Naive Bayes",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_iris_bayes.py",
             "console": "integratedTerminal"
         },
         {

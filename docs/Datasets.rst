@@ -23,3 +23,12 @@ Fish Length - pykitml.fishlength module
 .. automodule:: pykitml.fishlength
 
 .. autofunction:: pykitml.fishlength.load
+
+Heart Disease - pykitml.heartdisease module
+-------------------------------------------
+
+.. automodule:: pykitml.heartdisease
+
+.. autofunction:: pykitml.heartdisease.get
+
+.. autofunction:: pykitml.heartdisease.load

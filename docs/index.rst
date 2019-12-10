@@ -15,9 +15,11 @@ Documentation and reference for pykitml, simple Neural Network library written i
    LinearSVM
    FeedForwardNetwork
    Optimizers
+   NaiveBayes
    SavingAndLoading
    Datasets
    Normalization
+   OneHot
 
 
 Indices and tables

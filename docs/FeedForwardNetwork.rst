@@ -1,5 +1,5 @@
-feed Neural Network
-==========================
+Feed-Forward Neural Network
+===========================
 
 .. autoclass:: pykitml.NeuralNetwork
     

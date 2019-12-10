@@ -228,12 +228,12 @@ class MinimizeModel(ABC):
     @abstractmethod
     def feed(self, input_data):
         '''
-        Accepts input array and feeds it forward through the model.
+        Accepts input array and feeds it to the model.
 
         Parameters
         ----------
         input_data : numpy.array
-            The input to feed forward through the model.
+            The input to feed the model.
 
         Raises
         ------
@@ -242,7 +242,7 @@ class MinimizeModel(ABC):
 
         Note
         ----
-        This function only feed-forwards the input data, to get the output after calling this
+        This function only feeds the input data, to get the output after calling this
         function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result`
         '''
         pass
@@ -312,10 +312,36 @@ class Classifier(ABC):
 
     @abstractmethod
     def get_output(self):
+        '''
+        Returns the output activations of the model.
+
+        Returns
+        -------
+        numpy.array
+            The output activations.
+        '''
         pass
 
     @abstractmethod
     def feed(self, input_data):
+        '''
+        Accepts input array and feeds it to the model.
+
+        Parameters
+        ----------
+        input_data : numpy.array
+            The input to feed the model.
+
+        Raises
+        ------
+        ValueError
+            If the input data has invalid dimensions/shape.      
+
+        Note
+        ----
+        This function only feeds the input data, to get the output after calling this
+        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result`
+        '''
         pass
 
     @property
