@@ -21,7 +21,7 @@ class NaiveBayes(_base.Classifier):
             Number of categories or groups.
         distribution : list
             List of strings describing the distribution to use 
-            for each feature. Option are :code:`'normal'`, 
+            for each feature. Option are :code:`'gaussian'`, 
             :code:`'binomial'`, :code:`'multinomial'`.
         reg_param : int
             If a given class and feature value never occur together in the training data,
@@ -46,7 +46,7 @@ class NaiveBayes(_base.Classifier):
 
         # Choose distribution
         if(len(distributions) == 0):
-            distributions = ['normal']*input_size
+            distributions = ['gaussian']*input_size
 
         self._dists = distributions
 
@@ -54,7 +54,7 @@ class NaiveBayes(_base.Classifier):
         self._pdist = [getattr(_distributions, dist_name) for dist_name in distributions]
 
         # indices of categorical features
-        self._categorical = [i for i, x in enumerate(distributions) if x!='normal']
+        self._categorical = [i for i, x in enumerate(distributions) if x!='gaussian']
 
         # for each class/group, p(class), std_dev, mean, freq and range
         self._pclass = np.zeros((output_size))
@@ -84,7 +84,7 @@ class NaiveBayes(_base.Classifier):
             p_xci = np.zeros((input_data.shape[0]))
             for x in range(0, self._input_size):
                 # p(xi|ci) if catgorical feature
-                if(self._dists[x] != 'normal'):
+                if(self._dists[x] != 'gaussian'):
                     p_xici = self._freqp[C][x][input_data[:, x].astype(int)]
                 # p(xi|ci) if continues feature
                 else:    
