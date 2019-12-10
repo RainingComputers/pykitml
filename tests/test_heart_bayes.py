@@ -1,4 +1,5 @@
 import cProfile
+import os.path
 
 import numpy as np
 import pykitml as pk
@@ -33,7 +34,7 @@ def test_heart_bayes():
 
 if __name__ == '__main__':
     # Download the dataset 
-    heartdisease.get()
+    if(not os.path.exists('heartdisease.pkl')): heartdisease.get()
     
     # Train
     try:
