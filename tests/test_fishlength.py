@@ -10,11 +10,11 @@ def test_fishlength():
 
     # Normalize inputs
     array_min, array_max = pk.get_minmax(inputs)
-    inputs = pk.normalize_array(inputs, array_min, array_max)
+    inputs = pk.normalize_minmax(inputs, array_min, array_max)
 
     # Normalize outputs
     array_min, array_max = pk.get_minmax(outputs)
-    outputs = pk.normalize_array(outputs, array_min, array_max)
+    outputs = pk.normalize_minmax(outputs, array_min, array_max)
 
     # Create model
     fish_classifier = pk.LinearRegression(2, 1)
@@ -49,11 +49,11 @@ if __name__ == '__main__':
 
     # Normalize inputs
     array_min, array_max = pk.get_minmax(inputs)
-    inputs = pk.normalize_array(inputs, array_min, array_max)
+    inputs = pk.normalize_minmax(inputs, array_min, array_max)
 
     # Normalize outputs
     array_min, array_max = pk.get_minmax(outputs)
-    outputs = pk.normalize_array(outputs, array_min, array_max)
+    outputs = pk.normalize_minmax(outputs, array_min, array_max)
 
     # Load model
     fish_classifier = pk.load('fish_classifier.pkl')

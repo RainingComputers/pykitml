@@ -22,7 +22,7 @@ def test_minmax():
 def test_normalize():
     array_min, array_max = pk.get_minmax(eg_array)
 
-    norm_array = pk.normalize_array(eg_array, array_min, array_max)
-    denorm_array = pk.denormalize_array(norm_array, array_min, array_max)
+    norm_array = pk.normalize_minmax(eg_array, array_min, array_max)
+    denorm_array = pk.denormalize_minmax(norm_array, array_min, array_max)
 
     assert np.allclose(denorm_array, eg_array)
