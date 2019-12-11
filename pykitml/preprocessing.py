@@ -19,8 +19,8 @@ def onehot(input_array):
     one_hot : numpy.array
         The converted onehot array.
 
-    Examples
-    --------
+    Example
+    -------
     >>> import numpy as np
     >>> import pykitml as pk
     >>> a = np.array([0, 1, 2])

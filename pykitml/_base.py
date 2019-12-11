@@ -127,13 +127,13 @@ class MinimizeModel(ABC):
 
     def plot_performance(self):
         '''
-        Plots logged performance data after training. Should be called after
-        :py:func:`train` .
+        Plots logged performance data after training. 
+        Should be called after :py:func:`train`.
 
         Raises
         ------
         AttributeError
-            If the model has not been trained, i.e :py:func`train` has
+            If the model has not been trained, i.e :py:func:`train` has
             not been called before.
         IndexError
             If :py:func:`train` failed.
@@ -375,7 +375,7 @@ class Classifier(ABC):
     def accuracy(self, testing_data, testing_targets):
         '''
         Tests the accuracy of the model on the testing data passed to the
-        function. This function should be only used for clssification.
+        function. This function should be only used for classification.
 
         Parameters
         ----------
@@ -431,7 +431,7 @@ class Classifier(ABC):
             Numpy array containing test data
         test_targets : numpy.array
             Numpy array containing the targets corresponding to the test data.
-        plt : bool
+        plot : bool
             If set to false, will not plot the matrix. Default is true.
         gnames : list
             List of string names for each class/group.

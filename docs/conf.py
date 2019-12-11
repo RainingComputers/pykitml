@@ -24,9 +24,9 @@ copyright = '2019, B Vishnu Shankar'
 author = 'B Vishnu Shankar'
 
 # The short X.Y version
-version = ''
+version = '0.0.1'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '0.0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -153,7 +153,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'pykitml', 'pykitml Documentation',
-     author, 'pykitml', 'One line description of project.',
+     author, 'pykitml', 'Machine learninh library written in Python and NumPy.',
      'Miscellaneous'),
 ]
 

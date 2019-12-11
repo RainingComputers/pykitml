@@ -9,6 +9,7 @@ from pykitml import mnist
 def test_download():
     # Download the mnist data set
     mnist.get()
+    
     # Test ran successfully
     assert True
 
@@ -230,6 +231,8 @@ if __name__ == '__main__':
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
     print('Test Accuracy:', accuracy)
+    
+    # Plot performance graph
     digit_classifier.plot_performance()
 
     # Show confusion matrix
