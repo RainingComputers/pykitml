@@ -6,6 +6,10 @@ import numpy as np
 import pykitml as pk
 from pykitml import mnist
 
+def test_disable_plot():
+    # Diable plotting to prevent blocking tests
+    pk._base._disable_ploting()
+
 def test_download():
     # Download the mnist data set
     mnist.get(type='fashion')
@@ -13,6 +17,9 @@ def test_download():
     assert True
 
 def test_adam():
+    # If the dataset is not available then download it
+    if(not os.path.exists('mnist.pkl')): mnist.get(type='fashion')
+
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
     
@@ -34,24 +41,6 @@ def test_adam():
     
     # Save it
     pk.save(fashion_classifier, 'fashion_classifier_network.pkl')
-    
-    # Test if it has enough accuracy
-    assert fashion_classifier.accuracy(training_data, training_targets) > 84
-
-if __name__ == '__main__':
-    # If the dataset is not available then download it
-    if(not os.path.exists('mnist.pkl')): mnist.get(type='fashion')
-
-    # Run the requested optmizer test function
-    try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_adam)
-        profiler.dump_stats('test_mnist_fasion.dat') 
-    except AssertionError:
-        pass
-
-    # Load dataset
-    training_data, training_targets, testing_data, testing_targets = mnist.load()
 
     # Show performance
     fashion_classifier = pk.load('fashion_classifier_network.pkl')
@@ -59,6 +48,8 @@ if __name__ == '__main__':
     print('Train Accuracy:', accuracy)        
     accuracy = fashion_classifier.accuracy(testing_data, testing_targets)
     print('Test Accuracy:', accuracy)
+
+    # Plot performance
     fashion_classifier.plot_performance()
 
     # Show confusion matrix
@@ -69,3 +60,16 @@ if __name__ == '__main__':
                 'Bag', 'Ankle Boot'
             ]
     )
+
+    # Assert if it has enough accuracy
+    assert fashion_classifier.accuracy(training_data, training_targets) > 84
+
+if __name__ == '__main__':
+    # Run the requested optmizer test function
+    try:
+        profiler = cProfile.Profile()
+        profiler.runcall(test_adam)
+        profiler.dump_stats('test_mnist_fasion.dat') 
+    except AssertionError:
+        pass
+    

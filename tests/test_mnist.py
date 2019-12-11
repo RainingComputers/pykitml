@@ -6,15 +6,17 @@ import numpy as np
 import pykitml as pk
 from pykitml import mnist
 
+def test_disable_plot():
+    # Diable plotting to prevent blocking tests
+    pk._base._disable_ploting()
+
 def test_download():
     # Download the mnist data set
     mnist.get()
-    
     # Test ran successfully
     assert True
 
 def test_adagrad():
-
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
     
@@ -37,11 +39,23 @@ def test_adagrad():
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
-    # Test if it has enough accuracy
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
+    
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
 def test_nesterov():
-
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
     
@@ -64,11 +78,23 @@ def test_nesterov():
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
-    # Test if it has enough accuracy
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
+    
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
 def test_relu_nesterov():
-
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
     
@@ -91,7 +117,20 @@ def test_relu_nesterov():
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
-    # Test if it has enough accuracy
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
+    
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
 def test_momentum():
@@ -116,8 +155,21 @@ def test_momentum():
     
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
+
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
     
-    # Test if it has enough accuracy
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
 def test_gradient_descent():
@@ -142,35 +194,22 @@ def test_gradient_descent():
     
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
-    
-    # Test if it has enough accuracy
-    assert digit_classifier.accuracy(training_data, training_targets) > 92
 
-def test_adam():
-    # Load dataset
-    training_data, training_targets, testing_data, testing_targets = mnist.load()
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
     
-    # Create a new neural network
-    digit_classifier = pk.NeuralNetwork([784, 100, 10])
-    
-    # Train it
-    digit_classifier.train(
-        training_data=training_data,
-        targets=training_targets, 
-        batch_size=50, 
-        epochs=1200, 
-        optimizer=pk.Adam(learning_rate=0.012, decay_rate=0.95), 
-        testing_data=testing_data, 
-        testing_targets=testing_targets,
-        testing_freq=30,
-        decay_freq=15
-    )
-    
-    # Save it
-    pk.save(digit_classifier, 'digit_classifier_network.pkl')
-    
-    # Test if it has enough accuracy
-    assert digit_classifier.accuracy(training_data, training_targets) > 95
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
+    assert digit_classifier.accuracy(training_data, training_targets) > 92
 
 def test_RMSprop():
     # Load dataset
@@ -194,8 +233,69 @@ def test_RMSprop():
     
     # Save it
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
+
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
     
-    # Test if it has enough accuracy
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
+    assert digit_classifier.accuracy(training_data, training_targets) > 95
+
+def test_adam():
+    import os.path
+
+    import numpy as np
+    import pykitml as pk
+    from pykitml import mnist
+    
+    # Download dataset
+    if(not os.path.exists('mnist.pkl')): mnist.get()
+
+    # Load dataset
+    training_data, training_targets, testing_data, testing_targets = mnist.load()
+    
+    # Create a new neural network
+    digit_classifier = pk.NeuralNetwork([784, 100, 10])
+    
+    # Train it
+    digit_classifier.train(
+        training_data=training_data,
+        targets=training_targets, 
+        batch_size=50, 
+        epochs=1200, 
+        optimizer=pk.Adam(learning_rate=0.012, decay_rate=0.95), 
+        testing_data=testing_data, 
+        testing_targets=testing_targets,
+        testing_freq=30,
+        decay_freq=15
+    )
+    
+    # Save it
+    pk.save(digit_classifier, 'digit_classifier_network.pkl')
+
+    # Show performance
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+    accuracy = digit_classifier.accuracy(training_data, training_targets)
+    print('Train Accuracy:', accuracy)        
+    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
+    print('Test Accuracy:', accuracy)
+    
+    # Plot performance graph
+    digit_classifier.plot_performance()
+
+    # Show confusion matrix
+    digit_classifier.confusion_matrix(training_data, training_targets)
+
+    # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 95
 
 if __name__ == '__main__':
@@ -221,19 +321,3 @@ if __name__ == '__main__':
         profiler.dump_stats('test_mnist_'+sys.argv[1]+'.dat') 
     except AssertionError:
         pass
-
-    # Load dataset
-    training_data, training_targets, testing_data, testing_targets = mnist.load()
-
-    # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
-    accuracy = digit_classifier.accuracy(training_data, training_targets)
-    print('Train Accuracy:', accuracy)        
-    accuracy = digit_classifier.accuracy(testing_data, testing_targets)
-    print('Test Accuracy:', accuracy)
-    
-    # Plot performance graph
-    digit_classifier.plot_performance()
-
-    # Show confusion matrix
-    digit_classifier.confusion_matrix(training_data, training_targets)

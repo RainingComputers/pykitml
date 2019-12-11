@@ -1,6 +1,9 @@
 Feed-Forward Neural Network
 ===========================
 
+Class Reference
+---------------
+
 .. autoclass:: pykitml.NeuralNetwork
     
     .. automethod:: __init__
@@ -24,3 +27,12 @@ Feed-Forward Neural Network
     .. automethod:: confusion_matrix
 
     .. autoattribute:: nlayers
+
+Example: Handwritten Digit Recognition (MNIST)
+----------------------------------------------
+
+.. literalinclude:: ../tests/test_mnist.py
+   :pyobject: test_adam
+   :lines: 2-
+   :end-before: # Assert
+   :dedent: 1

@@ -13,6 +13,11 @@ class MinimizeModel(ABC):
     Abstract base class for all models that use gradients and minimize a cost function.
     '''
 
+    # Static variable for diabling/enabling performance graphs
+    # If true, calls to plot_performance() is ignored
+    # Useful, will not block tests
+    _plot_graphs = True
+
     def train(self, training_data, targets, batch_size, epochs, optimizer,
             testing_data=None, testing_targets=None, testing_freq=1, decay_freq=1):
         '''
@@ -138,6 +143,9 @@ class MinimizeModel(ABC):
         IndexError
             If :py:func:`train` failed.
         '''
+        # Return if plotting is disabled
+        if(not MinimizeModel._plot_graphs): return
+
         graph = self._performance_log
 
         # Window title
@@ -310,6 +318,11 @@ class Classifier(ABC):
     Mix-in class for classifier models.
     '''
 
+    # Static variable for diabling/enabling confusion matrix plots
+    # If true, calls to confusion_matrix() is ignored
+    # Useful, will not block tests
+    _plot_graphs = True
+
     @abstractmethod
     def get_output(self):
         '''
@@ -441,6 +454,9 @@ class Classifier(ABC):
         confusion_matrix : numpy.array
             The confusion matrix. 
         '''
+        # Return if plotting is disabled
+        if(not MinimizeModel._plot_graphs): return
+    
         print('Creating Confusion Matrix...')
 
         # feed the data
@@ -497,3 +513,7 @@ class Classifier(ABC):
 
         # return
         return conf_mat
+
+def _disable_ploting():
+    MinimizeModel._plot_graphs=False
+    Classifier._plot_graphs=False

@@ -1,8 +1,8 @@
 Naive Bayes
 ===========
 
-Generalized Naive Bayes
------------------------
+Class Reference
+---------------
 
 .. autoclass:: pykitml.NaiveBayes
     
@@ -20,21 +20,11 @@ Generalized Naive Bayes
 
     .. automethod:: confusion_matrix
 
-Gaussian Naive Bayes
---------------------
+Example: Heart Disease Prediction
+---------------------------------
 
-.. autoclass:: pykitml.GaussianNaiveBayes
-    
-    .. automethod:: __init__
-
-    .. automethod:: feed
-
-    .. automethod:: get_output
-
-    .. automethod:: get_output_one_hot
-
-    .. automethod:: train
-
-    .. automethod:: accuracy
-
-    .. automethod:: confusion_matrix
+.. literalinclude:: ../tests/test_heart_bayes.py
+   :pyobject: test_heart_bayes
+   :lines: 2-
+   :end-before: # Assert
+   :dedent: 1

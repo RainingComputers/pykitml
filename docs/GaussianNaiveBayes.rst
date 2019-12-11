@@ -1,10 +1,10 @@
-Support Vector Machine with Linear Kernel
-=========================================
+Gaussian Naive Bayes
+====================
 
 Class Reference
 ---------------
 
-.. autoclass:: pykitml.LinearSVM
+.. autoclass:: pykitml.GaussianNaiveBayes
     
     .. automethod:: __init__
 
@@ -14,13 +14,7 @@ Class Reference
 
     .. automethod:: get_output_one_hot
 
-    .. automethod:: result
-
     .. automethod:: train
-
-    .. automethod:: plot_performance
-
-    .. automethod:: cost
 
     .. automethod:: accuracy
 
@@ -29,8 +23,8 @@ Class Reference
 Example: Classifying Iris
 -------------------------
 
-.. literalinclude:: ../tests/test_iris_svm.py
-   :pyobject: test_iris_svm
+.. literalinclude:: ../tests/test_iris_bayes.py
+   :pyobject: test_iris_bayes
    :lines: 2-
    :end-before: # Assert
    :dedent: 1

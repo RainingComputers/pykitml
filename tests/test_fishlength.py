@@ -4,7 +4,15 @@ import numpy as np
 import pykitml as pk
 from pykitml import fishlength
 
+def test_disable_plot():
+    # Diable plotting to prevent blocking tests
+    pk._base._disable_ploting()
+
 def test_fishlength():
+    import numpy as np
+    import pykitml as pk
+    from pykitml import fishlength
+
     # Load the dataset
     inputs, outputs = fishlength.load()
 
@@ -30,11 +38,14 @@ def test_fishlength():
         decay_freq=5
     )
 
-    # Test if it has enough accuracy
-    assert fish_classifier.cost(inputs, outputs) <= 10
-
     # Save model
     pk.save(fish_classifier, 'fish_classifier.pkl')
+
+    # Plot performance
+    fish_classifier.plot_performance()
+
+    # Assert if it has enough accuracy
+    assert fish_classifier.cost(inputs, outputs) <= 10
 
 if __name__ == '__main__':
     try:
@@ -44,19 +55,3 @@ if __name__ == '__main__':
     except AssertionError:
         pass
 
-    # Load dataset
-    inputs, outputs = fishlength.load()
-
-    # Normalize inputs
-    array_min, array_max = pk.get_minmax(inputs)
-    inputs = pk.normalize_minmax(inputs, array_min, array_max)
-
-    # Normalize outputs
-    array_min, array_max = pk.get_minmax(outputs)
-    outputs = pk.normalize_minmax(outputs, array_min, array_max)
-
-    # Load model
-    fish_classifier = pk.load('fish_classifier.pkl')
-
-    # Print accuracy and plor performance
-    fish_classifier.plot_performance()

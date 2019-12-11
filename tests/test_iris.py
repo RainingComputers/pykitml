@@ -4,31 +4,15 @@ import numpy as np
 import pykitml as pk
 from pykitml import iris
 
+def test_disable_plot():
+    # Diable plotting to prevent blocking tests
+    pk._base._disable_ploting()
+
 def test_iris():
-    # Load iris data set
-    inputs, outputs = iris.load()
+    import numpy as np
+    import pykitml as pk
+    from pykitml import iris
 
-    # Create model
-    iris_classifier = pk.LogisticRegression(4, 3)
-
-    # Train the model
-    iris_classifier.train(
-        training_data=inputs,
-        targets=outputs, 
-        batch_size=10, 
-        epochs=1500, 
-        optimizer=pk.Adam(learning_rate=0.1, decay_rate=0.99), 
-        testing_freq=30,
-        decay_freq=20
-    )
-
-    # Test if it has enough accuracy
-    assert iris_classifier.accuracy(inputs, outputs) >= 98
-
-    # Save it
-    pk.save(iris_classifier, 'iris_classifier.pkl')
-
-def test_iris_normalization():
     # Load iris data set
     inputs, outputs = iris.load()
 
@@ -50,25 +34,8 @@ def test_iris_normalization():
         decay_freq=20
     )
 
-    # Test if it has enough accuracy
-    assert iris_classifier.accuracy(inputs, outputs) >= 98
-
     # Save it
     pk.save(iris_classifier, 'iris_classifier.pkl') 
-
-if __name__ == '__main__':
-    try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_iris)
-        profiler.dump_stats('test_iris.dat') 
-    except AssertionError:
-        pass
-
-    # Load dataset
-    inputs, outputs = iris.load()
-
-    # Load model
-    iris_classifier = pk.load('iris_classifier.pkl')
 
     # Print accuracy and plot performance
     iris_classifier.plot_performance()
@@ -78,3 +45,14 @@ if __name__ == '__main__':
     # Plot confusion matrix
     iris_classifier.confusion_matrix(inputs, outputs, 
         gnames=['Setosa', 'Versicolor', 'Virginica'])
+
+    # Assert if it has enough accuracy
+    assert iris_classifier.accuracy(inputs, outputs) >= 98
+
+if __name__ == '__main__':
+    try:
+        profiler = cProfile.Profile()
+        profiler.runcall(test_iris)
+        profiler.dump_stats('test_iris.dat') 
+    except AssertionError:
+        pass

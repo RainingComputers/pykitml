@@ -4,7 +4,15 @@ import numpy as np
 import pykitml as pk
 from pykitml import iris
 
+def test_disable_plot():
+    # Diable plotting to prevent blocking tests
+    pk._base._disable_ploting()
+
 def test_iris_svm():
+    import numpy as np
+    import pykitml as pk
+    from pykitml import iris
+
     # Load iris data set
     inputs, outputs = iris.load()
 
@@ -25,11 +33,22 @@ def test_iris_svm():
         decay_freq=10
     )
 
-    # Test if it has enough accuracy
-    assert svm_iris_classifier.accuracy(inputs, outputs) >= 98
-
     # Save it
     pk.save(svm_iris_classifier, 'svm_iris_classifier.pkl')
+
+    # Print accuracy
+    accuracy = svm_iris_classifier.accuracy(inputs, outputs)
+    print('Accuracy:', accuracy)
+
+    # Plot performance
+    svm_iris_classifier.plot_performance()
+
+    # Plot confusion matrix
+    svm_iris_classifier.confusion_matrix(inputs, outputs, 
+        gnames=['Setosa', 'Versicolor', 'Virginica'])
+
+    # Assert if it has enough accuracy
+    assert svm_iris_classifier.accuracy(inputs, outputs) >= 98
 
 if __name__ == '__main__':
     try:
@@ -38,18 +57,3 @@ if __name__ == '__main__':
         profiler.dump_stats('test_iris_svm.dat') 
     except AssertionError:
         pass
-
-    # Load dataset
-    inputs, outputs = iris.load()
-
-    # Load model
-    svm_iris_classifier = pk.load('svm_iris_classifier.pkl')
-
-    # Print accuracy and plor performance
-    svm_iris_classifier.plot_performance()
-    accuracy = svm_iris_classifier.accuracy(inputs, outputs)
-    print('Accuracy:', accuracy)
-
-    # Plot confusion matrix
-    svm_iris_classifier.confusion_matrix(inputs, outputs, 
-        gnames=['Setosa', 'Versicolor', 'Virginica'])

@@ -16,6 +16,7 @@ Documentation and reference for pykitml, simple Neural Network library written i
    FeedForwardNetwork
    Optimizers
    NaiveBayes
+   GaussianNaiveBayes
    SavingAndLoading
    Datasets
    Normalization
