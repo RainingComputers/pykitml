@@ -43,7 +43,6 @@ def test_adam():
     pk.save(fashion_classifier, 'fashion_classifier_network.pkl')
 
     # Show performance
-    fashion_classifier = pk.load('fashion_classifier_network.pkl')
     accuracy = fashion_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = fashion_classifier.accuracy(testing_data, testing_targets)

@@ -40,7 +40,6 @@ def test_adagrad():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -79,7 +78,6 @@ def test_nesterov():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -118,7 +116,6 @@ def test_relu_nesterov():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -157,7 +154,6 @@ def test_momentum():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -196,7 +192,6 @@ def test_gradient_descent():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -235,7 +230,6 @@ def test_RMSprop():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
@@ -283,7 +277,6 @@ def test_adam():
     pk.save(digit_classifier, 'digit_classifier_network.pkl')
 
     # Show performance
-    digit_classifier = pk.load('digit_classifier_network.pkl')
     accuracy = digit_classifier.accuracy(training_data, training_targets)
     print('Train Accuracy:', accuracy)        
     accuracy = digit_classifier.accuracy(testing_data, testing_targets)
