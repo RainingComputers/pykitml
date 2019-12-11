@@ -16,7 +16,7 @@ class NaiveBayes(_base.Classifier):
     features are continuous.
     '''
 
-    def __init__(self, input_size, output_size, distributions=[], reg_param=0):
+    def __init__(self, input_size, output_size, distributions=[], reg_param=1):
         '''
         Parameters
         ----------
@@ -94,7 +94,7 @@ class NaiveBayes(_base.Classifier):
                 # log(p(x|Ci)) = sum(log(p(xi|Ci)))
                 p_xci += np.log(p_xici)
             
-            # log(p(Ci)) = log(p(Ci))+log(p(x|Ci))
+            # log(p(Ci|x)) = log(p(Ci))+log(p(x|Ci))
             self._output[:, C] = np.log(self._pclass[C])+p_xci
 
     def get_output(self):
@@ -200,7 +200,7 @@ class GaussianNaiveBayes(NaiveBayes):
             # log(p(x|Ci)) = sum(log(p(xi|Ci)))
             p_xci = np.log(p_xici).sum(axis=1)
             
-            # log(p(Ci)) = log(p(Ci))+log(p(x|Ci))
+            # log(p(Ci|x)) = log(p(Ci))+log(p(x|Ci))
             self._output[:, C] = np.log(self._pclass[C])+p_xci
 
     def train(self, training_data, targets):

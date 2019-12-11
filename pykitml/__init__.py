@@ -14,4 +14,4 @@ from .naive_bayes import *
 from .pklhandler import *
 from .normalize import *
 from .optimizers import *
-from ._functions import onehot
+from .preprocessing import *

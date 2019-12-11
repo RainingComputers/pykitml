@@ -1,27 +1,5 @@
 import numpy as np
 
-# Helper funtion for converting input_array to onehot array
-def onehot(input_array):
-    '''
-    Converts input array to onehot array. Eg:
-    :code:`array([0, 1, 2])` will become
-    :code:`array([[1., 0., 0.],[0., 1., 0.],[0., 0., 1.]])`
-
-    Parameters
-    ----------
-    input_array : numpy.array
-        The input numpy array.
-    
-    Returns
-    -------
-    one_hot : numpy.array
-        The converted onehot array.
-    '''
-    array = input_array.astype(int)
-    one_hot = np.zeros((array.size, array.max()+1))
-    one_hot[np.arange(array.size), array] = 1
-    return one_hot
-
 # ==============================================
 # = Activation functions and their derivatives =
 # ==============================================

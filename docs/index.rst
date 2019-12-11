@@ -19,7 +19,7 @@ Documentation and reference for pykitml, simple Neural Network library written i
    SavingAndLoading
    Datasets
    Normalization
-   OneHot
+   PreprocessingDatasets
 
 
 Indices and tables
