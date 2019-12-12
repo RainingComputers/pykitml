@@ -72,7 +72,7 @@ class SingleLayerModel(_base.MinimizeModel, ABC):
         self._activations = self._activ_func(self._weighted_sum)
 
     def get_output(self):
-        return self._activations
+        return self._activations.squeeze()
 
     def _backpropagate(self, index, target):
         # Constants

@@ -130,7 +130,7 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         self._activations[-1] = self._output_activ_func(self._weighted_sums[-1])
 
     def get_output(self):
-        return self._activations[-1]
+        return self._activations[-1].squeeze()
 
     def _backpropagate(self, index, target):
         # Constants

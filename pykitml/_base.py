@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import tqdm
 
 from . import _heatmap
+from . import preprocessing
 
 class MinimizeModel(ABC):
     '''
@@ -378,7 +379,10 @@ class Classifier(ABC):
         '''
         output_targets = self.get_output()
 
-        if(output_targets.ndim == 1):
+        if(self._out_size == 1):
+            # For binary classification
+            return np.where(output_targets>0.5, 1, 0)
+        elif(output_targets.ndim == 1):
             # If output is a vector/1D array, axis=1 will not work
             index = np.argmax(output_targets)
             output_onehot = np.zeros((self._out_size))
@@ -416,7 +420,12 @@ class Classifier(ABC):
         output_onehot = self.get_output_onehot()
 
         # Calculate how many examples it classified correctly
-        no_correct = (testing_targets == output_onehot).all(axis=1).sum()
+        if(self._out_size == 1):
+            no_correct = (testing_targets == output_onehot).sum()
+        else:    
+            no_correct = (testing_targets == output_onehot).all(axis=1).sum()
+        
+        # Calculate accuracy
         accuracy = (no_correct/testing_data.shape[0]) * 100
 
         # return accuracy
@@ -453,15 +462,28 @@ class Classifier(ABC):
         # Get output
         outputs = self.get_output_onehot()
 
-        # Number of groups
-        ngroups = self._out_size
+        # Binary classification
+        if(self._out_size == 1):
+            # Number of groups
+            ngroups = 2
+            # Column/Row labels
+            labels = ['False', 'True']
+            # Split outputs to two groups
+            outputs = preprocessing.onehot(outputs)
+            targets = preprocessing.onehot(test_targets)
 
-        # Column/Row labels
-        if(len(gnames) != 0):
-            labels = gnames
+        # Multiclass classification
         else:
-            labels = [str(x) for x in range(0, ngroups)]
-
+            # Number of groups
+            ngroups = self._out_size
+            # Column/Row labels
+            if(len(gnames) != 0):
+                labels = gnames
+            else:
+                labels = [str(x) for x in range(0, ngroups)]
+            # Targets
+            targets = test_targets
+        
         # Confusion matrix
         conf_mat = np.zeros((ngroups, ngroups))
 
@@ -478,7 +500,7 @@ class Classifier(ABC):
 
             # Count
             out_count = np.all(outputs == pred_vec, axis=1)
-            target_count  = np.all(test_targets == act_vec, axis=1)
+            target_count  = np.all(targets == act_vec, axis=1)
             tot_count = np.logical_and(out_count, target_count).sum()
             conf_mat[predicted][actual] = tot_count
 

@@ -111,6 +111,12 @@ class NaiveBayes(_base.Classifier):
         targets : numpy.array
             numpy array containing training targets, corresponding to the training data.
 
+        Raises
+        ------
+        numpy.AxisError
+            If output_size is less than two. Use :py:func:`pykitml.onehot` to change
+            0/False to [1, 0] and 1/True to [0, 1] for binary classification.
+
         '''
         print('Training Model...')
 

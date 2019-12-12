@@ -33,9 +33,9 @@ def test_fishlength():
         targets=outputs, 
         batch_size=22, 
         epochs=100, 
-        optimizer=pk.Adam(learning_rate=0.01, decay_rate=0.99), 
-        testing_freq=10,
-        decay_freq=5
+        optimizer=pk.Adam(learning_rate=0.02, decay_rate=0.99), 
+        testing_freq=1,
+        decay_freq=10
     )
 
     # Save model
