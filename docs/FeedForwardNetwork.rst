@@ -12,9 +12,7 @@ Class Reference
 
     .. automethod:: get_output
 
-    .. automethod:: get_output_one_hot
-
-    .. automethod:: result
+    .. automethod:: get_output_onehot
 
     .. automethod:: train
 

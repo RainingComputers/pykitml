@@ -251,7 +251,7 @@ class MinimizeModel(ABC):
         Note
         ----
         This function only feeds the input data, to get the output after calling this
-        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result`
+        function use :py:func:`get_output` or :py:func:`get_output_onehot`
         '''
         pass
 
@@ -353,7 +353,7 @@ class Classifier(ABC):
         Note
         ----
         This function only feeds the input data, to get the output after calling this
-        function use :py:func:`get_output` or :py:func:`get_output_one_hot` or :py:func:`result`
+        function use :py:func:`get_output` or :py:func:`get_output_onehot` or :py:func:`result`
         '''
         pass
 
@@ -365,7 +365,7 @@ class Classifier(ABC):
         '''
         pass
 
-    def get_output_one_hot(self):
+    def get_output_onehot(self):
         '''
         Returns the output layer activations of the model as a one-hot array. A one-hot array
         is an array of bits in which only `one` of the bits is high/true. In this case, the
@@ -378,12 +378,18 @@ class Classifier(ABC):
         '''
         output_targets = self.get_output()
 
-        # Create a onehot array from outputs
-        output_one_hot = np.zeros(output_targets.shape)
-        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+        if(output_targets.ndim == 1):
+            # If output is a vector/1D array, axis=1 will not work
+            index = np.argmax(output_targets)
+            output_onehot = np.zeros((self._out_size))
+            output_onehot[index] = 1
+        else:
+            # Create a onehot array from outputs
+            output_onehot = np.zeros(output_targets.shape)
+            output_onehot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
 
         # Return one hot array
-        return output_one_hot
+        return output_onehot
 
     def accuracy(self, testing_data, testing_targets):
         '''
@@ -405,34 +411,16 @@ class Classifier(ABC):
         '''
         # Evalute over all the testing data and get outputs
         self.feed(testing_data)
-        output_targets = self.get_output()
 
         # Create a onehot array from outputs
-        output_one_hot = np.zeros(output_targets.shape)
-        output_one_hot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+        output_onehot = self.get_output_onehot()
 
         # Calculate how many examples it classified correctly
-        no_correct = (testing_targets == output_one_hot).all(axis=1).sum()
+        no_correct = (testing_targets == output_onehot).all(axis=1).sum()
         accuracy = (no_correct/testing_data.shape[0]) * 100
 
         # return accuracy
-        return round(accuracy, 2)
-
-    def result(self):
-        '''
-        Returns index and activation of the node/neuron having the highest activation.
-
-        Returns
-        -------
-        index : int
-            The index(starts at zero) of the node/neuron having the highest activation.
-        activation : float
-            The activation of the node/neuron.
-        '''
-        # return the output layer activations along with the node/neuron with the most activation
-        activations = self.get_output()
-        index = np.argmax(activations)
-        return index, activations[index] 
+        return round(accuracy, 2) 
 
     def confusion_matrix(self, test_data, test_targets, plot=True, gnames=[]):   
         '''
@@ -463,7 +451,7 @@ class Classifier(ABC):
         self.feed(test_data)
 
         # Get output
-        outputs = self.get_output_one_hot()
+        outputs = self.get_output_onehot()
 
         # Number of groups
         ngroups = self._out_size

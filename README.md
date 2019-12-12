@@ -73,6 +73,6 @@ plt.show()
 print('Label: ', training_targets[index])
 
 # Show prediction
-digit_classifier.feedforward(training_data[index])
-print('Predicted: ', str(digit_classifier.result()))
+digit_classifier.feed(training_data[index])
+print('Predicted: ', str(digit_classifier.get_output_onehot()))
 ```
