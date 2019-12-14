@@ -32,3 +32,12 @@ Heart Disease - pykitml.datasets.heartdisease module
 .. autofunction:: pykitml.datasets.heartdisease.get
 
 .. autofunction:: pykitml.datasets.heartdisease.load
+
+Adult - pykitml.datasets.adult module
+----------------------------------------------------
+
+.. automodule:: pykitml.datasets.adult
+
+.. autofunction:: pykitml.datasets.adult.get
+
+.. autofunction:: pykitml.datasets.adult.load
