@@ -3,7 +3,7 @@ from urllib import request
 
 import numpy as np
 
-from . import pklhandler
+from .. import pklhandler
 
 '''
     This module contains helper functions to download and load

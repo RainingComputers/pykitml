@@ -174,13 +174,6 @@ class GaussianNaiveBayes(NaiveBayes):
             Size of input data or number of input features.
         output_size: int
             Number of categories or groups.
-
-        Raises
-        ------
-        AttributeError
-            If invalid distribution.
-        IndexError
-            If the input_size does not match the length of distribution length.
         '''
         # Save info
         self._input_size = input_size

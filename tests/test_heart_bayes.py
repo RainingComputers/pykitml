@@ -3,7 +3,7 @@ import os.path
 
 import numpy as np
 import pykitml as pk
-from pykitml import heartdisease
+from pykitml.datasets import heartdisease
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
@@ -17,7 +17,7 @@ def test_heart_bayes():
 
     import numpy as np
     import pykitml as pk
-    from pykitml import heartdisease
+    from pykitml.datasets import heartdisease
 
     # Download the dataset 
     if(not os.path.exists('heartdisease.pkl')): heartdisease.get()

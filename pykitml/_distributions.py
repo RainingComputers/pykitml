@@ -13,5 +13,4 @@ def binomial():
 
 def multinomial():
     pass
-
     

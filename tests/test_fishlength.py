@@ -2,7 +2,7 @@ import cProfile
 
 import numpy as np
 import pykitml as pk
-from pykitml import fishlength
+from pykitml.datasets import fishlength
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
@@ -11,7 +11,7 @@ def test_disable_plot():
 def test_fishlength():
     import numpy as np
     import pykitml as pk
-    from pykitml import fishlength
+    from pykitml.datasets import fishlength
 
     # Load the dataset
     inputs, outputs = fishlength.load()

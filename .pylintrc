@@ -1,0 +1,1 @@
+offset += onehot_colmn.shape[1]-1 # pylint: disable=E1136

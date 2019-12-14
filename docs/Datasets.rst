@@ -1,34 +1,34 @@
 Datasets
 ========
 
-MNIST - pykitml.mnist module
-----------------------------
+MNIST - pykitml.datasets.mnist module
+-------------------------------------
 
-.. automodule:: pykitml.mnist
+.. automodule:: pykitml.datasets.mnist
 
-.. autofunction:: pykitml.mnist.get
+.. autofunction:: pykitml.datasets.mnist.get
 
-.. autofunction:: pykitml.mnist.load
+.. autofunction:: pykitml.datasets.mnist.load
 
-Iris - pykitml.iris module
---------------------------
+Iris - pykitml.datasets.iris module
+-----------------------------------
 
-.. automodule:: pykitml.iris
+.. automodule:: pykitml.datasets.iris
 
-.. autofunction:: pykitml.iris.load
+.. autofunction:: pykitml.datasets.iris.load
 
-Fish Length - pykitml.fishlength module
----------------------------------------
+Fish Length - pykitml.datasets.fishlength module
+------------------------------------------------
 
-.. automodule:: pykitml.fishlength
+.. automodule:: pykitml.datasets.fishlength
 
-.. autofunction:: pykitml.fishlength.load
+.. autofunction:: pykitml.datasets.fishlength.load
 
-Heart Disease - pykitml.heartdisease module
--------------------------------------------
+Heart Disease - pykitml.datasets.heartdisease module
+----------------------------------------------------
 
-.. automodule:: pykitml.heartdisease
+.. automodule:: pykitml.datasets.heartdisease
 
-.. autofunction:: pykitml.heartdisease.get
+.. autofunction:: pykitml.datasets.heartdisease.get
 
-.. autofunction:: pykitml.heartdisease.load
+.. autofunction:: pykitml.datasets.heartdisease.load

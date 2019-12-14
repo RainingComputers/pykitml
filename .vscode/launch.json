@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Adult",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_adult.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Heart Disease",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_heart.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Fish Length",
             "type": "python",
             "request": "launch",
@@ -13,7 +29,7 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Heart Disease",
+            "name": "Heart Disease Naive Bayes",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",

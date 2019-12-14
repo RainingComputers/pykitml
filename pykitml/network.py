@@ -5,7 +5,7 @@ from . import _functions
 
 class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
     '''
-    This class implements the classic feed Neural Network.
+    This class implements Feed Neural Network.
     '''
 
     def __init__(self, layer_sizes, reg_param=0, config='leakyrelu-softmax-cross_entropy'):

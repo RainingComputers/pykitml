@@ -23,9 +23,9 @@ def get_minmax(array):
     '''
     return np.amin(array, axis=0), np.amax(array, axis=0)
 
-def normalize_minmax(array, array_min, array_max):
+def normalize_minmax(array, array_min, array_max, cols=[]):
     '''
-    Normalizes every column of the array between 0 and 1 using min-max
+    Normalizes columns of the array to between 0 and 1 using min-max
     normalization.
 
     Parameters
@@ -36,6 +36,9 @@ def normalize_minmax(array, array_min, array_max):
         Array containing minimum values of each column.
     array_max : numpy.array
         Array containing maximum values of each column.
+    cols : list
+        The columns to normalize. If the list is empty (default),
+        all columns will be normalized.
 
     Returns
     -------
@@ -47,11 +50,24 @@ def normalize_minmax(array, array_min, array_max):
     You can use :py:func:`~get_minmax` function to get :code:`array_min`
     and :code:`array_max` parameters.
     '''
-    return (array - array_min) / (array_max - array_min)
+    normalized_array = array.astype(float)
+    all_normalized = (array - array_min) / (array_max - array_min)
 
-def denormalize_minmax(output_array, array_min, array_max):
+    if(len(cols) == 0):
+        # Normalize all columns
+        normalized_array = all_normalized
+    elif(array.ndim == 1):
+        # Normalize only specified columns, 1D array
+        normalized_array[cols] = all_normalized[cols]
+    else:
+        # Normalize onlt specified columns, 2D array
+        normalized_array[:, cols] = all_normalized[:, cols]
+
+    return normalized_array
+
+def denormalize_minmax(array, array_min, array_max, cols=[]):
     '''
-    Denormalizes a min-max normalized array.
+    Denormalizes columns of a min-max normalized array.
 
     Parameters
     ----------
@@ -61,6 +77,9 @@ def denormalize_minmax(output_array, array_min, array_max):
         Array containing minimum values of each column.
     array_max : numpy.array
         Array containing maximum values of each column.
+    cols : list
+        The columns to normalize. If the list is empty (default),
+        all columns will be denormalized.
 
     Returns
     -------
@@ -72,7 +91,21 @@ def denormalize_minmax(output_array, array_min, array_max):
     You can use :py:func:`~get_minmax` function to get :code:`array_min`
     and :code:`array_max` parameters.
     '''
-    return (output_array * (array_max - array_min)) + array_min
+    denormalized_array = array.astype(float)
+    all_denormalized = (array * (array_max - array_min)) + array_min
+
+    if(len(cols) == 0):
+        # Deormalize all columns
+        denormalized_array = all_denormalized
+    elif(array.ndim == 1):
+        # Denormalize only specified columns, 1D array
+        denormalized_array[cols] = all_denormalized[cols]
+    else:
+        # Denormalize onlt specified columns, 2D array
+        denormalized_array[:, cols] = all_denormalized[:, cols]
+
+    return denormalized_array
+
 
 def get_meanstd(array):
     '''
@@ -93,9 +126,9 @@ def get_meanstd(array):
     '''
     return np.mean(array, axis=0), np.std(array, axis=0)
 
-def normalize_mean(array, array_mean, array_stddev):
+def normalize_mean(array, array_mean, array_stddev, cols=[]):
     '''
-    Normalizes every column of the array mean normalization.
+    Normalizes columns of the array with mean normalization.
 
     Parameters
     ----------
@@ -105,6 +138,10 @@ def normalize_mean(array, array_mean, array_stddev):
         Array containing mean values of each column.
     array_stddev : numpy.array
         Array containing standard deviation values of each column.
+    cols : list
+        The columns to normalize. If the list is empty (default),
+        all columns will be normalized.
+
 
     Returns
     -------
@@ -116,9 +153,22 @@ def normalize_mean(array, array_mean, array_stddev):
     You can use :py:func:`~get_meanstd` function to get :code:`array_mean`
     and :code:`array_stddev` parameters.
     '''
-    return (array-array_mean)/array_stddev
+    normalized_array = array.astype(float)
+    all_normalized = (array-array_mean)/array_stddev
 
-def denormalize_mean(array, array_mean, array_stddev):
+    if(len(cols) == 0):
+        # Normalize all columns
+        normalized_array = all_normalized
+    elif(array.ndim == 1):
+        # Normalize only specified columns, 1D array
+        normalized_array[cols] = all_normalized[cols]
+    else:
+        # Normalize onlt specified columns, 2D array
+        normalized_array[:, cols] = all_normalized[:, cols]
+
+    return normalized_array
+
+def denormalize_mean(array, array_mean, array_stddev, cols=[]):
     '''
     Denormalizes a mean normalized array.
 
@@ -141,4 +191,17 @@ def denormalize_mean(array, array_mean, array_stddev):
     You can use :py:func:`~get_meanstd` function to get :code:`array_mean`
     and :code:`array_stddev` parameters.
     '''
-    return (array*array_stddev)+array_mean
+    denormalized_array = array.astype(float)
+    all_denormalized = (array*array_stddev) + array_mean
+
+    if(len(cols) == 0):
+        # Denormalize all columns
+        denormalized_array = all_denormalized
+    elif(array.ndim == 1):
+        # Denormalize only specified columns, 1D array
+        denormalized_array[cols] = all_denormalized[cols]
+    else:
+        # Denormalize onlt specified columns, 2D array
+        denormalized_array[:, cols] = all_denormalized[:, cols]
+
+    return denormalized_array

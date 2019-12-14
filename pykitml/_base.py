@@ -524,6 +524,8 @@ class Classifier(ABC):
         # return
         return conf_mat
 
+
 def _disable_ploting():
     MinimizeModel._plot_graphs=False
     Classifier._plot_graphs=False
+    

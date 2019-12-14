@@ -2,7 +2,7 @@ import cProfile
 
 import numpy as np
 import pykitml as pk
-from pykitml import iris
+from pykitml.datasets import iris
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
@@ -11,7 +11,7 @@ def test_disable_plot():
 def test_iris_svm():
     import numpy as np
     import pykitml as pk
-    from pykitml import iris
+    from pykitml.datasets import iris
 
     # Load iris data set
     inputs, outputs = iris.load()

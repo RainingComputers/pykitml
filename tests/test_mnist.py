@@ -4,7 +4,7 @@ import cProfile
 
 import numpy as np
 import pykitml as pk
-from pykitml import mnist
+from pykitml.datasets import mnist
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
@@ -249,7 +249,7 @@ def test_adam():
 
     import numpy as np
     import pykitml as pk
-    from pykitml import mnist
+    from pykitml.datasets import mnist
     
     # Download dataset
     if(not os.path.exists('mnist.pkl')): mnist.get()

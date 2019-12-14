@@ -3,4 +3,6 @@ Preprocessing Datasets
 
 .. autofunction:: pykitml.onehot
 
-.. autofunction:: pykitml.onehot_col
+.. autofunction:: pykitml.onehot_cols
+
+.. autofunction:: pykitml.onehot_cols_traintest

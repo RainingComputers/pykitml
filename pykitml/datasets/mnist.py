@@ -14,7 +14,7 @@ from urllib import request
 
 import numpy as np
 
-from . import pklhandler
+from .. import pklhandler
 
 def get(type = 'classic'):
     '''
