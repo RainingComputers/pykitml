@@ -70,3 +70,6 @@ ehthumbs_vista.db
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+
+# VS CODE
+.vscode/settings.json
