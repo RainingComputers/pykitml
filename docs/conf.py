@@ -20,8 +20,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'pykitml'
-copyright = '2019, B Vishnu Shankar'
-author = 'B Vishnu Shankar'
+copyright = '2019, Vishnu Shankar B'
+author = 'Vishnu Shankar B'
 
 # The short X.Y version
 version = '0.0.1'
@@ -132,7 +132,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'pykitml.tex', 'pykitml Documentation',
-     'B Vishnu Shankar', 'manual'),
+     'Vishnu Shankar B', 'manual'),
 ]
 
 
