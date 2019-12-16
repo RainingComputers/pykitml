@@ -66,36 +66,38 @@ class MinimizeModel(ABC):
         if(testing_data is not None):
             self._performance_log['cost_test'] = []   
 
-        # For hold total sum of gradients
-        total_gradient = 0
-
         # Loop through each epoch
-        with tqdm.trange(0, epochs, ncols=80, unit='epochs') as pbar:
-            for epoch in pbar:
-                total_gradient = self._get_batch_grad(epoch, batch_size, training_data, targets)
+        pbar = tqdm.trange(0, epochs, ncols=80, unit='epochs')
+        for epoch in pbar:
+            total_gradient = self._get_batch_grad(epoch, batch_size, training_data, targets)
 
-                # After completing a batch, average the total sum of gradients and tweak the parameters
-                self._mparams = optimizer._optimize(self._mparams, total_gradient/batch_size)
+            # After completing a batch, average the total sum of gradients and tweak the parameters
+            self._mparams = optimizer._optimize(self._mparams, total_gradient/batch_size)
 
-                # Decay the learning rate
-                if(epoch % decay_freq == 0):
-                    optimizer._decay()
+            # Decay the learning rate
+            if((epoch+1) % decay_freq == 0): optimizer._decay()
 
-                # Log and print performance
-                if((epoch+1)%testing_freq == 0):
-                    # log epoch
-                    self._performance_log['epoch'].append(epoch+1)
-                    # log learning rate
-                    learning_rate = optimizer._learning_rate
-                    self._performance_log['learning_rate'].append(learning_rate)
-                    # get cost of the model on training data
-                    cost_train = self.cost(training_data, targets)
-                    pbar.set_postfix(cost=cost_train)
-                    self._performance_log['cost_train'].append(cost_train)
-                    # get cost of the model on testing data if it is provided
-                    if(testing_data is not None):
-                        cost_test = self.cost(testing_data, testing_targets)
-                        self._performance_log['cost_test'].append(cost_test)
+            # Log and print performance
+            if((epoch+1)%testing_freq == 0):
+                # log epoch
+                self._performance_log['epoch'].append(epoch+1)
+                
+                # log learning rate
+                learning_rate = optimizer._learning_rate
+                self._performance_log['learning_rate'].append(learning_rate)
+                
+                # get cost of the model on training data
+                cost_train = self.cost(training_data, targets)
+                pbar.set_postfix(cost=cost_train)
+                self._performance_log['cost_train'].append(cost_train)
+                
+                # get cost of the model on testing data if it is provided
+                if(testing_data is None): continue
+                cost_test = self.cost(testing_data, testing_targets)
+                self._performance_log['cost_test'].append(cost_test)
+
+        # Close progress bar
+        pbar.close()
 
     def _get_batch_grad(self, epoch, batch_size, training_data, targets):
         '''
@@ -452,7 +454,7 @@ class Classifier(ABC):
             The confusion matrix. 
         '''
         # Return if plotting is disabled
-        if(not MinimizeModel._plot_graphs): return
+        if(not Classifier._plot_graphs): return
     
         print('Creating Confusion Matrix...')
 
@@ -528,4 +530,8 @@ class Classifier(ABC):
 def _disable_ploting():
     MinimizeModel._plot_graphs=False
     Classifier._plot_graphs=False
+
+def _enable_ploting():
+    MinimizeModel._plot_graphs=True
+    Classifier._plot_graphs=True
     

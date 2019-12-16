@@ -3,13 +3,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 '''
-This module contains helper functions to draw heatmaps.
-REF: https://matplotlib.org/3.1.1/gallery/images_contours_and_fields/image_annotated_heatmap.html
+    This module contains helper functions to draw heatmaps.
+    REF: https://matplotlib.org/3.1.1/gallery/images_contours_and_fields/image_annotated_heatmap.html
 '''
 
-def heatmap(data, row_labels, col_labels, ax=None,
-            cbar_kw={}, cbarlabel="", **kwargs):
-    """
+def heatmap(data, row_labels, col_labels, ax=None, cbar_kw={}, cbarlabel='', **kwargs):
+    '''
     Create a heatmap from a numpy array and two lists of labels.
 
     Parameters
@@ -29,7 +28,7 @@ def heatmap(data, row_labels, col_labels, ax=None,
         The label for the colorbar.  Optional.
     **kwargs
         All other arguments are forwarded to `imshow`.
-    """
+    '''
 
     if not ax:
         ax = plt.gca()
@@ -39,7 +38,7 @@ def heatmap(data, row_labels, col_labels, ax=None,
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
-    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va='bottom')
 
     # We want to show all ticks...
     ax.set_xticks(np.arange(data.shape[1]))
@@ -49,29 +48,25 @@ def heatmap(data, row_labels, col_labels, ax=None,
     ax.set_yticklabels(row_labels)
 
     # Let the horizontal axes labeling appear on top.
-    ax.tick_params(top=True, bottom=False,
-                   labeltop=True, labelbottom=False)
+    ax.tick_params(top=True, bottom=False, labeltop=True, labelbottom=False)
 
     # Rotate the tick labels and set their alignment.
-    plt.setp(ax.get_xticklabels(), rotation=-30, ha="right",
-             rotation_mode="anchor")
+    plt.setp(ax.get_xticklabels(), rotation=-30, ha='right', rotation_mode='anchor')
 
     # Turn spines off and create white grid.
-    for _, spine in ax.spines.items():
-        spine.set_visible(False)
+    for _, spine in ax.spines.items(): spine.set_visible(False)
 
     ax.set_xticks(np.arange(data.shape[1]+1)-.5, minor=True)
     ax.set_yticks(np.arange(data.shape[0]+1)-.5, minor=True)
-    ax.grid(which="minor", color="w", linestyle='-', linewidth=3)
-    ax.tick_params(which="minor", bottom=False, left=False)
+    ax.grid(which='minor', color='w', linestyle='-', linewidth=3)
+    ax.tick_params(which='minor', bottom=False, left=False)
 
     return im, cbar
 
 
-def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
-                     textcolors=["black", "white"],
-                     threshold=None, **textkw):
-    """
+def annotate_heatmap(im, data=None, valfmt='{x:.2f}', textcolors=['black', 'white'],
+                threshold=None, **textkw):
+    '''
     A function to annotate a heatmap.
 
     Parameters
@@ -82,7 +77,7 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
         Data used to annotate.  If None, the image's data is used.  Optional.
     valfmt
         The format of the annotations inside the heatmap.  This should either
-        use the string format method, e.g. "$ {x:.2f}", or be a
+        use the string format method, e.g. '$ {x:.2f}', or be a
         `matplotlib.ticker.Formatter`.  Optional.
     textcolors
         A list or array of two color specifications.  The first is used for
@@ -94,7 +89,7 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
     **kwargs
         All other arguments are forwarded to each call to `text` used to create
         the text labels.
-    """
+    '''
 
     if not isinstance(data, (list, np.ndarray)):
         data = im.get_array()
@@ -107,15 +102,14 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
 
     # Set default alignment to center, but allow it to be
     # overwritten by textkw.
-    kw = dict(horizontalalignment="center",
-              verticalalignment="center")
+    kw = dict(horizontalalignment='center', verticalalignment='center')
     kw.update(textkw)
 
     # Get the formatter in case a string is supplied
     if isinstance(valfmt, str):
         valfmt = matplotlib.ticker.StrMethodFormatter(valfmt)
 
-    # Loop over the data and create a `Text` for each "pixel".
+    # Loop over the data and create a `Text` for each 'pixel'.
     # Change the text's color depending on the data.
     texts = []
     for i in range(data.shape[0]):

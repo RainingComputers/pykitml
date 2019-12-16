@@ -178,12 +178,14 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         )
 
     def _get_norm_weights(self):
-        if(self._reg_param != 0):
-            W = 0
-            norm = 0
-            # Calculate norm of the weights
-            for l in range(self.nlayers):
-                norm += (self._reg_param_half)*(self._params[W][l]**2).sum()
-            return norm
-        else:
-            return 0
+        # If regulerization is zero
+        if(self._reg_param == 0): return 0
+        
+        # else
+        W = 0
+        norm = 0
+        # Calculate norm of the weights
+        for l in range(self.nlayers):
+            norm += (self._reg_param_half)*(self._params[W][l]**2).sum()
+        
+        return norm

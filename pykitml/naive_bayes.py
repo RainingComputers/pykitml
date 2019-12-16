@@ -16,7 +16,7 @@ class NaiveBayes(_base.Classifier):
     features are continuous.
     '''
 
-    def __init__(self, input_size, output_size, distributions=[], reg_param=1):
+    def __init__(self, input_size, output_size, distributions, reg_param=1):
         '''
         Parameters
         ----------
