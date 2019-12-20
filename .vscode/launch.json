@@ -5,6 +5,30 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Banknote",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_banknote.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Banknote Decision Tree",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_banknote_tree.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Adult Decision Tree",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_adult_tree.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Adult",
             "type": "python",
             "request": "launch",
@@ -21,11 +45,11 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Fish Length",
+            "name": "Heart Disease Tree",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",
-            "program": "${workspaceFolder}/tests/test_fishlength.py",
+            "program": "${workspaceFolder}/tests/test_heart_tree.py",
             "console": "integratedTerminal"
         },
         {
@@ -34,6 +58,22 @@
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",
             "program": "${workspaceFolder}/tests/test_heart_bayes.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Fish Length",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_fishlength.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Iris Decision Tree",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_iris_tree.py",
             "console": "integratedTerminal"
         },
         {

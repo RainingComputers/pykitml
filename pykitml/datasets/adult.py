@@ -152,6 +152,9 @@ def load():
       Prof-specialty=5, Handlers-cleaners=6, Machine-op-inspct=7, Adm-clerical=8, 
       Farming-fishing=9, Transport-moving=10, Priv-house-serv=11, Protective-serv=12, 
       Armed-Forces=13
+    - relationship :
+      Wife=0, Own-child=1, Husband=2, Not-in-family=3, Other-relative=4, 
+      Unmarried=5
     - race :
       White=0, Asian-Pac-Islander=1, Amer-Indian-Eskimo=2, Other=3, Black=4
     - sex :

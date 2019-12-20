@@ -41,3 +41,12 @@ Adult - pykitml.datasets.adult module
 .. autofunction:: pykitml.datasets.adult.get
 
 .. autofunction:: pykitml.datasets.adult.load
+
+Banknote - pykitml.datasets.banknote module
+----------------------------------------------------
+
+.. automodule:: pykitml.datasets.banknote
+
+.. autofunction:: pykitml.datasets.banknote.get
+
+.. autofunction:: pykitml.datasets.banknote.load

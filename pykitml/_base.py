@@ -473,6 +473,9 @@ class Classifier(ABC):
             # Split outputs to two groups
             outputs = preprocessing.onehot(outputs)
             targets = preprocessing.onehot(test_targets)
+            # Prevent bugs that show up when outputs are all zeros
+            if(outputs.shape[1] == 1):
+                outputs = np.pad(outputs, ((0, 0), (0 ,1)), 'constant', constant_values=0)
 
         # Multiclass classification
         else:

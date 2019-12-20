@@ -9,7 +9,6 @@ now=$(shell date +%d-%m_%H-%M-%S)
 test:
 	rm -f *.pkl
 	python3 -m pytest
-	rm -f *.pkl
 
 viewprofiles: $(wildcard *.dat)
 
@@ -24,3 +23,6 @@ clean:
 	rm -f *.dat
 	rm -f profile_*.png
 	rm -f *.gz
+	rm -f *.gv.png
+	rm -f *.gv.pdf
+	rm -f *.gv

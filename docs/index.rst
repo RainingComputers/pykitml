@@ -15,6 +15,7 @@ Documentation and reference for pykitml, simple Neural Network library written i
    LinearSVM
    FeedForwardNetwork
    Optimizers
+   DecisionTree
    NaiveBayes
    GaussianNaiveBayes
    SavingAndLoading

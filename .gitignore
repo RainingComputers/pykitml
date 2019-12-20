@@ -73,3 +73,8 @@ $RECYCLE.BIN/
 
 # VS CODE
 .vscode/settings.json
+
+# graphviz
+*.gv
+*.gv.png
+*.gv.pdf

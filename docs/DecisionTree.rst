@@ -1,10 +1,10 @@
-Logistic Regression
-===================
+Decision Tree
+=============
 
 Class Reference
 ---------------
 
-.. autoclass:: pykitml.LogisticRegression
+.. autoclass:: pykitml.DecisionTree
     
     .. automethod:: __init__
 
@@ -16,20 +16,17 @@ Class Reference
 
     .. automethod:: train
 
-    .. automethod:: plot_performance
-
-    .. automethod:: cost
-
     .. automethod:: accuracy
 
     .. automethod:: confusion_matrix
 
-Example: Banknote Authentication
---------------------------------
+    .. automethod:: show_tree
 
-.. literalinclude:: ../tests/test_banknote.py
-   :pyobject: test_banknote
+Example: Classifying Iris
+-------------------------
+
+.. literalinclude:: ../tests/test_iris_tree.py
+   :pyobject: test_iris_tree
    :lines: 2-
    :end-before: # Assert
    :dedent: 1
-

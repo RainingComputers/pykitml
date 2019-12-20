@@ -72,6 +72,9 @@ class NaiveBayes(_base.Classifier):
         return self._output_size
 
     def feed(self, input_data):
+        # Make sure array is 2D
+        if(input_data.ndim == 1): input_data = np.array([input_data])
+
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
         
@@ -98,7 +101,7 @@ class NaiveBayes(_base.Classifier):
             self._output[:, C] = np.log(self._pclass[C])+p_xci
 
     def get_output(self):
-        return self._output
+        return self._output.squeeze()
 
     def train(self, training_data, targets):
         '''
@@ -188,6 +191,9 @@ class GaussianNaiveBayes(NaiveBayes):
         self._output = None
 
     def feed(self, input_data):
+        # Make sure array in 2D
+        if(input_data.ndim == 1): input_data = np.array([input_data])
+
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
         

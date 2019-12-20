@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['docs', 'tests']),
     python_requires='>=3.5',
     install_requires=[
-        'numpy', 'matplotlib', 'tqdm'
+        'numpy', 'matplotlib', 'tqdm', 'graphviz'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

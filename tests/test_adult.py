@@ -26,7 +26,6 @@ def test_adult():
 
     # Normalize dataset
     array_min, array_max = pk.get_minmax(inputs_train)
-    array_min_test, array_max_test = pk.get_minmax(inputs_test)
     inputs_train = pk.normalize_minmax(inputs_train, array_min, array_max, cols=[0, 2, 9, 10, 11])
     inputs_test = pk.normalize_minmax(inputs_test, array_min, array_max, cols=[0, 2, 9, 10, 11])
 
@@ -51,11 +50,15 @@ def test_adult():
 
     # Save it
     pk.save(adult_classifier, 'adult_classifier.pkl') 
-
-    # Print accuracy and plot performance
+    
+    # Plot performance
     adult_classifier.plot_performance()
+    
+    # Print accuracy
+    accuracy = adult_classifier.accuracy(inputs_train, outputs_train)
+    print('Train accuracy:', accuracy)
     accuracy = adult_classifier.accuracy(inputs_test, outputs_test)
-    print('Accuracy:', accuracy)
+    print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
     adult_classifier.confusion_matrix(inputs_test, outputs_test)

@@ -17,6 +17,7 @@ sphinx = "==1.8.5"
 sphinx-rtd-theme = "*"
 sphinx-bootstrap-theme = "*"
 tqdm = "*"
+graphviz = "*"
 
 [requires]
 python_version = "3.6"

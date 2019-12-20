@@ -4,7 +4,7 @@ Machine Learning library written in Python and NumPy.
 # Demo (MNIST)
 ### Download MNIST:
 ```python
-from pykitml import mnist
+from pykitml.datasets import mnist
 
 # Download the mnist data set
 mnist.get()
@@ -14,7 +14,7 @@ mnist.get()
 ```python
 import numpy as np
 import pykitml as pk
-from pykitml import mnist
+from pykitml.datasets import mnist
 
 # Load dataset
 training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -56,7 +56,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import pykitml as pk
-from pykitml import mnist
+from pykitml.datasets import mnist
 
 # Load dataset
 training_data, training_targets, testing_data, testing_targets = mnist.load()
