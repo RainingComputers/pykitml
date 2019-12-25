@@ -12,6 +12,7 @@ from .logistic_regression import *
 from .svm_linear_kernel import *
 from .naive_bayes import *
 from .decision_tree import *
+from .random_forest import *
 from .pklhandler import *
 from .normalize import *
 from .optimizers import *

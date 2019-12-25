@@ -21,6 +21,14 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Adult Random Forest",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_adult_forest.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Adult Decision Tree",
             "type": "python",
             "request": "launch",

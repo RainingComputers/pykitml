@@ -9,7 +9,7 @@ def test_disable_plot():
     # Diable plotting to prevent blocking tests
     pk._base._disable_ploting()
 
-def test_banknote_tree():
+def test_banknote_forest():
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import banknote
@@ -27,35 +27,32 @@ def test_banknote_tree():
 
     # Create model
     ftypes = ['continues']*4
-    tree_banknote_classifier = pk.DecisionTree(4, 2, max_depth=6, feature_type=ftypes)
+    forest_banknote_classifier = pk.RandomForest(4, 2, max_depth=9, feature_type=ftypes)
 
     # Train
-    tree_banknote_classifier.train(inputs_train, outputs_train)
+    forest_banknote_classifier.train(inputs_train, outputs_train)
 
     # Save it
-    pk.save(tree_banknote_classifier, 'tree_banknote_classifier.pkl')
+    pk.save(forest_banknote_classifier, 'forest_banknote_classifier.pkl')
 
     # Print accuracy
-    accuracy = tree_banknote_classifier.accuracy(inputs_train, outputs_train)
+    accuracy = forest_banknote_classifier.accuracy(inputs_train, outputs_train)
     print('Train accuracy:', accuracy)
-    accuracy = tree_banknote_classifier.accuracy(inputs_test, outputs_test)
+    accuracy = forest_banknote_classifier.accuracy(inputs_test, outputs_test)
     print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    tree_banknote_classifier.confusion_matrix(inputs_test, outputs_test, 
+    forest_banknote_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['False', 'True'])
 
-    # Plot descision tree
-    tree_banknote_classifier.show_tree()
-
     # Assert accuracy
-    assert (tree_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
+    assert (forest_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
 
 if __name__ == '__main__':
     try:
         profiler = cProfile.Profile()
-        profiler.runcall(test_banknote_tree)
-        profiler.dump_stats('test_banknote_tree.dat') 
+        profiler.runcall(test_banknote_forest)
+        profiler.dump_stats('test_banknote_forest.dat') 
     except AssertionError:
         pass
 

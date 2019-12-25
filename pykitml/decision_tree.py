@@ -159,8 +159,19 @@ class DecisionTree(_base.Classifier):
         self._max_depth = max_depth
         self._node_count = 0
 
+        # The columns on which the tree will train on
+        # This variable can be overidden in a child class to ignore
+        # certain columns of the input data while training
+        self._cols_train = list(range(input_size))
+
+        # CAn be overidden in child class to suppress progressbar while training
+        self._pbardis = False
+
         # Tree nodes
         self._root_node = None
+
+        # Outputs
+        self._output = None
 
     @property
     def _out_size(self):
@@ -186,10 +197,11 @@ class DecisionTree(_base.Classifier):
             If output_size is less than two. Use :py:func:`pykitml.onehot` to change
             0/False to [1, 0] and 1/True to [0, 1] for binary classification.
         '''
+        print('Training Model...')
         # Convert outputs from onehot to values
         outputs = np.argmax(outputs, axis=1)
         # Grow the tree
-        pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='expls')
+        pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='expls', disable=self._pbardis)
         prob, gini = self._gini_index(outputs)
         self._root_node = self._recursive_grow(pbar, inputs, outputs, prob, gini, -1)
         # Close progress bar
@@ -230,7 +242,7 @@ class DecisionTree(_base.Classifier):
         This method recursively generates nodes of the tree.
         '''
         # Get the columns to iterate
-        cols_train = [i for i in range(inputs.shape[1]) if i != col]
+        cols_train = [i for i in self._cols_train if i != col]
 
         # Keep track of least gini index
         min_gini_index = 10
