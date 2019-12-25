@@ -1,6 +1,8 @@
 # pykitml
 Machine Learning library written in Python and NumPy.
 
+Documentation: https://pykitml.readthedocs.io/en/latest/
+
 # Demo (MNIST)
 ### Download MNIST:
 ```python

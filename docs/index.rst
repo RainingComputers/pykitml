@@ -4,7 +4,7 @@
 pykitml Docs
 ============
 
-Documentation and reference for pykitml, simple Neural Network library written in Python and NumPy.
+Documentation and reference for pykitml, simple Machine Learning library written in Python and NumPy.
 
 .. toctree::
    :maxdepth: 2
