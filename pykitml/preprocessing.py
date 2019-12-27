@@ -1,3 +1,5 @@
+from itertools import combinations_with_replacement
+
 import numpy as np
 
 '''
@@ -130,3 +132,61 @@ def onehot_cols_traintest(dataset_train, dataset_test,  cols):
 
     split = dataset_train.shape[0]
     return dataset_new[:split, :], dataset_new[split:, :]
+
+def polynomial(dataset_inputs, degree=3):
+    '''
+    Generates polynomial features from the input dataset.
+    For example, if an input sample is two dimensional and of the form [a, b], 
+    the degree-2 polynomial features are :code:`[a, b, a^2, ab, b^2]`, and degree-3
+    polynomial features are 
+    :code:`[a, b, a^2, ab, b^2, a^3, (a^2)*b, a*(b^2), b^3]`.
+
+    Parameters
+    ----------
+    dataset_inputs : numpy.array
+        The input dataset to generate the ploynomials from.
+
+    degree : int
+        The dgree of the polynomial.
+
+    Returns
+    -------
+    numpy.array
+        The new dataset with polynomial features.
+
+    Example
+    -------
+
+        >>> import numpy as np
+        >>> import pykitml as pk
+        >>> pk.polynomial(np.array([[1, 2], [2, 3]]), degree=2)
+        array([[1., 2., 1., 2., 4.],
+               [2., 3., 4., 6., 9.]])
+        >>> pk.polynomial(np.array([[1, 2], [2, 3]]), degree=3)
+        array([[ 1.,  2.,  1.,  2.,  4.,  1.,  2.,  4.,  8.],
+               [ 2.,  3.,  4.,  6.,  9.,  8., 12., 18., 27.]])
+               
+    '''
+    if(dataset_inputs.ndim == 1):
+        cols = dataset_inputs.shape[0]
+        inputs = np.array([dataset_inputs])
+    else:
+        cols = dataset_inputs.shape[1]
+        inputs = dataset_inputs
+
+    poly_dataset = inputs
+
+    # Generate degree terms
+    for d in range(2, degree+1):
+        # Generate terms indices for degree d
+        term_indices = list(combinations_with_replacement(range(cols), r=d))
+        # Multiply them to form the term and concatenate
+        for indices in term_indices:
+            term = inputs[:, indices].prod(axis=1)
+            temp = np.zeros((poly_dataset.shape[0], poly_dataset.shape[1]+1))
+            temp[:, :-1] = poly_dataset
+            temp[:, -1] = term
+            poly_dataset = temp
+
+    return poly_dataset.squeeze() 
+

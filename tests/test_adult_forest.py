@@ -47,7 +47,7 @@ def test_adult_forest():
         gnames=['False', 'True'])
 
     # Assert accuracy
-    assert (forest_adult_classifier.accuracy(inputs_test, outputs_test)) >= 86
+    assert (forest_adult_classifier.accuracy(inputs_test, outputs_test)) >= 84
 
 if __name__ == '__main__':
     try:
