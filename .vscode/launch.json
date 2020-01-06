@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "PCA",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_pca.py",
+            "console": "integratedTerminal"
+        },        
+        {
             "name": "Banknote",
             "type": "python",
             "request": "launch",

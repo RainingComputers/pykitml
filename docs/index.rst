@@ -19,10 +19,11 @@ Documentation and reference for pykitml, simple Machine Learning library written
    RandomForest
    NaiveBayes
    GaussianNaiveBayes
-   SavingAndLoading
-   Datasets
+   PrincipalComponentAnalysis
    Normalization
    PreprocessingDatasets
+   Datasets
+   SavingAndLoading
 
 
 Indices and tables
