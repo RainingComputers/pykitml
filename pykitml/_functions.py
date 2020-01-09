@@ -1,5 +1,28 @@
 import numpy as np
 
+# =====================
+# = Utility functions =
+# =====================
+
+def pdist(x, y):
+    '''
+    Calculate pairwise square distances between matrix x and y.
+    See: https://stackoverflow.com/a/56084419/5516481
+    '''
+    nx, p = x.shape
+    x_ext = np.empty((nx, 3*p))
+    x_ext[:, :p] = 1
+    x_ext[:, p:2*p] = x
+    x_ext[:, 2*p:] = np.square(x)
+
+    ny = y.shape[0]
+    y_ext = np.empty((3*p, ny))
+    y_ext[:p] = np.square(y).T
+    y_ext[p:2*p] = -2*y.T
+    y_ext[2*p:] = 1
+
+    return x_ext.dot(y_ext)
+
 # ==============================================
 # = Activation functions and their derivatives =
 # ==============================================

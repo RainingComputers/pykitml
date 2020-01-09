@@ -85,6 +85,14 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Iris Nearest Neighbour",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_iris_neighbour.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Iris Decision Tree",
             "type": "python",
             "request": "launch",

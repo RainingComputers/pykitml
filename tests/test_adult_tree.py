@@ -5,10 +5,13 @@ import numpy as np
 import pykitml as pk
 from pykitml.datasets import adult
 
+import pytest
+
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
     pk._base._disable_ploting()
 
+@pytest.mark.skip(reason='Will take too long')
 def test_adult_tree():
     import numpy as np
     import pykitml as pk

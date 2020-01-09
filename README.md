@@ -4,19 +4,16 @@ Machine Learning library written in Python and NumPy.
 Documentation: https://pykitml.readthedocs.io/en/latest/
 
 # Demo (MNIST)
-### Download MNIST:
-```python
-from pykitml.datasets import mnist
-
-# Download the mnist data set
-mnist.get()
-```
-
 ### Training:
-```python
+``` python
+import os.path
+
 import numpy as np
 import pykitml as pk
 from pykitml.datasets import mnist
+    
+# Download dataset
+if(not os.path.exists('mnist.pkl')): mnist.get()
 
 # Load dataset
 training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -45,6 +42,8 @@ accuracy = digit_classifier.accuracy(training_data, training_targets)
 print('Train Accuracy:', accuracy)        
 accuracy = digit_classifier.accuracy(testing_data, testing_targets)
 print('Test Accuracy:', accuracy)
+    
+# Plot performance graph
 digit_classifier.plot_performance()
 
 # Show confusion matrix

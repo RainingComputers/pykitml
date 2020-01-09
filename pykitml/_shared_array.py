@@ -1,5 +1,12 @@
 import numpy, ctypes, multiprocessing
 
+'''
+    This module contains helper functions to share
+    numpy arrays between python multiprocessing processes.
+
+    See: https://stackoverflow.com/a/5034106/5516481
+'''
+
 _ctypes_to_numpy = {
     ctypes.c_char   : numpy.dtype(numpy.uint8),
     ctypes.c_wchar  : numpy.dtype(numpy.int16),

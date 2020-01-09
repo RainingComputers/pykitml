@@ -15,6 +15,7 @@ Documentation and reference for pykitml, simple Machine Learning library written
    LinearSVM
    FeedForwardNetwork
    Optimizers
+   NearestNeighbour
    DecisionTree
    RandomForest
    NaiveBayes

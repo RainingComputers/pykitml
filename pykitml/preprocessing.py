@@ -133,7 +133,7 @@ def onehot_cols_traintest(dataset_train, dataset_test,  cols):
     split = dataset_train.shape[0]
     return dataset_new[:split, :], dataset_new[split:, :]
 
-def polynomial(dataset_inputs, degree=3):
+def polynomial(dataset_inputs, degree=3, cols=[]):
     '''
     Generates polynomial features from the input dataset.
     For example, if an input sample is two dimensional and of the form [a, b], 
@@ -145,9 +145,12 @@ def polynomial(dataset_inputs, degree=3):
     ----------
     dataset_inputs : numpy.array
         The input dataset to generate the ploynomials from.
-
     degree : int
         The dgree of the polynomial.
+    cols : list
+        The columns to use to generate polynomial features, columns
+        not in this list will be ignored. If empty (default), all columns will
+        used to generate polynomial features.
 
     Returns
     -------
@@ -165,21 +168,26 @@ def polynomial(dataset_inputs, degree=3):
         >>> pk.polynomial(np.array([[1, 2], [2, 3]]), degree=3)
         array([[ 1.,  2.,  1.,  2.,  4.,  1.,  2.,  4.,  8.],
                [ 2.,  3.,  4.,  6.,  9.,  8., 12., 18., 27.]])
+        >>> pk.polynomial(np.array([[1, 4, 5, 2], [2, 5, 6, 3]]), degree=2, cols=[0, 3])
+        array([[1., 4., 5., 2., 1., 2., 4.],
+               [2., 5., 6., 3., 4., 6., 9.]])
                
     '''
+    # Make sure 2D array
     if(dataset_inputs.ndim == 1):
-        cols = dataset_inputs.shape[0]
         inputs = np.array([dataset_inputs])
     else:
-        cols = dataset_inputs.shape[1]
         inputs = dataset_inputs
 
+    # Choose the columns to genrate polynomial features for
+    if(len(cols) == 0): cols = range(inputs.shape[1])
+    
     poly_dataset = inputs
 
     # Generate degree terms
     for d in range(2, degree+1):
         # Generate terms indices for degree d
-        term_indices = list(combinations_with_replacement(range(cols), r=d))
+        term_indices = list(combinations_with_replacement(cols, r=d))
         # Multiply them to form the term and concatenate
         for indices in term_indices:
             term = inputs[:, indices].prod(axis=1)
