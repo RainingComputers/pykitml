@@ -7,8 +7,8 @@ from numpy import genfromtxt
 from .. import pklhandler
 
 '''
-    This module contains helper functions to download and load
-    the banknote dataset.
+This module contains helper functions to download and load
+the banknote dataset.
 '''
 
 def get():

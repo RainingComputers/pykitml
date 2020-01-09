@@ -1,7 +1,7 @@
 import numpy as np
 
 '''
-    This module contains helper functions to load the fish length dataset.
+This module contains helper functions to load the fish length dataset.
 '''
 
 inputs = np.array([

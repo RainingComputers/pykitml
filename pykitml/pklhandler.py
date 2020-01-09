@@ -1,8 +1,9 @@
 import pickle
 
-# ===============================================
-# = Functions for saving and loading .pkl files =
-# ===============================================
+'''
+This module contains functions for saving and 
+loading .pkl files
+'''
 
 def save(object_, file_name):
     '''

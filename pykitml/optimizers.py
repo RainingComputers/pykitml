@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-# ===================================================
-# = Optimizers                                      =
-# = REF: http://cs231n.github.io/neural-networks-3/ =
-# ===================================================
+'''
+Optimizers module,
+REF: http://cs231n.github.io/neural-networks-3/
+'''
 
 class Optimizer(ABC):
     '''

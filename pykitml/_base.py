@@ -356,7 +356,7 @@ class Classifier(ABC):
         Note
         ----
         This function only feeds the input data, to get the output after calling this
-        function use :py:func:`get_output` or :py:func:`get_output_onehot` or :py:func:`result`
+        function use :py:func:`get_output` or :py:func:`get_output_onehot`
         '''
         pass
 

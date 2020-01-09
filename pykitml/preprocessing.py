@@ -3,10 +3,9 @@ from itertools import combinations_with_replacement
 import numpy as np
 
 '''
-    This module contains helper functions for preprocessing data.
+This module contains helper functions for preprocessing data.
 '''
 
-# Helper funtion for converting input_array to onehot array
 def onehot(input_array):
     '''
     Converts input array to one-hot array.

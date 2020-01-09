@@ -1,6 +1,9 @@
 import numpy as np
 
 class PCA:
+    '''
+    This class implements Principle Component Analysis.
+    '''
     def __init__(self, data_points, no_components):
         '''
         This class implements Principle Component Analysis, used for 

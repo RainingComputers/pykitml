@@ -1,8 +1,8 @@
 import numpy as np
 
-# ======================================
-# = Probability Distribution functions =
-# ======================================
+'''
+Thos module contains probability distribution functions
+'''
 
 def gaussian(x, mean, std_dev):
     sqrt_2pi = np.sqrt(2*np.pi)

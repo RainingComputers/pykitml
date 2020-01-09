@@ -3,8 +3,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 '''
-    This module contains helper functions to draw heatmaps.
-    REF: https://matplotlib.org/3.1.1/gallery/images_contours_and_fields/image_annotated_heatmap.html
+This module contains helper functions to draw heatmaps.
+REF: https://matplotlib.org/3.1.1/gallery/images_contours_and_fields/image_annotated_heatmap.html
 '''
 
 def heatmap(data, row_labels, col_labels, ax=None, cbar_kw={}, cbarlabel='', **kwargs):

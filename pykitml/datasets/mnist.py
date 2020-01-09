@@ -1,5 +1,5 @@
 '''
-    This module contains helper functions to download and load MNIST and MNIST like datasets.   
+This module contains helper functions to download and load MNIST and MNIST like datasets.   
 '''
 
 # ============================================================  

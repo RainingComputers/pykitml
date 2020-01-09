@@ -1,5 +1,9 @@
 import numpy as np
 
+'''
+This module contains utility functions
+'''
+
 # =====================
 # = Utility functions =
 # =====================

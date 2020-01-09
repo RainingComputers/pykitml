@@ -6,7 +6,7 @@ import numpy as np
 from .. import pklhandler
 
 '''
-    This module contains helper functions to download the adult dataset.
+This module contains helper functions to download the adult dataset.
 '''
 
 def get():

@@ -6,8 +6,8 @@ import numpy as np
 from .. import pklhandler
 
 '''
-    This module contains helper functions to download and load
-    the heart disease dataset. 
+This module contains helper functions to download and load
+the heart disease dataset. 
 '''
 
 def get():
