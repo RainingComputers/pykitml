@@ -1,3 +1,5 @@
+![pykitml logo](pykitml128.png)
+
 # pykitml
 Machine Learning library written in Python and NumPy.
 

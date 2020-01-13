@@ -27,6 +27,10 @@ def pdist(x, y):
 
     return x_ext.dot(y_ext)
 
+# ======================================
+# = Probability distribution functions =
+# ======================================
+
 # ==============================================
 # = Activation functions and their derivatives =
 # ==============================================
