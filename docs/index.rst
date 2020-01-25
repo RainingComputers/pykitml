@@ -3,11 +3,12 @@
 
 pykitml Docs
 ============
+.. image:: ../pykitml128.png
 
 Documentation and reference for pykitml, simple Machine Learning library written in Python and NumPy.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Package Reference:
 
    Linear Regression

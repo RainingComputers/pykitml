@@ -14,30 +14,32 @@ def test_iris_tree():
     from pykitml.datasets import iris
 
     # Load iris data set
-    inputs, outputs = iris.load()
+    inputs_train, outputs_train, inputs_test, outputs_test = iris.load()
 
     # Create model
     tree_iris_classifier = pk.DecisionTree(4, 3, max_depth=4, feature_type=['continues']*4)
 
     # Train
-    tree_iris_classifier.train(inputs, outputs)
+    tree_iris_classifier.train(inputs_train, outputs_train)
 
     # Save it
     pk.save(tree_iris_classifier, 'tree_iris_classifier.pkl')
 
     # Print accuracy
-    accuracy = tree_iris_classifier.accuracy(inputs, outputs)
-    print('Accuracy:', accuracy)
+    accuracy = tree_iris_classifier.accuracy(inputs_train, outputs_train)
+    print('Train accuracy:', accuracy)
+    accuracy = tree_iris_classifier.accuracy(inputs_test, outputs_test)
+    print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    tree_iris_classifier.confusion_matrix(inputs, outputs, 
+    tree_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['Setosa', 'Versicolor', 'Virginica'])
 
     # Plot descision tree
     tree_iris_classifier.show_tree()
 
     # Assert accuracy
-    assert (tree_iris_classifier.accuracy(inputs, outputs)) >= 98
+    assert (tree_iris_classifier.accuracy(inputs_train, outputs_train)) >= 98
 
 if __name__ == '__main__':
     try:

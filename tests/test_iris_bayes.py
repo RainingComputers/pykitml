@@ -14,27 +14,29 @@ def test_iris_bayes():
     from pykitml.datasets import iris
 
     # Load iris data set
-    inputs, outputs = iris.load()
+    inputs_train, outputs_train, inputs_test, outputs_test = iris.load()
 
     # Create model
     bayes_iris_classifier = pk.GaussianNaiveBayes(4, 3)
 
     # Train
-    bayes_iris_classifier.train(inputs, outputs)
+    bayes_iris_classifier.train(inputs_train, outputs_train)
 
     # Save it
     pk.save(bayes_iris_classifier, 'bayes_iris_classifier.pkl')
 
     # Print accuracy
-    accuracy = bayes_iris_classifier.accuracy(inputs, outputs)
-    print('Accuracy:', accuracy)
+    accuracy = bayes_iris_classifier.accuracy(inputs_train, outputs_train)
+    print('Train accuracy:', accuracy)
+    accuracy = bayes_iris_classifier.accuracy(inputs_test, outputs_test)
+    print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    bayes_iris_classifier.confusion_matrix(inputs, outputs, 
+    bayes_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['Setosa', 'Versicolor', 'Virginica'])
 
     # Assert accuracy
-    assert (bayes_iris_classifier.accuracy(inputs, outputs)) >= 96
+    assert (bayes_iris_classifier.accuracy(inputs_train, outputs_train)) >= 95
 
 if __name__ == '__main__':
     try:

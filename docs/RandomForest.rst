@@ -27,6 +27,6 @@ Example: Predicting Income
 
 .. literalinclude:: ../tests/test_adult_forest.py
    :pyobject: test_adult_forest
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
