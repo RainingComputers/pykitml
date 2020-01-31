@@ -22,11 +22,25 @@ Class Reference
 
     .. autoattribute:: trees
 
-Example: Predicting Income
---------------------------
+Example: Banknote Authentication
+--------------------------------
 
-.. literalinclude:: ../tests/test_adult_forest.py
-   :pyobject: test_adult_forest
-   :lines: 3-
+**Dataset**
+
+:ref:`banknote_dataset`
+
+**Training**
+
+.. literalinclude:: ../tests/test_banknote_forest.py
+   :pyobject: test_banknote_forest
+   :lines: 2-
    :end-before: # Assert
+   :dedent: 1
+
+**Predict banknote validity with variance, skewness, curtosis, entropy: 
+-2.3, -9.3, 9.37, -0.86**
+
+.. literalinclude:: ../tests/test_banknote_forest.py
+   :pyobject: test_predict
+   :lines: 2-
    :dedent: 1

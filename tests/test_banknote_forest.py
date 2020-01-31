@@ -6,7 +6,7 @@ import pykitml as pk
 from pykitml.datasets import banknote
 
 def test_disable_plot():
-    # Diable plotting to prevent blocking tests
+    # Disable plotting to prevent blocking tests
     pk._base._disable_ploting()
 
 def test_banknote_forest():
@@ -48,11 +48,34 @@ def test_banknote_forest():
     # Assert accuracy
     assert (forest_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
 
+def test_predict():
+    import os.path
+
+    import numpy as np
+    import pykitml as pk
+    from pykitml.datasets import banknote
+
+    # Predict banknote validity with variance, skewness, curtosis, entropy
+    # of -2.3, -9.3, 9.37, -0.86
+    input_data = np.array([-2.3, -9.3, 9.37, -0.86])
+
+    # Load the model
+    forest_banknote_classifier = pk.load('forest_banknote_classifier.pkl')
+
+    # Get output
+    forest_banknote_classifier.feed(input_data)
+    model_output = forest_banknote_classifier.get_output()
+
+    # Print result
+    print(model_output)  
+
 if __name__ == '__main__':
     try:
         profiler = cProfile.Profile()
         profiler.runcall(test_banknote_forest)
-        profiler.dump_stats('test_banknote_forest.dat') 
+        profiler.dump_stats('test_banknote_forest.dat')
+
+        test_predict() 
     except AssertionError:
         pass
 

@@ -38,10 +38,32 @@ def test_iris_bayes():
     # Assert accuracy
     assert (bayes_iris_classifier.accuracy(inputs_train, outputs_train)) >= 95
 
+def test_predict():
+    import numpy as np
+    import pykitml as pk
+    from pykitml.datasets import iris
+
+    # Predict type of species with 
+    # sepal-length sepal-width petal-length petal-width
+    # 5.8, 2.7, 3.9, 1.2
+    input_data = np.array([5.8, 2.7, 3.9, 1.2])
+
+    # Load the model
+    bayes_iris_classifier = pk.load('bayes_iris_classifier.pkl')
+
+    # Get output
+    bayes_iris_classifier.feed(input_data)
+    model_output = bayes_iris_classifier.get_output_onehot()
+
+    # Print result
+    print(model_output)
+
 if __name__ == '__main__':
     try:
         profiler = cProfile.Profile()
         profiler.runcall(test_iris_bayes)
         profiler.dump_stats('test_iris_bayes.dat') 
+
+        test_predict()
     except AssertionError:
         pass

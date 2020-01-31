@@ -89,6 +89,8 @@ class RandomForest(_base.Classifier):
             If output_size is less than two. Use :py:func:`pykitml.onehot` to change
             0/False to [1, 0] and 1/True to [0, 1] for binary classification.
         '''
+        print('Training Model...')
+
         # Number of features to bag/choose for each tree
         if(num_feature_bag is None): 
             num_feature_bag = ceil(np.sqrt(self._input_size))

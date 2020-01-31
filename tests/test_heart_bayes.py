@@ -56,11 +56,34 @@ def test_heart_bayes():
     # Assert accuracy
     assert (bayes_heart_classifier.accuracy(inputs, outputs)) > 84
 
+def test_predict():
+    import os.path
+
+    import numpy as np
+    import pykitml as pk
+
+    # Predict heartdisease for a person with
+    # age sex cp trestbps chol fbs restecg thalach exang oldpeak slope ca thal
+    # 67, 1, 4, 160, 286, 0, 2, 108, 1, 1.5, 2, 3, 3 
+    input_data = np.array([67, 1, 4, 160, 286, 0, 2, 108, 1, 1.5, 2, 3, 3], dtype=float)
+
+    # Load the model
+    bayes_heart_classifier = pk.load('bayes_heart_classifier.pkl')
+
+    # Get output
+    bayes_heart_classifier.feed(input_data)
+    model_output = bayes_heart_classifier.get_output()
+
+    # Print result (log of probabilities)
+    print(model_output)
+
 if __name__ == '__main__':
     # Train
     try:
         profiler = cProfile.Profile()
         profiler.runcall(test_heart_bayes)
         profiler.dump_stats('test_heart_bayes.dat') 
+
+        test_predict()
     except AssertionError:
         pass

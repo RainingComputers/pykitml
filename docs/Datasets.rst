@@ -1,6 +1,9 @@
 Datasets
 ========
 
+
+.. _mnist_dataset:
+
 MNIST - pykitml.datasets.mnist module
 -------------------------------------
 
@@ -10,6 +13,9 @@ MNIST - pykitml.datasets.mnist module
 
 .. autofunction:: pykitml.datasets.mnist.load
 
+
+.. _iris_dataset:
+
 Iris - pykitml.datasets.iris module
 -----------------------------------
 
@@ -17,12 +23,18 @@ Iris - pykitml.datasets.iris module
 
 .. autofunction:: pykitml.datasets.iris.load
 
+
+.. _fishlength_dataset:
+
 Fish Length - pykitml.datasets.fishlength module
 ------------------------------------------------
 
 .. automodule:: pykitml.datasets.fishlength
 
 .. autofunction:: pykitml.datasets.fishlength.load
+
+
+.. _heart_dataset:
 
 Heart Disease - pykitml.datasets.heartdisease module
 ----------------------------------------------------
@@ -33,6 +45,9 @@ Heart Disease - pykitml.datasets.heartdisease module
 
 .. autofunction:: pykitml.datasets.heartdisease.load
 
+
+.. _adult_dataset:
+
 Adult - pykitml.datasets.adult module
 ----------------------------------------------------
 
@@ -41,6 +56,9 @@ Adult - pykitml.datasets.adult module
 .. autofunction:: pykitml.datasets.adult.get
 
 .. autofunction:: pykitml.datasets.adult.load
+
+
+.. _banknote_dataset:
 
 Banknote - pykitml.datasets.banknote module
 ----------------------------------------------------

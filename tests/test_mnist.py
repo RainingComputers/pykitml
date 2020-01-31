@@ -6,6 +6,8 @@ import numpy as np
 import pykitml as pk
 from pykitml.datasets import mnist
 
+import pytest
+
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
     pk._base._disable_ploting()
@@ -290,6 +292,34 @@ def test_adam():
 
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 95
+
+@pytest.mark.skip(reason='Will block other tests')
+def test_predict():
+    import random
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import pykitml as pk
+    from pykitml.datasets import mnist
+
+    # Load dataset
+    training_data, training_targets, testing_data, testing_targets = mnist.load()
+
+    # Load the trained network
+    digit_classifier = pk.load('digit_classifier_network.pkl')
+
+    # Pick a random example from testing data
+    index = random.randint(0, 9999)
+
+    # Show the test data and the label
+    plt.imshow(training_data[index].reshape(28, 28))
+    plt.show()
+    print('Label: ', training_targets[index])
+
+    # Show prediction
+    digit_classifier.feed(training_data[index])
+    print('Predicted: ', str(digit_classifier.get_output_onehot()))
+
 
 if __name__ == '__main__':
     # List of optimizers

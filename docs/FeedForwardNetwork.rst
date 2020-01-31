@@ -29,8 +29,21 @@ Class Reference
 Example: Handwritten Digit Recognition (MNIST)
 ----------------------------------------------
 
+**Dataset**
+
+:ref:`mnist_dataset`
+
+**Training**
+
 .. literalinclude:: ../tests/test_mnist.py
    :pyobject: test_adam
    :lines: 2-
    :end-before: # Assert
+   :dedent: 1
+
+**Predicting**
+
+.. literalinclude:: ../tests/test_mnist.py
+   :pyobject: test_predict
+   :lines: 3-
    :dedent: 1
