@@ -1,8 +1,9 @@
 .. pykitml documentation master file, created by
    sphinx-quickstart on Thu Feb 21 17:21:36 2019.
 
-pykitml Docs
-============
+pykitml (Python Kit for Machine Learning) Docs
+==============================================
+
 .. image:: ../pykitml128.png
 
 Documentation and reference for pykitml, simple Machine Learning library written in Python and NumPy.

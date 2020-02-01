@@ -1,5 +1,5 @@
 '''
-pykitml,
+pykitml (Python Kit for Machine Learning),
     pykitml Machine Learning library.
 Copyrights(c) Vishnu Shankar
 MIT License (See LICENSE file)

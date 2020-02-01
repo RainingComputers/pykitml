@@ -1,6 +1,6 @@
 ![pykitml logo](pykitml128.png)
 
-# pykitml
+# pykitml (Python Kit for Machine Learning)
 Machine Learning library written in Python and NumPy.
 
 Documentation: https://pykitml.readthedocs.io/en/latest/
