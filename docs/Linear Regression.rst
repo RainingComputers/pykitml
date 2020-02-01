@@ -38,3 +38,7 @@ Example: Predicting Fish Length
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Performance Graph**
+
+.. image:: ./demo_pics/linear_regression_perf_graph.png

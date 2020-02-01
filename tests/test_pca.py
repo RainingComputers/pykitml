@@ -16,8 +16,8 @@ def test_pca_compression():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
 
-    # Train PCA
-    pca = pk.PCA(training_data, 350)
+    # Train PCA, reduce 784 dimensions to 250 dimensions
+    pca = pk.PCA(training_data, 250)
     print('Variance retention:', pca.retention)
 
     # Pick random datapoints

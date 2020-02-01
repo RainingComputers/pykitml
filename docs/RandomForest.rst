@@ -44,3 +44,7 @@ Example: Banknote Authentication
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/forest_confusion_matrix.png

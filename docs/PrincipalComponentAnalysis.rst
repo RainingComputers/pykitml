@@ -21,3 +21,11 @@ Example: Compressing Fashion MNIST dataset
    :pyobject: test_pca_compression
    :lines: 3-
    :dedent: 1
+
+**Original/Uncompressed**
+
+.. image:: ./demo_pics/pca_uncompressed.png
+
+**Recovered/Compressed**
+
+.. image:: ./demo_pics/pca_compressed.png

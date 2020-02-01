@@ -43,3 +43,7 @@ age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, 
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/bayes_confusion_matrix.png

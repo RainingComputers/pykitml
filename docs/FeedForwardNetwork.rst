@@ -47,3 +47,11 @@ Example: Handwritten Digit Recognition (MNIST)
    :pyobject: test_predict
    :lines: 3-
    :dedent: 1
+
+**Performance Graph**
+
+.. image:: ./demo_pics/neural_network_perf_graph.png
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/neural_network_confusion_matrix.png

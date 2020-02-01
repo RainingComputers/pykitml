@@ -46,3 +46,11 @@ Example: Banknote Authentication
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Performance Graph**
+
+.. image:: ./demo_pics/logistic_regression_perf_graph.png
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/logistic_regression_confusion_matrix.png

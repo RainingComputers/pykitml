@@ -44,3 +44,11 @@ Example: Classifying Iris
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Tree Graph**
+
+.. image:: ./demo_pics/tree.png
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/tree_confusion_matrix.png

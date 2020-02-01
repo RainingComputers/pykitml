@@ -42,3 +42,7 @@ Example: Classifying Iris
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/gaussian_bayes_confusion_matrix.png

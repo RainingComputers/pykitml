@@ -46,3 +46,11 @@ Example: Classifying Iris
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1
+
+**Performance Graph**
+
+.. image:: ./demo_pics/linear_svm_perf_graph.png
+
+**Confusion Matrix**
+
+.. image :: ./demo_pics/linear_svm_confusion_matrix.png
