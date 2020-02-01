@@ -42,9 +42,9 @@ def get():
     # Parse the data and save it as a pkl file
     pklhandler.save(genfromtxt('data_banknote_authentication.txt', delimiter=','), 'banknote.pkl')
 
-    # Delete unecessary files
+    # Delete unnecessary files
     os.remove('data_banknote_authentication.txt')
-    print('Deleted unecessary files.')
+    print('Deleted unnecessary files.')
 
 def load():
     '''
@@ -76,19 +76,19 @@ def load():
     '''
     data_array = pklhandler.load('banknote.pkl')
 
-    # Seperate data, positive and negetive examples
-    negetive_examples = data_array[:762]
+    # Separate data, positive and negative examples
+    negative_examples = data_array[:762]
     positive_examples = data_array[762:]
 
-    # Seperate into training and testing
-    negetive_examples_test = negetive_examples[:150]
-    negetive_examples_train = negetive_examples[150:]
+    # Separate into training and testing
+    negative_examples_test = negative_examples[:150]
+    negative_examples_train = negative_examples[150:]
     positive_examples_test = positive_examples[:120]
     positive_examples_train = positive_examples[120:]
 
     # Join them to form training and testing dataset
-    train = np.concatenate((negetive_examples_train, positive_examples_train), axis=0)
-    test = np.concatenate((negetive_examples_test, positive_examples_test), axis=0)
+    train = np.concatenate((negative_examples_train, positive_examples_train), axis=0)
+    test = np.concatenate((negative_examples_test, positive_examples_test), axis=0)
 
     # Shuffle the dataset
     shuff_indices = np.arange(train.shape[0])

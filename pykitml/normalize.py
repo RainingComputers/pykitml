@@ -1,7 +1,7 @@
 import numpy as np
 
 # ==============================================
-# = Functions for Normalization/Feture-scaling =
+# = Functions for Normalization/Feature-scaling =
 # ==============================================
 
 def get_minmax(array):
@@ -163,7 +163,7 @@ def normalize_mean(array, array_mean, array_stddev, cols=[]):
         # Normalize only specified columns, 1D array
         normalized_array[cols] = all_normalized[cols]
     else:
-        # Normalize onlt specified columns, 2D array
+        # Normalize only specified columns, 2D array
         normalized_array[:, cols] = all_normalized[:, cols]
 
     return normalized_array

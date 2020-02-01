@@ -8,7 +8,7 @@ import numpy as np
 import tqdm
 
 from . import _shared_array
-from . import _base
+from ._classifier import Classifier
 from . import decision_tree
 
 
@@ -24,7 +24,7 @@ class _RandomTree(decision_tree.DecisionTree):
         self._pbardis = True
         
 
-class RandomForest(_base.Classifier):
+class RandomForest(Classifier):
     def __init__(self, input_size, output_size, feature_type=[], max_depth=6):
         '''
         Parameters

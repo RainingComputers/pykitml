@@ -7,7 +7,7 @@ from pykitml.datasets import banknote
 
 def test_disable_plot():
     # Disable plotting to prevent blocking tests
-    pk._base._disable_ploting()
+    pk._plotting._disable_ploting()
 
 def test_banknote_forest():
     import numpy as np

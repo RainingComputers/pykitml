@@ -22,21 +22,21 @@ def test_pca_compression():
 
     # Pick random datapoints
     indices = random.sample(range(1, 1000), 16)
-    examaples = training_data[indices]
+    examples = training_data[indices]
 
     # Show the original images
     plt.figure('Original', figsize=(10, 7))
     for i in range(1, 17):
         plt.subplot(4, 4, i)
-        plt.imshow(examaples[i-1].reshape((28, 28)), cmap='gray')
+        plt.imshow(examples[i-1].reshape((28, 28)), cmap='gray')
 
-    # Transform the examaple and compress
-    transformed_examples = pca.transform(examaples)
+    # Transform the example and compress
+    transformed_examples = pca.transform(examples)
 
-    # Inverse transform and recover the examaples
+    # Inverse transform and recover the examples
     recovered_examples = pca.inverse_transform(transformed_examples)
 
-    # Show the inverse transformed examaples
+    # Show the inverse transformed examples
     plt.figure('Recovered', figsize=(10, 7))
     for i in range(1, 17):
         plt.subplot(4, 4, i)

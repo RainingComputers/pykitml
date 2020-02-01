@@ -10,7 +10,7 @@ import pytest
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
-    pk._base._disable_ploting()
+    pk._plotting._disable_ploting()
 
 def test_download():
     # Download the mnist data set

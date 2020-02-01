@@ -125,14 +125,14 @@ def get():
     download('adult.test')
 
     # Clean up
-    print('Deleting unecessary filess...')
+    print('Deleting unnecessary files...')
     os.remove('adult.data')
     os.remove('adult.test')
 
 
 def load():
     '''
-    Loads the adult dataset from `adult.data.pkl` and `adult.test.pkl` filess.
+    Loads the adult dataset from `adult.data.pkl` and `adult.test.pkl` files.
     The inputs have the following columns:
 
     - age

@@ -3,10 +3,10 @@ from copy import deepcopy
 import numpy as np
 import tqdm
 
-from . import _base
+from ._classifier import Classifier
 from . import _distributions
 
-class NaiveBayes(_base.Classifier):
+class NaiveBayes(Classifier):
     '''
     Implements Naive Bayes classifier.
 
@@ -78,7 +78,7 @@ class NaiveBayes(_base.Classifier):
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
         
-        # Loop through each group and find probabilty
+        # Loop through each group and find probability
         for C in range(0, self._output_size):
             
             # Loop through each feature and multiply prod(p(xi|Ci))=p(x|Ci)
@@ -161,7 +161,7 @@ class NaiveBayes(_base.Classifier):
             freqp = np.bincount(group_examples[:, feature].astype(int))
             freqp = freqp/group_examples.shape[0]
             # Replace with reg_param where p(xi|Ci) is zero
-            # AKA regulerization            
+            # AKA regularization            
             pad_length = int(self._max[feature]-freqp.shape[0])+1
             freqp = np.pad(freqp, (0, pad_length), 'constant', constant_values=0)
             freqp = np.where(freqp==0, self._reg_param, freqp)
@@ -197,7 +197,7 @@ class GaussianNaiveBayes(NaiveBayes):
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
         
-        # Loop through each group and find probabilty
+        # Loop through each group and find probability
         for C in range(0, self._output_size):
             # Calculate p(xi|Ci)
             p_xici = _distributions.gaussian(input_data, self._mean[C], self._std_dev[C])

@@ -6,7 +6,7 @@ from pykitml.datasets import fishlength
 
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
-    pk._base._disable_ploting()
+    pk._plotting._disable_ploting()
 
 def test_fishlength():
     import numpy as np
@@ -20,7 +20,7 @@ def test_fishlength():
     array_min, array_max = pk.get_minmax(inputs)
     inputs = pk.normalize_minmax(inputs, array_min, array_max)
 
-    # Create plynomial features
+    # Create polynomial features
     inputs_poly = pk.polynomial(inputs)
 
     # Normalize outputs

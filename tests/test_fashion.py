@@ -7,8 +7,8 @@ import pykitml as pk
 from pykitml.datasets import mnist
 
 def test_disable_plot():
-    # Diable plotting to prevent blocking tests
-    pk._base._disable_ploting()
+    # Disable plotting to prevent blocking tests
+    pk._plotting._disable_ploting()
 
 def test_download():
     # Download the mnist data set
@@ -64,7 +64,7 @@ def test_adam():
     assert fashion_classifier.accuracy(training_data, training_targets) > 84
 
 if __name__ == '__main__':
-    # Run the requested optmizer test function
+    # Run the requested optimizer test function
     try:
         profiler = cProfile.Profile()
         profiler.runcall(test_adam)

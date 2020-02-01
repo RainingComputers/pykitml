@@ -1,7 +1,7 @@
 import numpy as np
 
 '''
-This module contains helper funtion to load the iris dataset.
+This module contains helper function to load the iris dataset.
 '''
     # sepal-length, sepal-width, petal-length, petal-width
     # all in cm

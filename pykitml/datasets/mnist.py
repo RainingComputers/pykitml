@@ -77,12 +77,12 @@ def get(type = 'classic'):
         print('Save complete.')
 
     def clean():
-        # Remove unecessary files
+        # Remove unnecessary files
         os.remove('train-images-idx3-ubyte.gz')
         os.remove('t10k-images-idx3-ubyte.gz')
         os.remove('train-labels-idx1-ubyte.gz')
         os.remove('t10k-labels-idx1-ubyte.gz')
-        print('Deleted unecessary files.')
+        print('Deleted unnecessary files.')
 
     download_mnist()
     save_mnist()

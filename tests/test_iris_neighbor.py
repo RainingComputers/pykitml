@@ -5,10 +5,10 @@ import pykitml as pk
 from pykitml.datasets import iris
 
 def test_disable_plot():
-    # Diable plotting to prevent blocking tests
-    pk._base._disable_ploting()
+    # Disable plotting to prevent blocking tests
+    pk._plotting._disable_ploting()
 
-def test_iris_neighbour():
+def test_iris_neighbor():
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import iris
@@ -17,29 +17,29 @@ def test_iris_neighbour():
     inputs_train, outputs_train, inputs_test, outputs_test = iris.load()
 
     # Create model
-    neighbour_iris_classifier = pk.NearestNeighbour(4, 3)
+    neighbor_iris_classifier = pk.NearestNeighbor(4, 3)
 
     # Train the model
-    neighbour_iris_classifier.train(
+    neighbor_iris_classifier.train(
         training_data=inputs_train,
         targets=outputs_train, 
     )
 
     # Save it
-    pk.save(neighbour_iris_classifier, 'neighbour_iris_classifier.pkl') 
+    pk.save(neighbor_iris_classifier, 'neighbor_iris_classifier.pkl') 
 
     # Print accuracy
-    accuracy = neighbour_iris_classifier.accuracy(inputs_train, outputs_train)
+    accuracy = neighbor_iris_classifier.accuracy(inputs_train, outputs_train)
     print('Train accuracy:', accuracy)
-    accuracy = neighbour_iris_classifier.accuracy(inputs_test, outputs_test)
+    accuracy = neighbor_iris_classifier.accuracy(inputs_test, outputs_test)
     print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    neighbour_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
+    neighbor_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['Setosa', 'Versicolor', 'Virginica'])
 
     # Assert if it has enough accuracy
-    assert neighbour_iris_classifier.accuracy(inputs_train, outputs_train) >= 100
+    assert neighbor_iris_classifier.accuracy(inputs_train, outputs_train) >= 100
 
 def test_predict():
     import numpy as np
@@ -52,11 +52,11 @@ def test_predict():
     input_data = np.array([5.8, 2.7, 3.9, 1.2])
 
     # Load the model
-    neighbour_iris_classifier = pk.load('neighbour_iris_classifier.pkl')
+    neighbor_iris_classifier = pk.load('neighbor_iris_classifier.pkl')
 
     # Get output
-    neighbour_iris_classifier.feed(input_data)
-    model_output = neighbour_iris_classifier.get_output_onehot()
+    neighbor_iris_classifier.feed(input_data)
+    model_output = neighbor_iris_classifier.get_output_onehot()
 
     # Print result
     print(model_output)
@@ -64,8 +64,8 @@ def test_predict():
 if __name__ == '__main__':
     try:
         profiler = cProfile.Profile()
-        profiler.runcall(test_iris_neighbour)
-        profiler.dump_stats('test_iris_neighbour.dat') 
+        profiler.runcall(test_iris_neighbor)
+        profiler.dump_stats('test_iris_neighbor.dat') 
 
         test_predict()
     except AssertionError:

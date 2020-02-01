@@ -52,9 +52,9 @@ def get():
     # Save as a pkl file.
     pklhandler.save(heartdisease_data_array, 'heartdisease.pkl')
 
-    # Delete unecessary files.
+    # Delete unnecessary files.
     os.remove('processed.cleveland.data')
-    print('Deleted unecessary files.')
+    print('Deleted unnecessary files.')
 
 def load():
     '''
@@ -72,7 +72,7 @@ def load():
         - sex : 1=male, 0=female
         - cp : Chest pain type (1=typical-angina, 2=atypical-angina 3=non-anginal 4=asymptomatic)
         - trestbps :  Resting blood pressure in mmHg
-        - chol : Serum cholestoral in mg/dl
+        - chol : Serum cholesterol in mg/dl
         - fbs : Fasting blood sugar > 120 mg/dl? (1=true, 0=false)
         - restecg : Resting electrocardiographic results (0=normal, 1=ST-T-abnormality 2= left-ventricular-hypertrophy)
         - thalach : Maximum heart rate achieved 

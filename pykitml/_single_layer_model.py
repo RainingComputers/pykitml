@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from . import _base
+from ._minimize_model import MinimizeModel
 
-class SingleLayerModel(_base.MinimizeModel, ABC):
+class SingleLayerModel(MinimizeModel, ABC):
     '''
     General base class for single layer models.
     '''
@@ -18,17 +18,17 @@ class SingleLayerModel(_base.MinimizeModel, ABC):
         output_size: int
             Number of categories or groups.
         reg_param : int
-            Regulerization parameter for the model, also known as 'weight decay'.
+            Regularization parameter for the model, also known as 'weight decay'.
         '''        
         # Save sizes
         self._input_size = input_size
         self._output_size = output_size
 
-        # Initialize regulurization parameter
+        # Initialize regularization parameter
         self._reg_param = reg_param
         self._reg_param_half = reg_param/2
     
-        # Intilize weights and parameters
+        # Initialize weights and parameters
         epsilon = np.sqrt(6)/(np.sqrt(output_size) + np.sqrt(input_size))
         weights = np.random.rand(output_size, input_size)*2*epsilon - epsilon
         biases = np.random.rand(output_size) * 2 * epsilon - epsilon
@@ -84,7 +84,7 @@ class SingleLayerModel(_base.MinimizeModel, ABC):
         dc_db = self._cost_func_prime(self._activations[index], target) * da_dz
         dc_dw = np.multiply.outer(dc_db, self._input_activations[index])
         
-        # Add regulerization
+        # Add regularization
         dc_dw += self._reg_param*self._params[W]
         
         # Return gradient

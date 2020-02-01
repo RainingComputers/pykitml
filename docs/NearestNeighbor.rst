@@ -1,10 +1,10 @@
-Nearest Neighbour
+Nearest Neighbor
 =================
 
 Class Reference
 ---------------
 
-.. autoclass:: pykitml.NearestNeighbour
+.. autoclass:: pykitml.NearestNeighbor
     
     .. automethod:: __init__
 
@@ -29,8 +29,8 @@ Example: Classifying Iris
 
 **Training**
 
-.. literalinclude:: ../tests/test_iris_neighbour.py
-   :pyobject: test_iris_neighbour
+.. literalinclude:: ../tests/test_iris_neighbor.py
+   :pyobject: test_iris_neighbor
    :lines: 2-
    :end-before: # Assert
    :dedent: 1
@@ -38,7 +38,7 @@ Example: Classifying Iris
 **Predict type of species with sepal-length, sepal-width, petal-length, petal-width: 
 5.8, 2.7, 3.9, 1.2**
 
-.. literalinclude:: ../tests/test_iris_neighbour.py
+.. literalinclude:: ../tests/test_iris_neighbor.py
    :pyobject: test_predict
    :lines: 2-
    :dedent: 1

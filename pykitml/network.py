@@ -1,9 +1,10 @@
 import numpy as np
 
-from . import _base
+from ._minimize_model import MinimizeModel
+from ._classifier import Classifier
 from . import _functions
 
-class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
+class NeuralNetwork(MinimizeModel, Classifier):
     '''
     This class implements Feed Neural Network.
     '''
@@ -18,7 +19,7 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
             layer having 784 neurons, two hidden layers having 100 neurons each and a output layer
             with 10 neurons.
         reg_param : int
-            Regulerization parameter for the network, also known as 'weight decay'.
+            Regularization parameter for the network, also known as 'weight decay'.
         config : str
             The config string describes what activation functions and cost function to use for
             the network. The string should contain three function names seperated with '-' 
@@ -45,11 +46,11 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         func_names = config.split('-')
         func_names_prime = [func_name + '_prime' for func_name in func_names]
         
-        # Initialize regulurization parameter
+        # Initialize regularization parameter
         self._reg_param = reg_param
         self._reg_param_half = reg_param/2
 
-        # Initilize functions
+        # Initialize functions
         self._activ_func = getattr(_functions, func_names[0])
         self._activ_func_prime = getattr(_functions, func_names_prime[0])
         self._output_activ_func = getattr(_functions, func_names[1])
@@ -69,7 +70,7 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         # Intialize parameters
         weights = [np.array([])] * self.nlayers
         biases = [np.array([])] * self.nlayers
-        # Loop through each layer and initalize random weights and biases
+        # Loop through each layer and initialize random weights and biases
         for l in range(1, self.nlayers):
             layer_size = layer_sizes[l]
             input_layer_size = layer_sizes[l-1]
@@ -155,7 +156,7 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         # Calculate the partial derivatives of the cost w.r.t all the weights of layer 'l'
         def calc_dc_dw(l):
             dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1][index])
-            # Regulerization
+            # Regularization
             dc_dw[l] += self._reg_param*self._params[W][l]
 
         # Calculate the partial derivatives of the cost function w.r.t the ouput layer's 
@@ -178,7 +179,7 @@ class NeuralNetwork(_base.MinimizeModel, _base.Classifier):
         )
 
     def _get_norm_weights(self):
-        # If regulerization is zero
+        # If regularization is zero
         if(self._reg_param == 0): return 0
         
         # else

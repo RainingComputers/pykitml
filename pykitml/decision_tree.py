@@ -4,7 +4,7 @@ import numpy as np
 from graphviz import Digraph 
 import tqdm
 
-from . import _base
+from ._classifier import Classifier
 
 
 def condition(column, split, ftype):
@@ -130,11 +130,16 @@ class _Leaf:
         return  str(self._term_val)+'\nNode - '+str(self._index)
 
 
-class DecisionTree(_base.Classifier):
+class DecisionTree(Classifier):
     '''
     Implements Decision Tree model.
     '''
     
+    # Static variable for disabling/enabling confusion matrix plots
+    # If true, calls to confusion_matrix() is ignored
+    # Useful, will not block tests
+    _plot_graphs = True
+
     def __init__(self, input_size, output_size, feature_type=[], max_depth=6):        
         '''
         Parameters
@@ -160,11 +165,11 @@ class DecisionTree(_base.Classifier):
         self._node_count = 0
 
         # The columns on which the tree will train on
-        # This variable can be overidden in a child class to ignore
+        # This variable can be overridden in a child class to ignore
         # certain columns of the input data while training
         self._cols_train = list(range(input_size))
 
-        # CAn be overidden in child class to suppress progressbar while training
+        # CAn be overridden in child class to suppress progressbar while training
         self._pbardis = False
 
         # Tree nodes
@@ -319,7 +324,7 @@ class DecisionTree(_base.Classifier):
 
     def _gini_index(self, outputs):
         '''
-        Geven the outputs of a split dataset, calculates gini index,
+        Given the outputs of a split dataset, calculates gini index,
         i.e. how 'pure' the dataset is. 0 for most pure and 1 for least
         pure.
         '''
@@ -335,6 +340,9 @@ class DecisionTree(_base.Classifier):
         '''
         Draws a visualization/graph of the tree.
         '''
+        # Return if plotting is disabled
+        if(not DecisionTree._plot_graphs): return
+
         print('Drawing Tree...')
 
         def walk(pbar, g, node):

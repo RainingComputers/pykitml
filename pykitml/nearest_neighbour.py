@@ -1,14 +1,14 @@
 import numpy as np
 
-from . import _base
+from ._classifier import Classifier
 from . import _functions
 
-class NearestNeighbour(_base.Classifier):
+class NearestNeighbor(Classifier):
     '''
-    This class implements nearest neighbour classifier.
+    This class implements nearest neighbor classifier.
     '''
 
-    def __init__(self, inputs_size, output_size, no_neighbours=1):
+    def __init__(self, inputs_size, output_size, no_neighbors=1):
         '''
         Parameters
         ----------
@@ -16,10 +16,10 @@ class NearestNeighbour(_base.Classifier):
             Size of input data or number of input features.
         output_size : int
             Number of categories or groups.
-        no_neighbours : int
-            The number of nearest neighbours to consider.
+        no_neighbors : int
+            The number of nearest neighbors to consider.
         '''
-        self._k = no_neighbours
+        self._k = no_neighbors
         self._output = None
 
         self._input_size = inputs_size
