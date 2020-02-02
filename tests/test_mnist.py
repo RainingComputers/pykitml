@@ -318,7 +318,8 @@ def test_predict():
 
     # Show prediction
     digit_classifier.feed(training_data[index])
-    print('Predicted: ', str(digit_classifier.get_output_onehot()))
+    model_output = digit_classifier.get_output_onehot()
+    print('Predicted: ', model_output)
 
 
 if __name__ == '__main__':
@@ -342,5 +343,7 @@ if __name__ == '__main__':
         profiler = cProfile.Profile()
         profiler.runcall(locals()['test_'+sys.argv[1]])
         profiler.dump_stats('test_mnist_'+sys.argv[1]+'.dat') 
+
+        test_predict()
     except AssertionError:
         pass

@@ -1,10 +1,10 @@
-Support Vector Machine with Linear Kernel
-=========================================
+Support Vector Machine
+======================
 
 Class Reference
 ---------------
 
-.. autoclass:: pykitml.LinearSVM
+.. autoclass:: pykitml.SVM
     
     .. automethod:: __init__
 
@@ -24,8 +24,13 @@ Class Reference
 
     .. automethod:: confusion_matrix
 
-Example: Classifying Iris
--------------------------
+Gaussian Kernel
+---------------
+
+.. autofunction:: pykitml.gaussian_kernel
+
+Example: Classifying Iris Using SVM with Linear Kernel
+------------------------------------------------------
 
 **Dataset**
 
@@ -54,3 +59,33 @@ Example: Classifying Iris
 **Confusion Matrix**
 
 .. image :: ./demo_pics/linear_svm_confusion_matrix.png
+
+Example: Handwritten Digit Recognition (MNIST) using Gaussian Kernel
+--------------------------------------------------------------------
+
+**Dataset**
+
+:ref:`mnist_dataset`
+
+**Training**
+
+.. literalinclude:: ../tests/test_mnist_svm.py
+   :pyobject: test_mnist_svm
+   :lines: 2-
+   :end-before: # Assert
+   :dedent: 1
+
+**Predicting**
+
+.. literalinclude:: ../tests/test_mnist_svm.py
+   :pyobject: test_predict
+   :lines: 3-
+   :dedent: 1
+
+**Performance Graph**
+
+.. image:: ./demo_pics/gaussian_svm_perf_graph.png
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/gaussian_svm_confusion_matrix.png

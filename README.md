@@ -62,20 +62,37 @@ import pykitml as pk
 from pykitml.datasets import mnist
 
 # Load dataset
-training_data, training_targets, testing_data, testing_targets = mnist.load()
+inputs_train, outputs_train, inputs_test, outputs_test = mnist.load()
+
+# Use only first 10000
+inputs_train = inputs_train[:10000]
+outputs_train = outputs_train[:10000]
 
 # Load the trained network
-digit_classifier = pk.load('digit_classifier_network.pkl')
+svm_mnist_classifier = pk.load('svm_mnist_classifier.pkl')
 
 # Pick a random example from testing data
-index = random.randint(0, 9999)
+index = random.randint(0, 9000)
 
 # Show the test data and the label
-plt.imshow(training_data[index].reshape(28, 28))
+plt.imshow(inputs_train[index].reshape(28, 28))
 plt.show()
-print('Label: ', training_targets[index])
+print('Label: ', outputs_train[index])
+
+# Transform the input
+input_data = pk.gaussian_kernel(inputs_train[index], inputs_train)
 
 # Show prediction
-digit_classifier.feed(training_data[index])
-print('Predicted: ', str(digit_classifier.get_output_onehot()))
+svm_mnist_classifier.feed(input_data)
+model_output = svm_mnist_classifier.get_output_onehot()
+print('Predicted: ', model_output)
 ```
+
+### Performance Graph
+
+![Performance Graph](docs/demo_pics/neural_network_perf_graph.png)
+
+## Confusion Matrix
+
+![Confusion Matrix](docs/demo_pics/neural_network_confusion_matrix.png)
+

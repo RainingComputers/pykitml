@@ -35,7 +35,7 @@ def test_iris_tree():
     tree_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['Setosa', 'Versicolor', 'Virginica'])
 
-    # Plot descision tree
+    # Plot decision tree
     tree_iris_classifier.show_tree()
 
     # Assert accuracy

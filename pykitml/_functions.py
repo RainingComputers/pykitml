@@ -13,6 +13,8 @@ def pdist(x, y):
     Calculate pairwise square distances between matrix x and y.
     See: https://stackoverflow.com/a/56084419/5516481
     '''
+    if(x.ndim==1): x = np.array([x])
+
     nx, p = x.shape
     x_ext = np.empty((nx, 3*p))
     x_ext[:, :p] = 1
@@ -25,11 +27,7 @@ def pdist(x, y):
     y_ext[p:2*p] = -2*y.T
     y_ext[2*p:] = 1
 
-    return x_ext.dot(y_ext)
-
-# ======================================
-# = Probability distribution functions =
-# ======================================
+    return x_ext.dot(y_ext).squeeze()
 
 # ==============================================
 # = Activation functions and their derivatives =

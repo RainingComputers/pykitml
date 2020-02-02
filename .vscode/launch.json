@@ -133,5 +133,13 @@
             "args": ["adam"],
             "console": "integratedTerminal"
         },
+        {
+            "name": "MNIST SVM",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_mnist_svm.py",
+            "console": "integratedTerminal"
+        },
     ]
 }

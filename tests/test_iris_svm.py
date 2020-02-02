@@ -21,7 +21,7 @@ def test_iris_svm():
     svm_outputs_test = np.where(outputs_test==0, -1, 1)
 
     # Create model
-    svm_iris_classifier = pk.LinearSVM(4, 3)
+    svm_iris_classifier = pk.SVM(4, 3)
 
     # Train the model
     svm_iris_classifier.train(

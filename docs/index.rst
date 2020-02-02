@@ -14,7 +14,7 @@ Documentation and reference for pykitml, simple Machine Learning library written
 
    Linear Regression
    LogisticRegression
-   LinearSVM
+   SVM
    FeedForwardNetwork
    Optimizers
    NearestNeighbor
