@@ -27,7 +27,7 @@ def pdist(x, y):
     y_ext[p:2*p] = -2*y.T
     y_ext[2*p:] = 1
 
-    return x_ext.dot(y_ext).squeeze()
+    return x_ext.dot(y_ext)
 
 # ==============================================
 # = Activation functions and their derivatives =

@@ -4,6 +4,8 @@ import numpy as np
 import pykitml as pk
 from pykitml.datasets import mnist
 
+import pytest
+
 def test_disable_plot():
     # Diable plotting to prevent blocking tests
     pk._plotting._disable_ploting()
@@ -52,7 +54,7 @@ def test_mnist_svm():
         optimizer=pk.Adam(learning_rate=3.5, decay_rate=0.95),
         testing_data=gaussian_inputs_test,
         testing_targets=svm_outputs_test, 
-        testing_freq=50,
+        testing_freq=30,
         decay_freq=10
     )
 
@@ -74,6 +76,7 @@ def test_mnist_svm():
     # Assert if it has enough accuracy
     assert svm_mnist_classifier.accuracy(gaussian_inputs_train, outputs_train) >= 90
 
+@pytest.mark.skip(reason='Will block other tests')
 def test_predict():
     import random
 

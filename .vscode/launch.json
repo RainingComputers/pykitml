@@ -85,11 +85,11 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Iris Nearest Neighbour",
+            "name": "Iris Nearest Neighbor",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/tests",
-            "program": "${workspaceFolder}/tests/test_iris_neighbour.py",
+            "program": "${workspaceFolder}/tests/test_iris_neighbor.py",
             "console": "integratedTerminal"
         },
         {
