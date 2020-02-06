@@ -13,8 +13,9 @@ from .svm import *
 from .naive_bayes import *
 from .decision_tree import *
 from .random_forest import *
-from .nearest_neighbour import *
+from .nearest_neighbor import *
 from .pca import *
+from .kmeans_clustering import *
 from .pklhandler import *
 from .normalize import *
 from .optimizers import *

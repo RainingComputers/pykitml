@@ -68,3 +68,15 @@ Banknote - pykitml.datasets.banknote module
 .. autofunction:: pykitml.datasets.banknote.get
 
 .. autofunction:: pykitml.datasets.banknote.load
+
+
+.. _s1clustering_dataset:
+
+S1 Clustering - pykitml.datasets.s1clustering module
+----------------------------------------------------
+
+.. automodule:: pykitml.datasets.s1clustering
+
+.. autofunction:: pykitml.datasets.s1clustering.get
+
+.. autofunction:: pykitml.datasets.s1clustering.load

@@ -141,5 +141,13 @@
             "program": "${workspaceFolder}/tests/test_mnist_svm.py",
             "console": "integratedTerminal"
         },
+        {
+            "name": "S1 KMEANS",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_s1_kmeans.py",
+            "console": "integratedTerminal"
+        },
     ]
 }

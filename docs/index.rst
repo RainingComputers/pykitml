@@ -22,6 +22,7 @@ Documentation and reference for pykitml, simple Machine Learning library written
    RandomForest
    NaiveBayes
    GaussianNaiveBayes
+   KMeans
    PrincipalComponentAnalysis
    Normalization
    PreprocessingDatasets
