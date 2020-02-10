@@ -1,15 +1,9 @@
-import os
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import banknote
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_banknote_tree():
+    import os
+
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import banknote
@@ -53,9 +47,7 @@ def test_banknote_tree():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_banknote_tree)
-        profiler.dump_stats('test_banknote_tree.dat') 
+        test_banknote_tree.__wrapped__()
     except AssertionError:
         pass
 

@@ -1,16 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import adult
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
-def test_download():
-    adult.get()
-
+@pktest_graph
 def test_adult():
     import os.path
 
@@ -66,10 +56,9 @@ def test_adult():
     # Assert if it has enough accuracy
     assert adult_classifier.accuracy(inputs_test, outputs_test) >= 82
 
+
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_adult)
-        profiler.dump_stats('test_adult.dat') 
+        test_adult.__wrapped__()
     except AssertionError:
         pass

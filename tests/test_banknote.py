@@ -1,16 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import banknote
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
-def test_download():
-    banknote.get()
-
+@pktest_graph
 def test_banknote():
     import os.path
 
@@ -67,7 +57,8 @@ def test_banknote():
     # Assert if it has enough accuracy
     assert banknote_classifier.accuracy(inputs_test_poly, outputs_test) >= 99
 
-def test_predict():
+@pktest_nograph
+def test_predict_banknote():
     import os.path
 
     import numpy as np
@@ -87,7 +78,7 @@ def test_predict():
     array_min, array_max = pk.get_minmax(inputs_train)
     input_data = pk.normalize_minmax(np.array([-2.3, -9.3, 9.37, -0.86]), array_min, array_max)
 
-    # Create plynomial features
+    # Create polynomial features
     input_data_poly = pk.polynomial(input_data)
 
     # Get output
@@ -99,10 +90,7 @@ def test_predict():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_banknote)
-        profiler.dump_stats('test_banknote.dat') 
-
-        test_predict()
+        test_banknote.__wrapped__()
+        test_predict_banknote.__wrapped__()
     except AssertionError:
         pass

@@ -40,7 +40,7 @@ Example: Classifying Iris Using SVM with Linear Kernel
 
 .. literalinclude:: ../tests/test_iris_svm.py
    :pyobject: test_iris_svm
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
@@ -48,8 +48,8 @@ Example: Classifying Iris Using SVM with Linear Kernel
 5.8, 2.7, 3.9, 1.2**
 
 .. literalinclude:: ../tests/test_iris_svm.py
-   :pyobject: test_predict
-   :lines: 2-
+   :pyobject: test_predict_iris_svm
+   :lines: 3-
    :dedent: 1
 
 **Performance Graph**
@@ -71,14 +71,14 @@ Example: Handwritten Digit Recognition (MNIST) using Gaussian Kernel
 
 .. literalinclude:: ../tests/test_mnist_svm.py
    :pyobject: test_mnist_svm
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
 **Predicting**
 
 .. literalinclude:: ../tests/test_mnist_svm.py
-   :pyobject: test_predict
+   :pyobject: test_predict_mnist_svm
    :lines: 3-
    :dedent: 1
 

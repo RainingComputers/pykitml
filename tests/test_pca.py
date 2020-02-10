@@ -1,6 +1,6 @@
-import pytest
+from pykitml.testing import pktest_graph, pktest_nograph
 
-@pytest.mark.skip(reason='plt.show() will block pytest')
+@pktest_graph
 def test_pca_compression():
     import os.path
     import random
@@ -45,5 +45,6 @@ def test_pca_compression():
     # Show results
     plt.show()    
 
+
 if __name__ == '__main__':
-    test_pca_compression()
+    test_pca_compression.__wrapped__()

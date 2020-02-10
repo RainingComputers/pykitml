@@ -28,15 +28,15 @@ Example: Predicting Fish Length
 
 .. literalinclude:: ../tests/test_fishlength.py
    :pyobject: test_fishlength
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
 **Predict length of fish that is 28 days old at 25C**
 
 .. literalinclude:: ../tests/test_fishlength.py
-   :pyobject: test_predict
-   :lines: 2-
+   :pyobject: test_predict_fishlength
+   :lines: 3-
    :dedent: 1
 
 **Performance Graph**

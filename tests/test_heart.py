@@ -1,13 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import heartdisease
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_heart():
     import os.path
 
@@ -58,8 +51,6 @@ def test_heart():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_heart)
-        profiler.dump_stats('test_heart.dat') 
+        test_heart.__wrapped__()
     except AssertionError:
         pass

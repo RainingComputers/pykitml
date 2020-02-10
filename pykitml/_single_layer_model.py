@@ -68,7 +68,7 @@ class SingleLayerModel(MinimizeModel, ABC):
 
         # feed
         self._input_activations = input_data
-        self._weighted_sum = (input_data@self._params[W].transpose()) + self._params[B]
+        self._weighted_sum = (input_data @ self._params[W].T) + self._params[B]
         self._activations = self._activ_func(self._weighted_sum)
 
     def get_output(self):

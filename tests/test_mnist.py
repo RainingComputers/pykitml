@@ -1,16 +1,10 @@
 import sys
 import os.path
-import cProfile
 
 import numpy as np
 import pykitml as pk
 from pykitml.datasets import mnist
-
-import pytest
-
-def test_disable_plot():
-    # Diable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
+from pykitml.testing import pktest_graph, pktest_nograph
 
 def test_download():
     # Download the mnist data set
@@ -18,6 +12,7 @@ def test_download():
     # Test ran successfully
     assert True
 
+@pktest_graph
 def test_adagrad():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -56,6 +51,7 @@ def test_adagrad():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
+@pktest_graph
 def test_nesterov():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -94,6 +90,7 @@ def test_nesterov():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
+@pktest_graph
 def test_relu_nesterov():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -132,6 +129,7 @@ def test_relu_nesterov():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
+@pktest_graph
 def test_momentum():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -170,6 +168,7 @@ def test_momentum():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 94
 
+@pktest_graph
 def test_gradient_descent():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -208,6 +207,7 @@ def test_gradient_descent():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 92
 
+@pktest_graph
 def test_RMSprop():
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
@@ -246,6 +246,7 @@ def test_RMSprop():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 95
 
+@pktest_graph
 def test_adam():
     import os.path
 
@@ -293,8 +294,8 @@ def test_adam():
     # Assert if it has enough accuracy
     assert digit_classifier.accuracy(training_data, training_targets) > 95
 
-@pytest.mark.skip(reason='Will block other tests')
-def test_predict():
+@pktest_graph
+def test_predict_mnist_adam():
     import random
 
     import numpy as np
@@ -321,14 +322,13 @@ def test_predict():
     model_output = digit_classifier.get_output_onehot()
     print('Predicted: ', model_output)
 
-
 if __name__ == '__main__':
     # List of optimizers
     optimizers = [
         'gradient_descent', 'momentum', 'nesterov',
         'adagrad', 'RMSprop', 'adam' 
     ]
-    # Chack if arguments passed to the script is correct
+    # Check if arguments passed to the script is correct
     if(len(sys.argv) != 2 or sys.argv[1] not in optimizers):
         print('Usage: python3 test_mnist.py OPTIMIZER')
         print('List of available optimizers:')
@@ -338,12 +338,9 @@ if __name__ == '__main__':
     # If the dataset is not available then download it
     if(not os.path.exists('mnist.pkl')): mnist.get()
 
-    # Run the requested optmizer test function
+    # Run the requested optimizer test function
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(locals()['test_'+sys.argv[1]])
-        profiler.dump_stats('test_mnist_'+sys.argv[1]+'.dat') 
-
-        test_predict()
+        locals()['test_'+sys.argv[1]].__wrapped__()
+        test_predict_mnist_adam.__wrapped__()
     except AssertionError:
         pass

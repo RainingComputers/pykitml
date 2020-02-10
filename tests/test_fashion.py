@@ -1,22 +1,20 @@
-import sys
-import os.path
-import cProfile
-
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import mnist
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
+from pykitml.testing import pktest_graph, pktest_nograph
 
 def test_download():
+    from pykitml.datasets import mnist
     # Download the mnist data set
     mnist.get(type='fashion')
     # Test ran successfully
     assert True
 
-def test_adam():
+@pktest_graph
+def test_adam_fashion():
+    import os
+
+    import numpy as np
+    import pykitml as pk
+    from pykitml.datasets import mnist
+    
     # If the dataset is not available then download it
     if(not os.path.exists('mnist.pkl')): mnist.get(type='fashion')
 
@@ -64,11 +62,8 @@ def test_adam():
     assert fashion_classifier.accuracy(training_data, training_targets) > 84
 
 if __name__ == '__main__':
-    # Run the requested optimizer test function
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_adam)
-        profiler.dump_stats('test_mnist_fasion.dat') 
+        test_adam_fashion.__wrapped__()
     except AssertionError:
         pass
     

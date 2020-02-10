@@ -1,18 +1,12 @@
-import os
-import cProfile
-
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import adult
+from pykitml.testing import pktest_graph, pktest_nograph
 
 import pytest
 
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
 @pytest.mark.skip(reason='Will take too long')
+@pktest_graph
 def test_adult_forest():
+    import os
+
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import adult
@@ -54,8 +48,6 @@ def test_adult_forest():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_adult_forest)
-        profiler.dump_stats('test_adult_forest.dat') 
+        test_adult_forest.__wrapped__()
     except AssertionError:
         pass

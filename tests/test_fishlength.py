@@ -1,13 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import fishlength
-
-def test_disable_plot():
-    # Diable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_fishlength():
     import numpy as np
     import pykitml as pk
@@ -50,7 +43,8 @@ def test_fishlength():
     # Assert if it has enough accuracy
     assert fish_classifier.cost(inputs_poly, outputs) <= 0
 
-def test_predict():
+@pktest_nograph
+def test_predict_fishlength():
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import fishlength
@@ -84,11 +78,9 @@ def test_predict():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_fishlength)
-        profiler.dump_stats('test_fishlength.dat')
+        test_fishlength.__wrapped__()
 
-        test_predict() 
+        test_predict_fishlength.__wrapped__()
     except AssertionError:
         pass
 

@@ -31,7 +31,7 @@ Example: Classifying Iris
 
 .. literalinclude:: ../tests/test_iris_bayes.py
    :pyobject: test_iris_bayes
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
@@ -39,8 +39,8 @@ Example: Classifying Iris
 5.8, 2.7, 3.9, 1.2**
 
 .. literalinclude:: ../tests/test_iris_bayes.py
-   :pyobject: test_predict
-   :lines: 2-
+   :pyobject: test_predict_iris_bayes
+   :lines: 3-
    :dedent: 1
 
 **Confusion Matrix**

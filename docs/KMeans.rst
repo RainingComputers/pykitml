@@ -17,7 +17,7 @@ Example: S1 Dataset
 
 .. literalinclude:: ../tests/test_s1_kmeans.py
    :pyobject: test_s1_kmeans
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 

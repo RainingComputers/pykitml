@@ -1,13 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import iris
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_iris():
     import numpy as np
     import pykitml as pk
@@ -58,8 +51,6 @@ def test_iris():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_iris)
-        profiler.dump_stats('test_iris.dat') 
+        test_iris.__wrapped__()
     except AssertionError:
         pass

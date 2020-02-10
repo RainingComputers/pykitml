@@ -1,7 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import pytest
-
+@pktest_graph
 def test_s1_kmeans():
     import os
     
@@ -29,12 +28,10 @@ def test_s1_kmeans():
     plt.show()
 
     # Assert cost
-    assert cost <= 1783523130
+    assert cost <= 1790000000
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_s1_kmeans)
-        profiler.dump_stats('s1_kmeans.dat') 
+        test_s1_kmeans.__wrapped__()
     except AssertionError:
         pass

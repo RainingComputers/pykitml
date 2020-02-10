@@ -123,11 +123,11 @@ class NeuralNetwork(MinimizeModel, Classifier):
 
         # Feed through hidden layers
         for l in range(1, self.nlayers-1):
-            self._weighted_sums[l] = (self._activations[l-1]@self._params[W][l].transpose()) + self._params[B][l]
+            self._weighted_sums[l] = (self._activations[l-1]@self._params[W][l].T) + self._params[B][l]
             self._activations[l] = self._activ_func(self._weighted_sums[l])
 
         # Feed thorugh output layer
-        self._weighted_sums[-1] = (self._activations[-2]@self._params[W][-1].transpose()) + self._params[B][-1]
+        self._weighted_sums[-1] = (self._activations[-2]@self._params[W][-1].T) + self._params[B][-1]
         self._activations[-1] = self._output_activ_func(self._weighted_sums[-1])
 
     def get_output(self):

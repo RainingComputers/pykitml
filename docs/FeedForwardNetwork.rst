@@ -37,14 +37,14 @@ Example: Handwritten Digit Recognition (MNIST)
 
 .. literalinclude:: ../tests/test_mnist.py
    :pyobject: test_adam
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
 **Predicting**
 
 .. literalinclude:: ../tests/test_mnist.py
-   :pyobject: test_predict
+   :pyobject: test_predict_mnist_adam
    :lines: 3-
    :dedent: 1
 

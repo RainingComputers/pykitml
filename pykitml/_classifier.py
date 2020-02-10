@@ -14,11 +14,6 @@ class Classifier(ABC):
     Mix-in class for classifier models.
     '''
 
-    # Static variable for disabling/enabling confusion matrix plots
-    # If true, calls to confusion_matrix() is ignored
-    # Useful, will not block tests
-    _plot_graphs = True
-
     @abstractmethod
     def get_output(self):
         '''
@@ -146,9 +141,6 @@ class Classifier(ABC):
         confusion_matrix : numpy.array
             The confusion matrix. 
         '''
-        # Return if plotting is disabled
-        if(not Classifier._plot_graphs): return
-    
         print('Creating Confusion Matrix...')
 
         # feed the data

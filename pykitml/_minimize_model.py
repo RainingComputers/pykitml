@@ -10,11 +10,6 @@ class MinimizeModel(ABC):
     Abstract base class for all models that use gradients and minimize a cost function.
     '''
 
-    # Static variable for diabling/enabling performance graphs
-    # If true, calls to plot_performance() is ignored
-    # Useful, will not block tests
-    _plot_graphs = True
-
     def train(self, training_data, targets, batch_size, epochs, optimizer,
             testing_data=None, testing_targets=None, testing_freq=1, decay_freq=1):
         '''
@@ -142,9 +137,6 @@ class MinimizeModel(ABC):
         IndexError
             If :py:func:`train` failed.
         '''
-        # Return if plotting is disabled
-        if(not MinimizeModel._plot_graphs): return
-
         graph = self._performance_log
 
         # Window title

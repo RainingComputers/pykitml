@@ -21,4 +21,4 @@ from .normalize import *
 from .optimizers import *
 from .preprocessing import *
 
-from . import _plotting
+from . import testing

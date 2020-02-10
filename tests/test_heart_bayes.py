@@ -1,17 +1,6 @@
-import cProfile
-import os.path
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import heartdisease
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
-def test_download():
-    heartdisease.get()
-
+@pktest_graph
 def test_heart_bayes():
     import os.path
 
@@ -56,7 +45,8 @@ def test_heart_bayes():
     # Assert accuracy
     assert (bayes_heart_classifier.accuracy(inputs, outputs)) > 84
 
-def test_predict():
+@pktest_nograph
+def test_predict_heart_bayes():
     import os.path
 
     import numpy as np
@@ -80,10 +70,7 @@ def test_predict():
 if __name__ == '__main__':
     # Train
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_heart_bayes)
-        profiler.dump_stats('test_heart_bayes.dat') 
-
-        test_predict()
+        test_heart_bayes.__wrapped__()
+        test_predict_heart_bayes.__wrapped__()
     except AssertionError:
         pass

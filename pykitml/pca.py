@@ -17,7 +17,7 @@ class PCA:
             Number of principle components to use.
         '''
         # Calculate covariance matrix
-        covariance_matrix = np.transpose(data_points)@data_points;
+        covariance_matrix = (data_points.T) @ data_points;
         covariance_matrix = covariance_matrix/data_points.shape[0]
 
         # Perform Singular Value Decomposition on the comvariance matrix
@@ -52,7 +52,7 @@ class PCA:
 
         '''
         # Transform from principle components back to approx feature
-        return pca_points@np.transpose(self._transform)
+        return pca_points @ (self._transform.T)
 
     @property
     def retention(self):

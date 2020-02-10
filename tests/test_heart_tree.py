@@ -1,14 +1,6 @@
-import cProfile
-import os
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import heartdisease
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_heart_tree():
     import os.path
     
@@ -52,10 +44,9 @@ def test_heart_tree():
     # Assert accuracy
     assert (tree_heart_classifier.accuracy(inputs, outputs)) >= 94
 
+
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_heart_tree)
-        profiler.dump_stats('test_heart_tree.dat') 
+        test_heart_tree.__wrapped__()
     except AssertionError:
         pass

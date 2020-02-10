@@ -1,13 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import iris
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_iris_neighbor():
     import numpy as np
     import pykitml as pk
@@ -41,7 +34,8 @@ def test_iris_neighbor():
     # Assert if it has enough accuracy
     assert neighbor_iris_classifier.accuracy(inputs_train, outputs_train) >= 100
 
-def test_predict():
+@pktest_nograph
+def test_predict_iris_neighbor():
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import iris
@@ -63,10 +57,7 @@ def test_predict():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_iris_neighbor)
-        profiler.dump_stats('test_iris_neighbor.dat') 
-
-        test_predict()
+        test_iris_neighbor.__wrapped__()
+        test_predict_iris_neighbor.__wrapped__()
     except AssertionError:
         pass

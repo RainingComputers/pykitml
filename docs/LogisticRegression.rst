@@ -35,7 +35,7 @@ Example: Banknote Authentication
 
 .. literalinclude:: ../tests/test_banknote.py
    :pyobject: test_banknote
-   :lines: 2-
+   :lines: 3-
    :end-before: # Assert
    :dedent: 1
 
@@ -43,8 +43,8 @@ Example: Banknote Authentication
 -2.3, -9.3, 9.37, -0.86**
 
 .. literalinclude:: ../tests/test_banknote.py
-   :pyobject: test_predict
-   :lines: 2-
+   :pyobject: test_predict_banknote
+   :lines: 3-
    :dedent: 1
 
 **Performance Graph**

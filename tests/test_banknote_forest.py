@@ -1,15 +1,9 @@
-import os
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import banknote
-
-def test_disable_plot():
-    # Disable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
+@pktest_graph
 def test_banknote_forest():
+    import os
+
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import banknote
@@ -48,7 +42,8 @@ def test_banknote_forest():
     # Assert accuracy
     assert (forest_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
 
-def test_predict():
+@pktest_nograph
+def test_predict_banknote_forest():
     import os.path
 
     import numpy as np
@@ -71,11 +66,8 @@ def test_predict():
 
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_banknote_forest)
-        profiler.dump_stats('test_banknote_forest.dat')
-
-        test_predict() 
+        test_banknote_forest.__wrapped__()
+        test_predict_banknote_forest.__wrapped__()
     except AssertionError:
         pass
 

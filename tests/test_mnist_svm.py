@@ -1,21 +1,6 @@
-import cProfile
+from pykitml.testing import pktest_graph, pktest_nograph
 
-import numpy as np
-import pykitml as pk
-from pykitml.datasets import mnist
-
-import pytest
-
-def test_disable_plot():
-    # Diable plotting to prevent blocking tests
-    pk._plotting._disable_ploting()
-
-def test_download():
-    # Download the mnist data set
-    mnist.get()
-    # Test ran successfully
-    assert True
-
+@pktest_graph
 def test_mnist_svm():
     import os.path
 
@@ -76,8 +61,8 @@ def test_mnist_svm():
     # Assert if it has enough accuracy
     assert svm_mnist_classifier.accuracy(gaussian_inputs_train, outputs_train) >= 90
 
-@pytest.mark.skip(reason='Will block other tests')
-def test_predict():
+@pktest_graph
+def test_predict_mnist_svm():
     import random
 
     import numpy as np
@@ -111,13 +96,9 @@ def test_predict():
     model_output = svm_mnist_classifier.get_output_onehot()
     print('Predicted: ', model_output)
 
-
 if __name__ == '__main__':
     try:
-        profiler = cProfile.Profile()
-        profiler.runcall(test_mnist_svm)
-        profiler.dump_stats('test_mnist_svm.dat') 
-
-        test_predict()
+        test_mnist_svm.__wrapped__()
+        test_predict_mnist_svm.__wrapped__()
     except AssertionError:
         pass
