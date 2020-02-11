@@ -6,6 +6,8 @@ from functools import wraps
 import matplotlib.pyplot as plt
 from graphviz import Digraph 
 
+import numpy as np
+
 
 def _profile(test_func):
     '''
@@ -16,6 +18,8 @@ def _profile(test_func):
     test_func : function
         The function to test and profile.
     '''
+    # Reset random seed
+    np.random.seed(0)
     # Call the test function and profile it
     profiler = cProfile.Profile()
     profiler.runcall(test_func)
@@ -35,14 +39,18 @@ def pktest_graph(test_func):
     # Create wrapper function for testing and profiling in pytest
     @wraps(test_func)
     def test_wrapper():
+        # Close any open plots
+        plt.close()
+        plt.clf()
+
         with patch('matplotlib.pyplot.show') as show_func, patch('graphviz.Digraph.view') as view_func:
+            # Run the test function
             _profile(test_func)
         
             # Test if graph worked
             if "PYTEST_CURRENT_TEST" in os.environ:
                 assert show_func.called
-                plt.close()
-                plt.clf()
+                
 
     return test_wrapper
 

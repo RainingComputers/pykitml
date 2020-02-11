@@ -48,7 +48,6 @@ def test_predict_banknote_forest():
 
     import numpy as np
     import pykitml as pk
-    from pykitml.datasets import banknote
 
     # Predict banknote validity with variance, skewness, curtosis, entropy
     # of -2.3, -9.3, 9.37, -0.86

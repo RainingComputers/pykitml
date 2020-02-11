@@ -38,7 +38,6 @@ def test_iris_neighbor():
 def test_predict_iris_neighbor():
     import numpy as np
     import pykitml as pk
-    from pykitml.datasets import iris
 
     # Predict type of species with 
     # sepal-length sepal-width petal-length petal-width

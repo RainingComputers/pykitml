@@ -35,7 +35,6 @@ def test_iris_bayes():
 def test_predict_iris_bayes():
     import numpy as np
     import pykitml as pk
-    from pykitml.datasets import iris
 
     # Predict type of species with 
     # sepal-length sepal-width petal-length petal-width

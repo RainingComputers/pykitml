@@ -35,6 +35,9 @@ def kmeans(training_data, nclusters, max_iter=1000, trials=50):
     distances = None
     clusters_min_cost = None
     clusters = None
+
+    # Keep log of maximum number of iterations for convergence
+    max_iter_log = 0
     
     pbar = tqdm.trange(0, trials, ncols=80, unit='trials')
     for trial in pbar:
@@ -85,6 +88,12 @@ def kmeans(training_data, nclusters, max_iter=1000, trials=50):
         if(cost < min_cost):
             clusters_min_cost = clusters
             min_cost = cost
-        pbar.set_postfix(cost=min_cost)
+
+        # Update maximum iterations for convergence
+        if(iteration > max_iter_log):
+            max_iter_log = iteration
+
+        # Update progress bar
+        pbar.set_postfix(cost=min_cost, max_it=max_iter_log)
 
     return clusters_min_cost, min_cost
