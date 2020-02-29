@@ -48,3 +48,31 @@ Example: Banknote Authentication
 **Confusion Matrix**
 
 .. image:: ./demo_pics/forest_confusion_matrix.png
+
+Example: Heart Disease Prediction
+---------------------------------
+
+**Dataset**
+
+:ref:`heart_dataset`
+
+**Training**
+
+.. literalinclude:: ../tests/test_heart_forest.py
+   :pyobject: test_heart_forest
+   :lines: 3-
+   :end-before: # Assert
+   :dedent: 1
+
+**Predict heartdisease for a person with 
+age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal:
+67, 1, 4, 160, 286, 0, 2, 108, 1, 1.5, 2, 3, 3**
+
+.. literalinclude:: ../tests/test_heart_forest.py
+   :pyobject: test_predict_heart_forest
+   :lines: 3-
+   :dedent: 1
+
+**Confusion Matrix**
+
+.. image:: ./demo_pics/forest_heart_confusion_matrix.png

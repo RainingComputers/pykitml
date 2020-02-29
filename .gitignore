@@ -4,6 +4,7 @@
 # Datasets
 *.data
 *.gz
+*.*data
 
 # TODO list
 TODO.txt

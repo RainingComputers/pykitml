@@ -4,7 +4,11 @@ import numpy as np
 import tqdm
 
 from ._classifier import Classifier
-from . import _distributions
+from ._exceptions import _valid_list, InvalidDistributionType
+
+def _gaussian(x, mean, std_dev):
+    sqrt_2pi = np.sqrt(2*np.pi)
+    return (1/(std_dev*sqrt_2pi))*np.exp(-0.5*(((x-mean)/std_dev)**2))
 
 class NaiveBayes(Classifier):
     '''
@@ -39,8 +43,9 @@ class NaiveBayes(Classifier):
 
         Raises
         ------
-        AttributeError
-            If invalid distribution.
+        InvalidDistributionType
+            If invalid distribution. Can only be :code:`'gaussian'`, 
+            :code:`'binomial'`, :code:`'multinomial'`.
         IndexError
             If the input_size does not match the length of distribution length.
         '''
@@ -51,8 +56,10 @@ class NaiveBayes(Classifier):
 
         self._dists = distributions
 
-        # Get distribution function
-        self._pdist = [getattr(_distributions, dist_name) for dist_name in distributions]
+        # Check if given distributions are valid
+        valid_dists = ['gaussian', 'binomial', 'multinomial']
+        if not _valid_list(distributions, valid_dists):
+            raise InvalidDistributionType
 
         # indices of categorical features
         self._categorical = [i for i, x in enumerate(distributions) if x!='gaussian']
@@ -92,7 +99,7 @@ class NaiveBayes(Classifier):
                     p_xici = self._freqp[C][x][input_data[:, x].astype(int)]
                 # p(xi|Ci) if continues feature
                 else:    
-                    p_xici = self._pdist[x](input_data[:, x], self._mean[C][x], self._std_dev[C][x])
+                    p_xici = _gaussian(input_data[:, x], self._mean[C][x], self._std_dev[C][x])
                 
                 # log(p(x|Ci)) = sum(log(p(xi|Ci)))
                 p_xci += np.log(p_xici)
@@ -200,7 +207,7 @@ class GaussianNaiveBayes(NaiveBayes):
         # Loop through each group and find probability
         for C in range(0, self._output_size):
             # Calculate p(xi|Ci)
-            p_xici = _distributions.gaussian(input_data, self._mean[C], self._std_dev[C])
+            p_xici = _gaussian(input_data, self._mean[C], self._std_dev[C])
             
             # log(p(x|Ci)) = sum(log(p(xi|Ci)))
             p_xci = np.log(p_xici).sum(axis=1)

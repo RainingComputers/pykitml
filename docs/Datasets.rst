@@ -70,6 +70,18 @@ Banknote - pykitml.datasets.banknote module
 .. autofunction:: pykitml.datasets.banknote.load
 
 
+.. _sonar_dataset:
+
+Sonar Rocks and Mines - pykitml.datasets.sonar module
+-------------------------------------------------------
+
+.. automodule:: pykitml.datasets.sonar
+
+.. autofunction:: pykitml.datasets.sonar.get
+
+.. autofunction:: pykitml.datasets.sonar.load
+
+
 .. _s1clustering_dataset:
 
 S1 Clustering - pykitml.datasets.s1clustering module

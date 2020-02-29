@@ -5,6 +5,7 @@ from graphviz import Digraph
 import tqdm
 
 from ._classifier import Classifier
+from ._exceptions import _valid_list, InvalidFeatureType
 
 
 def condition(column, split, ftype):
@@ -150,6 +151,12 @@ class DecisionTree(Classifier):
         max_depth : int
             The maximum depth the tree can grow to. Prevents from 
             overfitting (somewhat).
+
+        Raises
+        ------
+        InvalidFeatureType
+            Invalid/Unknown feature type. Can only be :code:`'continues'`, 
+            :code:`'ranked'`, or :code:`'categorical'`.
         '''
 
         # Save values
@@ -158,6 +165,11 @@ class DecisionTree(Classifier):
         self._ftype = feature_type
         self._max_depth = max_depth
         self._node_count = 0
+
+        # Check if given feature types are valid
+        valid_ftypes = ['continues', 'ranked', 'categorical']
+        if not _valid_list(feature_type, valid_ftypes):
+            raise InvalidFeatureType
 
         # The columns on which the tree will train on
         # This variable can be overridden in a child class to ignore
@@ -190,9 +202,6 @@ class DecisionTree(Classifier):
 
         Raises
         ------
-        TypeError
-            Invalid/Unknown feature type. Can only be :code:`'continues'`, 
-            :code:`'ranked'`, or :code:`'categorical'`.
         numpy.AxisError
             If output_size is less than two. Use :py:func:`pykitml.onehot` to change
             0/False to [1, 0] and 1/True to [0, 1] for binary classification.

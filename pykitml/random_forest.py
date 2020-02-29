@@ -39,6 +39,12 @@ class RandomForest(Classifier):
             :code:`'ranked'`, or :code:`'categorical'`.
         max_depth : int
             The maximum depth the trees can grow to.
+
+        Raises
+        ------
+        InvalidFeatureType
+            Invalid/Unknown feature type. Can only be :code:`'continues'`, 
+            :code:`'ranked'`, or :code:`'categorical'`.
         '''
         # Save values
         self._input_size = input_size
@@ -82,9 +88,6 @@ class RandomForest(Classifier):
 
         Raises
         ------
-        TypeError
-            Invalid/Unknown feature type. Can only be :code:`'continues'`, 
-            :code:`'ranked'`, or :code:`'categorical'`.
         numpy.AxisError
             If output_size is less than two. Use :py:func:`pykitml.onehot` to change
             0/False to [1, 0] and 1/True to [0, 1] for binary classification.
