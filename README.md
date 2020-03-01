@@ -3,10 +3,34 @@
 # pykitml (Python Kit for Machine Learning)
 Machine Learning library written in Python and NumPy.
 
-Documentation: https://pykitml.readthedocs.io/en/latest/
+### Documentation
+
+https://pykitml.readthedocs.io/en/latest/
+
+### Models
++ Linear Regression
++ Logistic Regression
++ Support Vector Machine
++ Neural Network
++ Nearest Neighbor
++ Decision Tree
++ Random Forest
++ Naive Bayes
++ K-Means Clustering
++ Principle Component Analysis
+
+### Benchmark (Intel i5-6400, 4 cores @ 3.3GHz)
+
+| Model                                               | Dataset | Dataset Size | Time          |
+|-----------------------------------------------------|---------|--------------|---------------|
+| Logistic regression, 1500 epochs, 10 examples/batch | Adult   | 392106x13    | < 1 sec       |
+| 784x100x10 Network, 1200 epochs, 50 examples/batch  | MNIST   | 60000x784    | 35 sec        |
+| SVM, 1000 epochs, 20 examples/batch                 | MNIST   | 10000x784    | 39 sec        |
+| Decision Tree, 6 max-depth, 83 nodes                | Adult   | 392106x13    | 1 min 51 sec  |
+| Random forest, 9 max depth, 100 trees               | Adult   | 392106x13    | 1 hour 35 min |
 
 # Demo (MNIST)
-### Training:
+### Training
 ``` python
 import os.path
 
@@ -52,7 +76,7 @@ digit_classifier.plot_performance()
 digit_classifier.confusion_matrix(training_data, training_targets)
 ```
 
-### Trying the model:
+### Trying the model
 ```python
 import random
 
@@ -95,4 +119,3 @@ print('Predicted: ', model_output)
 ## Confusion Matrix
 
 ![Confusion Matrix](docs/demo_pics/neural_network_confusion_matrix.png)
-

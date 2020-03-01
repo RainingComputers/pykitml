@@ -121,7 +121,7 @@ class Classifier(ABC):
         # return accuracy
         return round(accuracy, 2) 
 
-    def confusion_matrix(self, test_data, test_targets, plot=True, gnames=[]):   
+    def confusion_matrix(self, test_data, test_targets, gnames=[], plot=True,):   
         '''
         Returns and plots confusion matrix on the given test data.
 
