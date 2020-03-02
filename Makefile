@@ -16,6 +16,8 @@ clean:
 	rm -f -r pykitml/__pycache__
 	make -C tests/ clean
 	make -C docs/ clean
+	rm -f -r build/
+	rm -f -r dist/
 
 test:
 	make -C tests/ test
