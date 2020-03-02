@@ -3,6 +3,10 @@
 # pykitml (Python Kit for Machine Learning)
 Machine Learning library written in Python and NumPy.
 
+### Installation
+
+```python3 -m pip install pykitml```
+
 ### Documentation
 
 https://pykitml.readthedocs.io/en/latest/
@@ -27,7 +31,7 @@ https://pykitml.readthedocs.io/en/latest/
 | 784x100x10 Network, 1200 epochs, 50 examples/batch  | MNIST   | 60000x784    | 35 sec        |
 | SVM, 1000 epochs, 20 examples/batch                 | MNIST   | 10000x784    | 39 sec        |
 | Decision Tree, 6 max-depth, 83 nodes                | Adult   | 392106x13    | 1 min 51 sec  |
-| Random forest, 9 max depth, 100 trees               | Adult   | 392106x13    | 1 hour 35 min |
+| Random forest, 9 max-depth, 100 trees               | Adult   | 392106x13    | 1 hour 35 min |
 
 # Demo (MNIST)
 ### Training
