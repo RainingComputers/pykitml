@@ -11,7 +11,7 @@ def test_pca_compression():
     from pykitml.datasets import mnist
     
     # Download dataset
-    if(not os.path.exists('mnist.pkl')): mnist.get(type='fashion')
+    if(not os.path.exists('mnist.pkl')): mnist.get()
 
     # Load dataset
     training_data, training_targets, testing_data, testing_targets = mnist.load()
