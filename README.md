@@ -5,7 +5,9 @@ Machine Learning library written in Python and NumPy.
 
 ### Installation
 
-```python3 -m pip install pykitml```
+```
+python3 -m pip install pykitml
+```
 
 ### Documentation
 
