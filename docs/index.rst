@@ -8,6 +8,14 @@ pykitml (Python Kit for Machine Learning) Docs
 
 Documentation and reference for pykitml, simple Machine Learning library written in Python and NumPy.
 
+
+Installation
+------------
+
+.. code-block:: bash
+
+   python3 -m pip install pykitml
+
 .. toctree::
    :maxdepth: 1
    :caption: Package Reference:
