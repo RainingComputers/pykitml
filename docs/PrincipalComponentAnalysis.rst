@@ -20,7 +20,7 @@ Example: Compressing Fashion MNIST dataset
 .. literalinclude:: ../tests/test_pca.py
    :pyobject: test_pca_compression
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Original/Uncompressed**
 

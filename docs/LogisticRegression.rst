@@ -37,7 +37,7 @@ Example: Banknote Authentication
    :pyobject: test_banknote
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict banknote validity with variance, skewness, curtosis, entropy: 
 -2.3, -9.3, 9.37, -0.86**
@@ -45,7 +45,7 @@ Example: Banknote Authentication
 .. literalinclude:: ../tests/test_banknote.py
    :pyobject: test_predict_banknote
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Performance Graph**
 

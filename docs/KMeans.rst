@@ -19,7 +19,7 @@ Example: S1 Dataset
    :pyobject: test_s1_kmeans
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Scatter Plot**
 

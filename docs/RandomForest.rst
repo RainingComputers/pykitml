@@ -35,7 +35,7 @@ Example: Banknote Authentication
    :pyobject: test_banknote_forest
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict banknote validity with variance, skewness, curtosis, entropy: 
 -2.3, -9.3, 9.37, -0.86**
@@ -43,7 +43,7 @@ Example: Banknote Authentication
 .. literalinclude:: ../tests/test_banknote_forest.py
    :pyobject: test_predict_banknote_forest
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Confusion Matrix**
 
@@ -62,7 +62,7 @@ Example: Heart Disease Prediction
    :pyobject: test_heart_forest
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict heartdisease for a person with 
 age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal:
@@ -71,7 +71,7 @@ age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, 
 .. literalinclude:: ../tests/test_heart_forest.py
    :pyobject: test_predict_heart_forest
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Confusion Matrix**
 

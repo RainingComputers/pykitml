@@ -30,14 +30,14 @@ Example: Predicting Fish Length
    :pyobject: test_fishlength
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict length of fish that is 28 days old at 25C**
 
 .. literalinclude:: ../tests/test_fishlength.py
    :pyobject: test_predict_fishlength
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Performance Graph**
 

@@ -33,7 +33,7 @@ Example: Heart Disease Prediction
    :pyobject: test_heart_bayes
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict heartdisease for a person with 
 age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal:
@@ -42,7 +42,7 @@ age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, 
 .. literalinclude:: ../tests/test_heart_bayes.py
    :pyobject: test_predict_heart_bayes
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Confusion Matrix**
 

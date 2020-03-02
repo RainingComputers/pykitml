@@ -35,7 +35,7 @@ Example: Classifying Iris
    :pyobject: test_iris_tree
    :lines: 3-
    :end-before: # Assert
-   :dedent: 1
+   :dedent: 4
 
 **Predict type of species with sepal-length, sepal-width, petal-length, petal-width: 
 5.8, 2.7, 3.9, 1.2**
@@ -43,7 +43,7 @@ Example: Classifying Iris
 .. literalinclude:: ../tests/test_iris_tree.py
    :pyobject: test_predict_iris_tree
    :lines: 3-
-   :dedent: 1
+   :dedent: 4
 
 **Tree Graph**
 
