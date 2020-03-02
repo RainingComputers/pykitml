@@ -1,4 +1,4 @@
-![pykitml logo](pykitml128.png)
+![pykitml logo](https://raw.githubusercontent.com/RainingComputers/pykitml/master/pykitml128.png)
 
 # pykitml (Python Kit for Machine Learning)
 Machine Learning library written in Python and NumPy.
@@ -118,8 +118,8 @@ print('Predicted: ', model_output)
 
 ### Performance Graph
 
-![Performance Graph](docs/demo_pics/neural_network_perf_graph.png)
+![Performance Graph](https://raw.githubusercontent.com/RainingComputers/pykitml/master/docs/demo_pics/neural_network_perf_graph.png)
 
 ## Confusion Matrix
 
-![Confusion Matrix](docs/demo_pics/neural_network_confusion_matrix.png)
+![Confusion Matrix](https://raw.githubusercontent.com/RainingComputers/pykitml/master/docs/demo_pics/neural_network_confusion_matrix.png)
