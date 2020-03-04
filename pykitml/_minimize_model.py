@@ -45,7 +45,7 @@ class MinimizeModel(ABC):
         ------
         ValueError
             If :code:`training_data`, :code:`targets`, :code:`testing_data` or 
-            :code:`testing_tagets` has invalid dimensions/shape. 
+            :code:`testing_targets` has invalid dimensions/shape. 
         '''
         print('Training Model...')
 
