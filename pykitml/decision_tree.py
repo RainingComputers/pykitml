@@ -211,8 +211,7 @@ class DecisionTree(Classifier):
         outputs = np.argmax(outputs, axis=1)
         # Grow the tree
         pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='expls', disable=self._pbardis)
-        prob, gini = self._gini_index(outputs)
-        self._root_node = self._recursive_grow(pbar, inputs, outputs, prob, gini, -1)
+        self._iterative_grow(inputs, outputs, pbar)
         # Close progress bar
         pbar.close()
 
@@ -246,85 +245,148 @@ class DecisionTree(Classifier):
             categories = [tuple([x]) for x in categories]
             return combs+categories
 
-    def _recursive_grow(self, pbar, inputs, outputs, prob, gini, col, depth=0):
+    def _iterative_grow(self, inputs, outputs, pbar):
         '''
-        This method recursively generates nodes of the tree.
+        This method iteratively generates nodes of the tree.
         '''
-        # Get the columns to iterate
-        cols_train = [i for i in self._cols_train if i != col]
+        self._node_count = 0
+        self._root_node = None
 
-        # Keep track of least gini index
-        min_gini_index = 10
-        min_split = None
-        min_col = None
-        min_gi_col = None
-        min_inputs_left = None
-        min_inputs_right = None
-        min_outputs_left = None
-        min_outputs_right = None
-        min_p_left = None
-        min_p_right = None
-        min_gi_left = None
-        min_gi_right = None
+        nodes_to_build = []
 
-        # Generate data splits, get best split condition
-        for col in cols_train:
-            # Loop through each possible split
-            splits = self._get_splits(inputs[:, col], self._ftype[col])
-            for split in splits:
-                # Generate split condition
-                cond = condition(inputs[:, col], split, self._ftype[col])
-                
-                # Split the data based on condition
-                inputs_left, outputs_left = inputs[cond, :], outputs[cond]
-                inputs_right, outputs_right = inputs[~cond, :], outputs[~cond]
+        prob, gini = self._gini_index(outputs)
 
-                # Continue if no split
-                if(inputs_left.shape[0]==0 or inputs_right.shape[0]==0):
-                    continue
+        nodes_to_build.append(
+            {
+                'node':None,
+                'col':-1,
+                'inputs':inputs,
+                'outputs':outputs,
+                'prob':prob,
+                'gini':gini,
+                'depth':1,
+                'left':None
+            }
+        )
 
-                # Get gini index for this column and split
-                weight_left = inputs_left.shape[0]/inputs.shape[0]
-                weight_right = inputs_right.shape[0]/inputs.shape[0]
-                p_left, gi_left = self._gini_index(outputs_left)
-                p_right, gi_right = self._gini_index(outputs_right)
-                gi_col = weight_left*gi_left + weight_right*gi_right
+        # Start building the tree
+        while(len(nodes_to_build) != 0):
+            # Pop build parameters of stack
+            node_build = nodes_to_build.pop()
+            parent_node = node_build['node']
+            col = node_build['col']
+            inputs = node_build['inputs']
+            outputs = node_build['outputs']
+            prob = node_build['prob']
+            gini = node_build['gini']
+            depth = node_build['depth']
+            left = node_build['left']
 
-                # Track minimun value
-                if(gi_col < min_gini_index):
-                    min_gini_index = gi_col
-                    min_split = split
-                    min_col = col
-                    min_gi_col = gi_col
-                    min_inputs_left = inputs_left
-                    min_inputs_right = inputs_right
-                    min_outputs_left = outputs_left
-                    min_outputs_right = outputs_right
-                    min_p_left = p_left
-                    min_p_right = p_right
-                    min_gi_left = gi_left
-                    min_gi_right = gi_right
+            # Get the columns to iterate
+            cols_train = [i for i in self._cols_train if i != col]
 
-        # Create node
-        self._node_count+=1
-        pbar.set_postfix(nodes=self._node_count)
+            # Keep track of least gini index
+            min_gini_index = 10
+            min_split = None
+            min_col = None
+            min_gi_col = None
+            min_inputs_left = None
+            min_inputs_right = None
+            min_outputs_left = None
+            min_outputs_right = None
+            min_p_left = None
+            min_p_right = None
+            min_gi_left = None
+            min_gi_right = None
 
-        # If best split is not better than current node's gini index, stop
-        # Create terminal node or leaf
-        # If maxdepth has been exceeded, create leaf and return
-        if(gini <= min_gini_index or depth == self._max_depth): 
-            pbar.update(inputs.shape[0])
-            return _Leaf(prob, gini, self._node_count)
+            # Generate data splits, get best split condition
+            for col in cols_train:
+                # Loop through each possible split
+                splits = self._get_splits(inputs[:, col], self._ftype[col])
+                for split in splits:
+                    # Generate split condition
+                    cond = condition(inputs[:, col], split, self._ftype[col])
 
-        # Create node, split data further
-        node = _Node(min_split, min_col, min_gi_col, self._node_count, self._ftype[min_col])
-        node.left_node = self._recursive_grow(pbar, min_inputs_left, min_outputs_left, 
-            min_p_left, min_gi_left, min_col, depth+1)
-        node.right_node = self._recursive_grow(pbar, min_inputs_right, min_outputs_right, 
-            min_p_right, min_gi_right, min_col, depth+1)
+                    # Split the data based on condition
+                    inputs_left, outputs_left = inputs[cond, :], outputs[cond]
+                    inputs_right, outputs_right = inputs[~cond, :], outputs[~cond]
 
-        # return node
-        return node
+                    # Continue if no split
+                    if(inputs_left.shape[0]==0 or inputs_right.shape[0]==0):
+                        continue
+
+                    # Get gini index for this column and split
+                    weight_left = inputs_left.shape[0]/inputs.shape[0]
+                    weight_right = inputs_right.shape[0]/inputs.shape[0]
+                    p_left, gi_left = self._gini_index(outputs_left)
+                    p_right, gi_right = self._gini_index(outputs_right)
+                    gi_col = weight_left*gi_left + weight_right*gi_right
+
+                    # Track minimun value
+                    if(gi_col < min_gini_index):
+                        min_gini_index = gi_col
+                        min_split = split
+                        min_col = col
+                        min_gi_col = gi_col
+                        min_inputs_left = inputs_left
+                        min_inputs_right = inputs_right
+                        min_outputs_left = outputs_left
+                        min_outputs_right = outputs_right
+                        min_p_left = p_left
+                        min_p_right = p_right
+                        min_gi_left = gi_left
+                        min_gi_right = gi_right
+
+            # Create node
+            self._node_count+=1
+            pbar.set_postfix(nodes=self._node_count)
+
+            # If best split is not better than current node's gini index, stop
+            # Create terminal node or leaf
+            # If maxdepth has been exceeded, create leaf and return
+            if(gini <= min_gini_index or depth == self._max_depth): 
+                pbar.update(inputs.shape[0])
+                node = _Leaf(prob, gini, self._node_count)
+            else:
+                # Create node, split data further
+                node = _Node(min_split, min_col, min_gi_col, self._node_count, self._ftype[min_col])
+
+            # Assign the node to parent node
+            if(self._node_count == 1): self._root_node = node
+            elif(left): parent_node.left_node = node
+            elif(not left): parent_node.right_node = node
+
+            # If leaf node, no more nodes to build
+            if(node.leaf): continue
+
+            # Create left sub node
+            nodes_to_build.append(
+                {
+                    'node':node,
+                    'col':min_col,
+                    'inputs':min_inputs_left,
+                    'outputs':min_outputs_left,
+                    'prob':min_p_left,
+                    'gini':min_gi_left,
+                    'depth':(depth+1),
+                    'left':True
+                }
+            )
+
+            # Create right sub node
+            nodes_to_build.append(
+                {
+                    'node':node,
+                    'col':min_col,
+                    'inputs':min_inputs_right,
+                    'outputs':min_outputs_right,
+                    'prob':min_p_right,
+                    'gini':min_gi_right,
+                    'depth':(depth+1),
+                    'left':False
+                }
+            )
+
 
     def _gini_index(self, outputs):
         '''
@@ -332,11 +394,10 @@ class DecisionTree(Classifier):
         i.e. how 'pure' the dataset is. 0 for most pure and 1 for least
         pure.
         '''
+        p_ci = np.zeros((self._out_size))
         # Get their probabilities P(Ci)
-        p_ci = np.bincount(outputs)/outputs.shape[0]
-        # Pad p_ci to out_size with zeros
-        pad_length = self._out_size-np.max(outputs)-1
-        p_ci = np.pad(p_ci, (0, pad_length), 'constant', constant_values=0)
+        bincnt = np.bincount(outputs)/outputs.shape[0]
+        p_ci[0:bincnt.shape[0]] = bincnt
         # gini index gi = 1-sum(P(Ci)**2)
         return p_ci, 1-(p_ci**2).sum()
 

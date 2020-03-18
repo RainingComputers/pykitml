@@ -74,9 +74,9 @@ class NeuralNetwork(MinimizeModel, Classifier):
         for l in range(1, self.nlayers):
             layer_size = layer_sizes[l]
             input_layer_size = layer_sizes[l-1]
-            epsilon = np.sqrt(6)/(np.sqrt(layer_size) + np.sqrt(input_layer_size))
-            weights[l] = np.random.rand(layer_size, input_layer_size)*2*epsilon - epsilon
-            biases[l] = np.random.rand(layer_size) * 2 * epsilon - epsilon
+            epsilon = np.sqrt(6 / (layer_size + input_layer_size))
+            weights[l] = np.random.uniform(-epsilon, epsilon, (layer_size, input_layer_size))
+            biases[l] = np.random.uniform(-epsilon, epsilon, (layer_size))
         # Put parameters in numpy dtype=object array
         self._params = np.array(
             [np.array(weights, dtype=object), np.array(biases, dtype=object)],
@@ -159,7 +159,7 @@ class NeuralNetwork(MinimizeModel, Classifier):
             # Regularization
             dc_dw[l] += self._reg_param*self._params[W][l]
 
-        # Calculate the partial derivatives of the cost function w.r.t the ouput layer's 
+        # Calculate the partial derivatives of the cost function w.r.t the output layer's 
         # activations, weights, biases
         da_dz[-1] = self._output_activ_func_prime(self._weighted_sums[-1][index], self._activations[-1][index])
         dc_db[-1] = self._cost_func_prime(self._activations[-1][index], target) * da_dz[-1]

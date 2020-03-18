@@ -22,7 +22,7 @@ def test_heart_tree():
         'continues', 'categorical', 'continues', 'categorical',
         'categorical', 'categorical'
     ]
-    tree_heart_classifier = pk.DecisionTree(13, 2, max_depth=6, feature_type=ftypes)
+    tree_heart_classifier = pk.DecisionTree(13, 2, max_depth=7, feature_type=ftypes)
 
     # Train
     tree_heart_classifier.train(inputs, outputs)

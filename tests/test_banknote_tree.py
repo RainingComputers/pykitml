@@ -43,7 +43,7 @@ def test_banknote_tree():
     tree_banknote_classifier.show_tree()
 
     # Assert accuracy
-    assert (tree_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
+    assert (tree_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 97
 
 if __name__ == '__main__':
     try:
