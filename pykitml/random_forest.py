@@ -8,14 +8,16 @@ import numpy as np
 import tqdm
 
 from . import _shared_array
+from ._regressor import Regressor
 from ._classifier import Classifier
 from . import decision_tree
 
-
 class _RandomTree(decision_tree.DecisionTree):
-    def __init__(self, input_size, output_size, num_features, feature_type=[], max_depth=6):
+    def __init__(self, input_size, output_size, num_features, feature_type=[], 
+        max_depth=6, min_split=2, max_splits_eval=100, regression=False):
         # Initialize parent class
-        super(_RandomTree, self).__init__(input_size, output_size, feature_type, max_depth)
+        super(_RandomTree, self).__init__(input_size, output_size, feature_type, max_depth,
+            min_split, max_splits_eval, regression)
 
         # Select only a few random columns of the dataset for training
         self._cols_train = np.random.choice(input_size, num_features, replace=False)
@@ -24,8 +26,9 @@ class _RandomTree(decision_tree.DecisionTree):
         self._pbardis = True
         
 
-class RandomForest(Classifier):
-    def __init__(self, input_size, output_size, feature_type=[], max_depth=6):
+class RandomForest(Classifier, Regressor):
+    def __init__(self, input_size, output_size, feature_type=[], max_depth=6, min_split=2,
+        max_splits_eval=100, regression=False):
         '''
         Parameters
         ----------
@@ -39,6 +42,17 @@ class RandomForest(Classifier):
             :code:`'ranked'`, or :code:`'categorical'`.
         max_depth : int
             The maximum depth the trees can grow to.
+        min_split : int
+            The minimum number of data points a node should have to get 
+            split.
+        max_splits_eval : int
+            The maximum number of split points to evaluate for an 
+            attribute. If the number of candidate split points exceed
+            this, :code:`max_splits_eval` split candidates will be
+            randomly sampled from the candidates and only the samples
+            ones will be evaluated from finding the best split point.
+        regression : bool
+            If the tree is being trained on a regression problem.
 
         Raises
         ------
@@ -51,6 +65,9 @@ class RandomForest(Classifier):
         self._output_size = output_size
         self._ftype = feature_type
         self._max_depth = max_depth
+        self._min_split = min_split
+        self._regression = regression
+        self._max_splits_eval = max_splits_eval
 
         # List to store trees in
         self._trees = []
@@ -83,8 +100,8 @@ class RandomForest(Classifier):
             Number of trees to grow.
         num_feature_bag : int or None
             Number of random features to select when growing
-            a tree. If :code:`None` (default), ceiling of square root of :code:`input_size`
-            is chosen.
+            a tree. If :code:`None` (default), :code:`ceil(sqrt(input_size))`
+            is chosen for classification and :code:`int(input_size/3)` for regression.
 
         Raises
         ------
@@ -96,8 +113,11 @@ class RandomForest(Classifier):
 
         # Number of features to bag/choose for each tree
         if(num_feature_bag is None): 
-            num_feature_bag = ceil(np.sqrt(self._input_size))
-
+            if(not self._regression):
+                num_feature_bag = ceil(np.sqrt(self._input_size))
+            else:
+                num_feature_bag = int(self._input_size/3)
+        
         def train_trees(input_q, ret_q, inputs_sh, inputs_shape, outputs_sh, outputs_shape):
             # Retrive numpy arrays from multiprocessing arrays
             inputs = _shared_array.shm_as_ndarray(inputs_sh, inputs_shape)
@@ -131,7 +151,8 @@ class RandomForest(Classifier):
         for i in range(num_trees):
             # Create tree
             tree = _RandomTree(self._input_size, self._output_size, num_feature_bag, 
-                self._ftype, self._max_depth)
+                self._ftype, self._max_depth, self._min_split, self._max_splits_eval,
+                self._regression)
             # Put it in queue
             input_q.put(tree)
 
