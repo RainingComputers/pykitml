@@ -101,6 +101,22 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Boston Regression Tree",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_boston_tree.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Boston Regression Forest",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_boston_forest.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Iris Naive Bayes",
             "type": "python",
             "request": "launch",

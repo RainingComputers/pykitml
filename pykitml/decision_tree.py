@@ -4,8 +4,11 @@ import numpy as np
 from graphviz import Digraph 
 import tqdm
 
+from ._regressor import Regressor
 from ._classifier import Classifier
 from ._exceptions import _valid_list, InvalidFeatureType
+
+from . import _functions
 
 
 def condition(column, split, ftype):
@@ -131,12 +134,13 @@ class _Leaf:
         return  str(self._term_val)+'\nNode - '+str(self._index)
 
 
-class DecisionTree(Classifier):
+class DecisionTree(Classifier, Regressor):
     '''
     Implements Decision Tree model.
     '''
 
-    def __init__(self, input_size, output_size, feature_type=[], max_depth=6):        
+    def __init__(self, input_size, output_size, feature_type=[], max_depth=6, min_split=2,
+        max_splits_eval=100, regression=False):        
         '''
         Parameters
         ----------
@@ -151,6 +155,17 @@ class DecisionTree(Classifier):
         max_depth : int
             The maximum depth the tree can grow to. Prevents from 
             overfitting (somewhat).
+        min_split : int
+            The minimum number of data points a node should have to get 
+            split.
+        max_splits_eval : int
+            The maximum number of split points to evaluate for an 
+            attribute. If the number of candidate split points exceed
+            this, :code:`max_splits_eval` split candidates will be
+            randomly sampled from the candidates and only the samples
+            ones will be evaluated from finding the best split point.
+        regression : bool
+            If the tree is being trained on a regression problem.
 
         Raises
         ------
@@ -165,6 +180,9 @@ class DecisionTree(Classifier):
         self._ftype = feature_type
         self._max_depth = max_depth
         self._node_count = 0
+        self._min_split = min_split
+        self._regression = regression
+        self._max_splits_eval = max_splits_eval
 
         # Check if given feature types are valid
         valid_ftypes = ['continues', 'ranked', 'categorical']
@@ -176,7 +194,7 @@ class DecisionTree(Classifier):
         # certain columns of the input data while training
         self._cols_train = list(range(input_size))
 
-        # CAn be overridden in child class to suppress progressbar while training
+        # Can be overridden in child class to suppress progressbar while training
         self._pbardis = False
 
         # Tree nodes
@@ -207,11 +225,16 @@ class DecisionTree(Classifier):
             0/False to [1, 0] and 1/True to [0, 1] for binary classification.
         '''
         print('Training Model...')
+        
         # Convert outputs from onehot to values
-        outputs = np.argmax(outputs, axis=1)
+        if(not self._regression):
+            outputs_train = np.argmax(outputs, axis=1)
+        else:
+            outputs_train = outputs
+        
         # Grow the tree
         pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='expls', disable=self._pbardis)
-        self._iterative_grow(inputs, outputs, pbar)
+        self._iterative_grow(inputs, outputs_train, pbar)
         # Close progress bar
         pbar.close()
 
@@ -221,8 +244,7 @@ class DecisionTree(Classifier):
     def get_output(self):
         return self._output.squeeze()
 
-    @staticmethod
-    def _get_splits(column, ftype):
+    def _get_splits(self, column, ftype):
         '''
         Given input column of a dataset and the type of feature,
         generates all possible points/categories to split the dataset on.
@@ -237,7 +259,12 @@ class DecisionTree(Classifier):
         '''
         if(ftype == 'ranked' or ftype == 'continues'):
             # All possible values to split the dataset
-            return np.unique(column)
+            splits = np.unique(column) 
+            # If there are too many candidates, randomly pick some candidates
+            if(splits.shape[0] > self._max_splits_eval):
+                splits = np.random.choice(splits, size=self._max_splits_eval, replace=False)
+
+            return splits
         elif(ftype == 'categorical'):
             # All the possible 'or' combinations as a list of tuples
             categories = np.unique(column).tolist()
@@ -254,7 +281,10 @@ class DecisionTree(Classifier):
 
         nodes_to_build = []
 
-        prob, gini = self._gini_index(outputs)
+        if(not self._regression):
+            value, score = self._gini_index(outputs)
+        else:
+            value, score = self._regression_score(outputs)
 
         nodes_to_build.append(
             {
@@ -262,8 +292,8 @@ class DecisionTree(Classifier):
                 'col':-1,
                 'inputs':inputs,
                 'outputs':outputs,
-                'prob':prob,
-                'gini':gini,
+                'value':value,
+                'score':score,
                 'depth':1,
                 'left':None
             }
@@ -277,27 +307,39 @@ class DecisionTree(Classifier):
             col = node_build['col']
             inputs = node_build['inputs']
             outputs = node_build['outputs']
-            prob = node_build['prob']
-            gini = node_build['gini']
+            value = node_build['value']
+            score = node_build['score']
             depth = node_build['depth']
             left = node_build['left']
+
+            def assign_node(node):
+                if(self._node_count == 1): self._root_node = node
+                elif(left): parent_node.left_node = node
+                elif(not left): parent_node.right_node = node
+
+            # Stopping condition
+            if(depth == self._max_depth or inputs.shape[0] < self._min_split): 
+                self._node_count+=1
+                pbar.update(inputs.shape[0])
+                node = _Leaf(value, score, self._node_count)
+                assign_node(node)
+                continue
 
             # Get the columns to iterate
             cols_train = [i for i in self._cols_train if i != col]
 
-            # Keep track of least gini index
-            min_gini_index = 10
+            # Keep track of least score
+            min_score = float('inf')
             min_split = None
             min_col = None
-            min_gi_col = None
             min_inputs_left = None
             min_inputs_right = None
             min_outputs_left = None
             min_outputs_right = None
-            min_p_left = None
-            min_p_right = None
-            min_gi_left = None
-            min_gi_right = None
+            min_vel_left = None
+            min_val_right = None
+            min_score_left = None
+            min_score_right = None
 
             # Generate data splits, get best split condition
             for col in cols_train:
@@ -315,27 +357,34 @@ class DecisionTree(Classifier):
                     if(inputs_left.shape[0]==0 or inputs_right.shape[0]==0):
                         continue
 
-                    # Get gini index for this column and split
-                    weight_left = inputs_left.shape[0]/inputs.shape[0]
-                    weight_right = inputs_right.shape[0]/inputs.shape[0]
-                    p_left, gi_left = self._gini_index(outputs_left)
-                    p_right, gi_right = self._gini_index(outputs_right)
-                    gi_col = weight_left*gi_left + weight_right*gi_right
+                    # Calculate score for the split
+                    if(not self._regression):
+                        # Get gini index for this column and split
+                        weight_left = inputs_left.shape[0]/inputs.shape[0]
+                        weight_right = inputs_right.shape[0]/inputs.shape[0]
+                        val_left, score_left = self._gini_index(outputs_left)
+                        val_right, score_right = self._gini_index(outputs_right)
+                        score_col = weight_left*score_left + weight_right*score_right
+                    else:
+                        # For regression, calculate mse
+                        val_left, score_left = self._regression_score(outputs_left)
+                        val_right, score_right = self._regression_score(outputs_right)
+                        score_col = score_left + score_right
+
 
                     # Track minimun value
-                    if(gi_col < min_gini_index):
-                        min_gini_index = gi_col
+                    if(score_col < min_score):
+                        min_score = score_col
                         min_split = split
                         min_col = col
-                        min_gi_col = gi_col
                         min_inputs_left = inputs_left
                         min_inputs_right = inputs_right
                         min_outputs_left = outputs_left
                         min_outputs_right = outputs_right
-                        min_p_left = p_left
-                        min_p_right = p_right
-                        min_gi_left = gi_left
-                        min_gi_right = gi_right
+                        min_vel_left = val_left
+                        min_val_right = val_right
+                        min_score_left = score_left
+                        min_score_right = score_right
 
             # Create node
             self._node_count+=1
@@ -344,17 +393,15 @@ class DecisionTree(Classifier):
             # If best split is not better than current node's gini index, stop
             # Create terminal node or leaf
             # If maxdepth has been exceeded, create leaf and return
-            if(gini <= min_gini_index or depth == self._max_depth): 
+            if(score <= min_score): 
                 pbar.update(inputs.shape[0])
-                node = _Leaf(prob, gini, self._node_count)
+                node = _Leaf(value, score, self._node_count)
             else:
                 # Create node, split data further
-                node = _Node(min_split, min_col, min_gi_col, self._node_count, self._ftype[min_col])
+                node = _Node(min_split, min_col, min_score, self._node_count, self._ftype[min_col])
 
             # Assign the node to parent node
-            if(self._node_count == 1): self._root_node = node
-            elif(left): parent_node.left_node = node
-            elif(not left): parent_node.right_node = node
+            assign_node(node)
 
             # If leaf node, no more nodes to build
             if(node.leaf): continue
@@ -366,8 +413,8 @@ class DecisionTree(Classifier):
                     'col':min_col,
                     'inputs':min_inputs_left,
                     'outputs':min_outputs_left,
-                    'prob':min_p_left,
-                    'gini':min_gi_left,
+                    'value':min_vel_left,
+                    'score':min_score_left,
                     'depth':(depth+1),
                     'left':True
                 }
@@ -380,8 +427,8 @@ class DecisionTree(Classifier):
                     'col':min_col,
                     'inputs':min_inputs_right,
                     'outputs':min_outputs_right,
-                    'prob':min_p_right,
-                    'gini':min_gi_right,
+                    'value':min_val_right,
+                    'score':min_score_right,
                     'depth':(depth+1),
                     'left':False
                 }
@@ -400,6 +447,15 @@ class DecisionTree(Classifier):
         p_ci[0:bincnt.shape[0]] = bincnt
         # gini index gi = 1-sum(P(Ci)**2)
         return p_ci, 1-(p_ci**2).sum()
+
+    def _regression_score(self, outputs):
+        '''
+        Given the outputs of a split dataset, calculates the mse error
+        for the descision stump's average output value.
+        '''
+        avg_val = np.mean(outputs, axis=0)
+        error = ((outputs-avg_val)**2).sum()
+        return avg_val, error
 
     def show_tree(self):
         '''

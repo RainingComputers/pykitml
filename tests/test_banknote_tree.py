@@ -21,7 +21,7 @@ def test_banknote_tree():
 
     # Create model
     ftypes = ['continues']*4
-    tree_banknote_classifier = pk.DecisionTree(4, 2, max_depth=6, feature_type=ftypes)
+    tree_banknote_classifier = pk.DecisionTree(4, 2, max_depth=7, feature_type=ftypes)
 
     # Train
     tree_banknote_classifier.train(inputs_train, outputs_train)

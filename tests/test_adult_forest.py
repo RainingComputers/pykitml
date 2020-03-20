@@ -25,10 +25,10 @@ def test_adult_forest():
         'categorical', 'categorical', 'categorical', 'categorical', 'categorical',
         'continues', 'continues', 'continues', 'categorical'
     ]
-    forest_adult_classifier = pk.RandomForest(13, 2, max_depth=9, feature_type=ftypes)
+    forest_adult_classifier = pk.RandomForest(13, 2, max_depth=1000, feature_type=ftypes)
 
     # Train
-    forest_adult_classifier.train(inputs_train, outputs_train, num_feature_bag=13)
+    forest_adult_classifier.train(inputs_train, outputs_train, num_trees=100)
 
     # Save it
     pk.save(forest_adult_classifier, 'forest_adult_classifier.pkl')
