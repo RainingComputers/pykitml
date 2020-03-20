@@ -16,7 +16,10 @@ Class Reference
 
     .. automethod:: plot_performance
 
+    .. automethod:: r2score
+
     .. automethod:: cost
+
 
 Example: Predicting Fish Length
 -------------------------------
