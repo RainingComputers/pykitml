@@ -169,10 +169,9 @@ class NaiveBayes(Classifier):
             freqp = freqp/group_examples.shape[0]
             # Replace with reg_param where p(xi|Ci) is zero
             # AKA regularization            
-            pad_length = int(self._max[feature]-freqp.shape[0])+1
-            freqp = np.pad(freqp, (0, pad_length), 'constant', constant_values=0)
-            freqp = np.where(freqp==0, self._reg_param, freqp)
-            self._freqp[group][feature] = freqp
+            freqp_reg = np.ones((int(self._max[feature])+1))*self._reg_param
+            freqp_reg[0:freqp.shape[0]] = freqp
+            self._freqp[group][feature] = freqp_reg
 
 
 class GaussianNaiveBayes(NaiveBayes):

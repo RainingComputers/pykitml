@@ -1,9 +1,10 @@
 import numpy as np
 
 from ._single_layer_model import SingleLayerModel
+from ._regressor import Regressor
 from . import _functions
 
-class LinearRegression(SingleLayerModel):
+class LinearRegression(SingleLayerModel, Regressor):
     '''
     Implements linear regression.
     '''

@@ -55,6 +55,9 @@ def get():
     # Save it as a pkl file
     pklhandler.save(sonar_data_array, 'sonar.pkl')
 
+    # Delete files
+    os.remove('sonar.all-data')
+
 def load():
     '''
     Loads the adult dataset from `sonar.pkl` file.
