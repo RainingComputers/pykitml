@@ -2,7 +2,6 @@ from pykitml.testing import pktest_graph, pktest_nograph
 
 import pytest
 
-@pytest.mark.skip(reason='Will take too long')
 @pktest_graph
 def test_adult_tree():
     import os

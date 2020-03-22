@@ -451,7 +451,7 @@ class DecisionTree(Classifier, Regressor):
     def _regression_score(self, outputs):
         '''
         Given the outputs of a split dataset, calculates the mse error
-        for the descision stump's average output value.
+        for the decision stump's average output value.
         '''
         avg_val = np.mean(outputs, axis=0)
         error = ((outputs-avg_val)**2).sum()
