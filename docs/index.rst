@@ -34,6 +34,7 @@ Installation
    PrincipalComponentAnalysis
    Normalization
    PreprocessingDatasets
+   CrossValidation
    Datasets
    SavingAndLoading
 

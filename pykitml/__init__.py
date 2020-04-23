@@ -20,5 +20,6 @@ from .pklhandler import *
 from .normalize import *
 from .optimizers import *
 from .preprocessing import *
+from .cross_val import *
 
 from . import testing
