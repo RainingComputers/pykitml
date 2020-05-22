@@ -21,5 +21,7 @@ from .normalize import *
 from .optimizers import *
 from .preprocessing import *
 from .cross_val import *
+from .lstm import *
+from .smote import *
 
 from . import testing

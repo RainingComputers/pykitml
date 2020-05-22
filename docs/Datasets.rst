@@ -104,3 +104,15 @@ S1 Clustering - pykitml.datasets.s1clustering module
 .. autofunction:: pykitml.datasets.s1clustering.get
 
 .. autofunction:: pykitml.datasets.s1clustering.load
+
+
+.. _ecg_eye:
+
+ECG eye state - pykitml.datasets.eye module
+-------------------------------------------
+
+.. automodule:: pykitml.datasets.eye
+
+.. autofunction:: pykitml.datasets.eye.get
+
+.. autofunction:: pykitml.datasets.eye.load

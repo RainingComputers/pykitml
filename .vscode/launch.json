@@ -165,5 +165,13 @@
             "program": "${workspaceFolder}/tests/test_s1_kmeans.py",
             "console": "integratedTerminal"
         },
+        {
+            "name": "LSTM ECG eye",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_lstm_eye.py",
+            "console": "integratedTerminal"
+        },
     ]
 }

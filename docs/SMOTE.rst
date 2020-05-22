@@ -1,0 +1,4 @@
+SMOTE
+=====
+
+.. autofunction:: pykitml.smote
