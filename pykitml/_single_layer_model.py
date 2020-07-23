@@ -93,6 +93,10 @@ class SingleLayerModel(MinimizeModel, ABC):
         gradient[B] = dc_db
         return gradient
 
+    @property
+    def bptt(self):
+        return False
+
     def _get_norm_weights(self):
         W = 0
         return self._reg_param_half*(self._params[W]**2).sum()

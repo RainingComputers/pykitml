@@ -57,13 +57,15 @@ class MinimizeModel(ABC):
         if(testing_data is not None):
             self._performance_log['cost_test'] = []   
 
+        self._init_train(batch_size)
+
         # Loop through each epoch
         pbar = tqdm.trange(0, epochs, ncols=80, unit='epochs')
         for epoch in pbar:
             total_gradient = self._get_batch_grad(epoch, batch_size, training_data, targets)
 
             # After completing a batch, average the total sum of gradients and tweak the parameters
-            self._mparams = optimizer._optimize(self._mparams, total_gradient/batch_size)
+            self._mparams = optimizer._optimize(self._mparams, total_gradient)
 
             # Decay the learning rate
             if((epoch+1) % decay_freq == 0): optimizer._decay()
@@ -114,15 +116,18 @@ class MinimizeModel(ABC):
         indices = np.arange(start_index, end_index) % training_data.shape[0]
         self.feed(training_data[indices])
 
-        # Loop through the batch
-        for example in range(0, batch_size):
-            # Add the calculated gradients to the total
-            index = ((epoch*batch_size) + example)%training_data.shape[0]
-            # Get gradient
-            total_gradient += self._backpropagate(example, targets[index])
-        
-        # return the total
-        return total_gradient
+        if(self.bptt):
+            return self._backpropagate(None, targets[indices])
+        else:
+            # Loop through the batch
+            for example in range(0, batch_size):
+                # Add the calculated gradients to the total
+                index = ((epoch*batch_size) + example)%training_data.shape[0]
+                # Get gradient
+                total_gradient += self._backpropagate(example, targets[index])
+
+            # return the total
+            return total_gradient/batch_size
 
     def plot_performance(self):
         '''
@@ -171,6 +176,18 @@ class MinimizeModel(ABC):
         # Show the plot
         plt.show()
 
+    def _init_train(self, batch_size):
+        '''
+        This function will be called before training starts.
+        Override this function to do initialization.
+        
+        Parameters
+        ----------
+        batch_size : int
+            Size of the batch.       
+        '''
+        pass
+
     def cost(self, testing_data, testing_targets):
         '''
         Tests the average cost of the model on the testing data passed to the
@@ -193,6 +210,8 @@ class MinimizeModel(ABC):
         ValueError
             If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.      
         '''
+        self._on_test_start()
+
         # Evalute over all the testing data and get outputs
         self.feed(testing_data)
         output_targets = self.get_output()
@@ -205,8 +224,24 @@ class MinimizeModel(ABC):
         # Average the cost
         cost = cost/testing_data.shape[0]
 
+        self._on_test_end()
+
         # return cost
         return round(cost, 2)
+
+    def _on_test_start(self):
+        '''
+        This method will be called before testing, 
+        override this method needed.
+        '''
+        pass
+
+    def _on_test_end(self):
+        '''
+        This method will be called after testing, 
+        override this method needed.
+        '''
+        pass
 
     @property
     @abstractmethod
@@ -221,6 +256,15 @@ class MinimizeModel(ABC):
     def _mparams(self, mparams):
         '''
         @params.setter method to set model parameters
+        '''
+        pass
+
+    @property
+    @abstractmethod
+    def bptt(self):
+        '''
+        Return True if the model requires BPTT
+        (Backpropagation through time), otherwise return false
         '''
         pass
 

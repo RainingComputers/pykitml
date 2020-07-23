@@ -35,8 +35,13 @@ class PCA:
         
         Parameters
         ----------
-        data_points : nunmpy.array
+        data_points : numpy.array
             The input dataset.
+
+        Returns
+        -------
+        transformed_data_points : numpy.array
+            The transformed input.
         '''
         # Transform the datapoints using principle components
         return data_points@self._transform

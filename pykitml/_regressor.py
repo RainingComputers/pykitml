@@ -11,7 +11,7 @@ from . import preprocessing
 
 class Regressor(ABC):
     '''
-    Mix-in class for classifier models.
+    Mix-in class for Regression models.
     '''
 
     @abstractmethod

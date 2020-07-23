@@ -2,11 +2,12 @@ import numpy as np
 
 from ._minimize_model import MinimizeModel
 from ._classifier import Classifier
+from ._regressor import Regressor
 from . import _functions
 
-class NeuralNetwork(MinimizeModel, Classifier):
+class NeuralNetwork(MinimizeModel, Classifier, Regressor):
     '''
-    This class implements Feed Neural Network.
+    This class implements Feed-forward Neural Network.
     '''
 
     def __init__(self, layer_sizes, reg_param=0, config='leakyrelu-softmax-cross_entropy'):
@@ -167,7 +168,7 @@ class NeuralNetwork(MinimizeModel, Classifier):
 
         # Calculate the partial derivatives of the cost function w.r.t the hidden layers'
         # activations, weights, biases
-        for l in range(self.nlayers - 2, 0, -1):
+        for l in range(self.nlayers-2, 0, -1):
             calc_da_dz(l)
             calc_dc_db(l)
             calc_dc_dw(l)
@@ -177,6 +178,10 @@ class NeuralNetwork(MinimizeModel, Classifier):
             [np.array(dc_dw, dtype=object), np.array(dc_db, dtype=object)],
             dtype=object
         )
+
+    @property
+    def bptt(self):
+        return False
 
     def _get_norm_weights(self):
         # If regularization is zero
