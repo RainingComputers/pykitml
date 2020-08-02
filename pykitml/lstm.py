@@ -41,7 +41,6 @@ class LSTM(MinimizeModel, Classifier, Regressor):
         self._nlayers = len(layer_sizes)
         self._bsize = None
         self._outputs = None
-        self._reset_freq = reset_freq
         self._batch_count = 0
 
         # Initialize output activation function and cost function

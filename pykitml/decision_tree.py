@@ -162,7 +162,7 @@ class DecisionTree(Classifier, Regressor):
             The maximum number of split points to evaluate for an 
             attribute. If the number of candidate split points exceed
             this, :code:`max_splits_eval` split candidates will be
-            randomly sampled from the candidates and only the samples
+            randomly sampled from the candidates and only the sampled
             ones will be evaluated from finding the best split point.
         regression : bool
             If the tree is being trained on a regression problem.

@@ -17,7 +17,8 @@ def smote(minority_data_points, k=1):
     -------
     new_points : numpy.array
         New generated data points (Excluding data points passed to the 
-        function)
+        function). :code:`k*minority_data_points.shape[0]` points will be
+        generated.
     '''
     npoints = minority_data_points.shape[0]
     nfeatures = minority_data_points.shape[1]

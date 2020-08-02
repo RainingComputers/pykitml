@@ -85,8 +85,8 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
         )  
 
         # List of numpy arrays for storing temporary values
-        self._weighted_sums = [np.array([])] * self.nlayers
-        self._activations = [np.array([])] * self.nlayers
+        self.z = [np.array([])] * self.nlayers
+        self.a = [np.array([])] * self.nlayers
 
     def __repr__(self):
         return 'Layers: '+str(self._lsize)+' Config: '+str(self._functs)
@@ -120,19 +120,19 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
         B = 1 # Biases
 
         # Set inputs
-        self._activations[0] = input_data
+        self.a[0] = input_data
 
         # Feed through hidden layers
         for l in range(1, self.nlayers-1):
-            self._weighted_sums[l] = (self._activations[l-1]@self._params[W][l].T) + self._params[B][l]
-            self._activations[l] = self._activ_func(self._weighted_sums[l])
+            self.z[l] = (self.a[l-1]@self._params[W][l].T) + self._params[B][l]
+            self.a[l] = self._activ_func(self.z[l])
 
         # Feed thorugh output layer
-        self._weighted_sums[-1] = (self._activations[-2]@self._params[W][-1].T) + self._params[B][-1]
-        self._activations[-1] = self._output_activ_func(self._weighted_sums[-1])
+        self.z[-1] = (self.a[-2]@self._params[W][-1].T) + self._params[B][-1]
+        self.a[-1] = self._output_activ_func(self.z[-1])
 
     def get_output(self):
-        return self._activations[-1].squeeze()
+        return self.a[-1].squeeze()
 
     def _backpropagate(self, index, target):
         # Constants
@@ -147,7 +147,7 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
         
         # Calculate activation_function'(z)
         def calc_da_dz(l):
-            da_dz[l] = self._activ_func_prime(self._weighted_sums[l][index], self._activations[l][index])
+            da_dz[l] = self._activ_func_prime(self.z[l][index], self.a[l][index])
         
         # Calculate the partial derivatives of the cost w.r.t all the biases of layer 
         # 'l' (NOT for output layer)
@@ -156,14 +156,14 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
 
         # Calculate the partial derivatives of the cost w.r.t all the weights of layer 'l'
         def calc_dc_dw(l):
-            dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1][index])
+            dc_dw[l] = np.multiply.outer(dc_db[l], self.a[l-1][index])
             # Regularization
             dc_dw[l] += self._reg_param*self._params[W][l]
 
         # Calculate the partial derivatives of the cost function w.r.t the output layer's 
         # activations, weights, biases
-        da_dz[-1] = self._output_activ_func_prime(self._weighted_sums[-1][index], self._activations[-1][index])
-        dc_db[-1] = self._cost_func_prime(self._activations[-1][index], target) * da_dz[-1]
+        da_dz[-1] = self._output_activ_func_prime(self.z[-1][index], self.a[-1][index])
+        dc_db[-1] = self._cost_func_prime(self.a[-1][index], target) * da_dz[-1]
         calc_dc_dw(-1)
 
         # Calculate the partial derivatives of the cost function w.r.t the hidden layers'
