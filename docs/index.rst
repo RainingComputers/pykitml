@@ -40,6 +40,7 @@ Installation
    CrossValidation
    Datasets
    SavingAndLoading
+   FCEUX
 
 
 Indices and tables

@@ -13,18 +13,6 @@ python3 -m pip install pykitml
 
 https://pykitml.readthedocs.io/en/latest/
 
-### Models
-+ Linear Regression
-+ Logistic Regression
-+ Support Vector Machine
-+ Neural Network
-+ Nearest Neighbor
-+ Decision Tree
-+ Random Forest
-+ Naive Bayes
-+ K-Means Clustering
-+ Principle Component Analysis
-
 # Demo (MNIST)
 ### Training
 ``` python
