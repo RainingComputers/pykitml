@@ -25,16 +25,6 @@ https://pykitml.readthedocs.io/en/latest/
 + K-Means Clustering
 + Principle Component Analysis
 
-### Benchmark (Intel i5-6400, 4 cores @ 3.3GHz)
-
-| Model                                               | Dataset | Dataset Size | Time          |
-|-----------------------------------------------------|---------|--------------|---------------|
-| Logistic regression, 1500 epochs, 10 examples/batch | Adult   | 392106x13    | < 1 sec       |
-| 784x100x10 Network, 1200 epochs, 50 examples/batch  | MNIST   | 60000x784    | 35 sec        |
-| SVM, 1000 epochs, 20 examples/batch                 | MNIST   | 10000x784    | 39 sec        |
-| Decision Tree, 6 max-depth, 83 nodes                | Adult   | 392106x13    | 1 min 51 sec  |
-| Random forest, 9 max-depth, 100 trees               | Adult   | 392106x13    | 1 hour 35 min |
-
 # Demo (MNIST)
 ### Training
 ``` python
@@ -92,29 +82,22 @@ import pykitml as pk
 from pykitml.datasets import mnist
 
 # Load dataset
-inputs_train, outputs_train, inputs_test, outputs_test = mnist.load()
-
-# Use only first 10000
-inputs_train = inputs_train[:10000]
-outputs_train = outputs_train[:10000]
+training_data, training_targets, testing_data, testing_targets = mnist.load()
 
 # Load the trained network
-svm_mnist_classifier = pk.load('svm_mnist_classifier.pkl')
+digit_classifier = pk.load('digit_classifier_network.pkl')
 
 # Pick a random example from testing data
-index = random.randint(0, 9000)
+index = random.randint(0, 9999)
 
 # Show the test data and the label
-plt.imshow(inputs_train[index].reshape(28, 28))
+plt.imshow(training_data[index].reshape(28, 28))
 plt.show()
-print('Label: ', outputs_train[index])
-
-# Transform the input
-input_data = pk.gaussian_kernel(inputs_train[index], inputs_train)
+print('Label: ', training_targets[index])
 
 # Show prediction
-svm_mnist_classifier.feed(input_data)
-model_output = svm_mnist_classifier.get_output_onehot()
+digit_classifier.feed(training_data[index])
+model_output = digit_classifier.get_output_onehot()
 print('Predicted: ', model_output)
 ```
 
