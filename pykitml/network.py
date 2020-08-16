@@ -34,7 +34,7 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
             :code:`leakyrelu`, :code:`relu`, :code:`softmax`, :code:`tanh`, :code:`sigmoid`, :code:`identity`.
 
             List of available cost functions:
-            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy).
+            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy), :code:`huber` (Huber loss).
 
         Raises
         ------

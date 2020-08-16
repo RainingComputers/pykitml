@@ -41,6 +41,7 @@ Installation
    Datasets
    SavingAndLoading
    FCEUX
+   DQN
 
 
 Indices and tables

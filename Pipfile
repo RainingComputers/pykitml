@@ -18,6 +18,7 @@ sphinx-bootstrap-theme = "*"
 tqdm = "*"
 graphviz = "*"
 gprof2dot = "*"
+gym = "*"
 
 [requires]
 python_version = "3.8"

@@ -188,6 +188,14 @@
             "cwd": "${workspaceFolder}/tests",
             "program": "${workspaceFolder}/tests/test_search.py",
             "console": "integratedTerminal"            
+        },
+        {
+            "name": "DQN Cartpole",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_cartpole_dqn.py",
+            "console": "integratedTerminal"            
         }
     ]
 }

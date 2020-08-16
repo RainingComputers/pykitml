@@ -34,7 +34,7 @@ class LSTM(MinimizeModel, Classifier, Regressor):
             :code:`leakyrelu`, :code:`relu`, :code:`softmax`, :code:`tanh`, :code:`sigmoid`, :code:`identity`.
         cost_function : str
             List of available cost functions:
-            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy).
+            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy), :code:`huber` (Huber loss).
         '''
         self.t = 1
         self._lsizes = layer_sizes

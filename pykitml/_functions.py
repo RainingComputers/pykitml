@@ -151,4 +151,26 @@ def hinge_loss_prime(output, target):
     Returns derivative of hinge loss.
     '''
     return np.where((target*output)>1, 0, -1*target)
+
+def huber(output, target):
+    '''
+    Returns huber loss for dqn
+    '''
+    error = output - target
     
+    is_small_error = np.abs(error) < 1
+    
+    squared_loss = np.square(error)/2
+    linear_loss = np.abs(error) - 0.5
+    
+    return np.where(is_small_error, squared_loss, linear_loss)
+
+def huber_prime(output, target):
+    '''
+    Returns derivative of huber loss.
+    '''
+    error = output - target
+    
+    is_small_error = np.abs(error) < 1
+
+    return np.where(is_small_error, error, np.sign(error))
