@@ -16,15 +16,9 @@ FCEUX Server
 
     .. automethod:: set_joypad
 
+    .. automethod:: read_mem
+
     .. automethod:: quit
-
-    .. automethod:: compile
-
-    .. automethod:: exec
-
-    .. automethod:: send
-
-    .. automethod:: recv
 
     .. autoattribute:: info
 
@@ -55,7 +49,7 @@ starting the server. (File > Load Lua Script)
         str = ''
 
         for key, value in pairs(table) do
-            str = str .. tostring(key) .. ' ' .. tostring(value) .. ' ' 
+            str = str .. tostring(key) .. ' ' .. tostring(value) .. ' '
         end
 
         return str
@@ -90,7 +84,7 @@ starting the server. (File > Load Lua Script)
     end
 
     -- Set the speed of the emulator
-    emu.speedmode('normal') 
+    emu.speedmode('normal')
 
     -- Server info
     send('FCEUX Client '.._VERSION)
@@ -119,26 +113,19 @@ starting the server. (File > Load Lua Script)
                     A = (values[5]=='True'), B = (values[6]=='True'),
                     start = (values[7]=='True'), select = (values[8]=='True'),
                 })
-            elseif(resp == 'CODE') then
-                local id = recv()
-                local code = recv()
-                func_table[id] = loadstring(code)
-            elseif(resp == 'EXEC') then
-                local id = recv()
-                f = func_table[id]
-                if(f) then f() end
+            elseif(resp == 'MEM') then
+                local addr = tonumber(recv())
+                send(memory.readbyte(addr))
             else
                 break
-            end 
+            end
         end
 
-        emu.frameadvance() 
+        emu.frameadvance()
     end
 
-Examples
---------
-
-**Example bot to spam the 'A' button**
+Example bot to spam the 'A' button
+----------------------------------
 
 .. code-block:: python
     
@@ -161,50 +148,6 @@ Examples
     server.start()
 
 Start this script, then run the FCEUX emulator. Open any NES ROM 
-and then load the lua client script. The bot will continuously spam
-the A button.
-
-**Example, executing lua code on emulator**
-
-.. code-block:: python
-
-    import datetime
-
-    import pykitml as pk
-
-    # Lua code that will run on the emulator
-    # Arguments are received using recv() function.
-    print_msg = '''
-        msg = recv()
-        emu.message(msg)
-    '''
-
-    def on_frame(server, frame): 
-        # Toggle start button to start rounds
-        if(frame%10 < 5): server.set_joypad(A=True, start=True)
-        else: server.set_joypad(A=False, start=False)    
-
-        # Print joypad
-        print(server.get_joypad())
-
-        # Print date time
-        # Pass all arguments to lua code as *args
-        server.exec(print_msg, str(datetime.datetime.now()))
-
-        # Continue emulation
-        server.frame_advance()
-
-    # Intialize and start server
-    server = pk.FCEUXServer(on_frame)
-    print(server.info)
-
-    # Pass whatever code you want to compile as *args
-    # when starting server
-    server.start(print_msg)
-
-FCEUX Lua API
--------------
-See 
-https://tasvideos.github.io/fceux/web/help/fceux.html?LuaFunctionsList.html
-for FCEUX lua API docs. *Note:* Comments will not work in the lua code.
+(File > Open ROM) and then load the lua client script (File > Load Lua Script). 
+The bot will continuously spam the A button.
 

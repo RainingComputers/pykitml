@@ -98,39 +98,6 @@ class FCEUXServer:
         except KeyboardInterrupt:
             self.quit()
 
-    def compile(self, code):
-        '''
-        Compile lua code to be run on the emulator.
-
-        Parameters
-        ----------
-        code : str
-        '''
-        def format_code(code):
-            lines = code.split('\n')
-            non_empty_lines = list(filter(lambda str: len(str)!=0, lines))
-            return ';'.join(non_empty_lines)
-
-        code_id = str(id(code))
-        code_formatted = format_code(code)
-        self.send('CODE')
-        self.send(code_id)
-        self.send(code_formatted)
-
-    def exec(self, code, *args):
-        '''
-        Execute compiled code on the emulator.
-
-        Parameters
-        ----------
-        code : str
-        *args
-            Arguments to the lua code
-        '''
-        self.send('EXEC')
-        self.send(str(id(code)))
-        for str_send in args: self.send(str_send)
-
     def frame_advance(self):
         '''
         Move to next frame, should be called at the end of 
@@ -158,6 +125,31 @@ class FCEUXServer:
         joypad = str(up)+' '+str(down)+' '+str(left)+' '+str(right)\
             +' '+str(A)+' '+str(B)+' '+str(start)+' '+str(select)
         self.send(joypad)
+
+    def read_mem(self, addr, signed=False):
+        '''
+        Read memory address.
+
+        Parameters
+        ----------
+        addr : int
+            The memory address to read
+        signed : bool
+            If :code:`True`, returns signed integer 
+
+        Returns
+        -------
+        int
+            The byte at the address.
+        '''
+        self.send('MEM')
+        self.send(str(addr))
+        unsigned = int(self.recv())
+
+        if(signed):
+            return unsigned-256 if unsigned>127 else unsigned
+        else:
+            return unsigned
 
     def quit(self, reason=''):
         '''
