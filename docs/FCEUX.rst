@@ -18,6 +18,8 @@ FCEUX Server
 
     .. automethod:: read_mem
 
+    .. automethod:: reset
+
     .. automethod:: quit
 
     .. autoattribute:: info
@@ -116,6 +118,8 @@ starting the server. (File > Load Lua Script)
             elseif(resp == 'MEM') then
                 local addr = tonumber(recv())
                 send(memory.readbyte(addr))
+            elseif(resp == 'RES') then
+                emu.softreset()
             else
                 break
             end

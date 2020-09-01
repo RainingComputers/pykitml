@@ -151,6 +151,12 @@ class FCEUXServer:
         else:
             return unsigned
 
+    def reset(self):
+        '''
+        Soft resets the emulator.
+        '''
+        self.send('RES')
+
     def quit(self, reason=''):
         '''
         Disconnect from emulator.
