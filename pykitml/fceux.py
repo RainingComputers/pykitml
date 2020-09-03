@@ -153,7 +153,7 @@ class FCEUXServer:
 
     def reset(self):
         '''
-        Soft resets the emulator.
+        Resets the emulator, executes a power cycle.
         '''
         self.send('RES')
 

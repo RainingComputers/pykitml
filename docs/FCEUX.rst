@@ -119,7 +119,7 @@ starting the server. (File > Load Lua Script)
                 local addr = tonumber(recv())
                 send(memory.readbyte(addr))
             elseif(resp == 'RES') then
-                emu.softreset()
+                emu.poweron()
             else
                 break
             end
