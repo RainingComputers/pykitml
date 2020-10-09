@@ -68,29 +68,34 @@ class FCEUXServer:
         '''
         return self._clientsocket.recv(4096).decode('utf-8')
 
-    def start(self, *args):
+    def init_frame(self):
+        '''
+        Signal server to prep for next frame and returns
+        frame count
+
+        Returns
+        -------
+        int
+            Frame count
+        '''
+        # Receive message from client    
+        frame_str = self.recv()
+        if(len(frame_str) == 0): 
+            self.quit('Client had quit')
+        frame = int(frame_str)
+
+        return frame
+
+    def start(self):
         '''
         Starts the server, waits for emulator to connect.
         Calls :code:`frame_func` every frame after connection
         has been established.
-
-        Parameters
-        ----------
-        *args
-            Argument list containing all the lua code to be
-            compiled and executed on the emulator.
         '''
         try:
-            for code in args:
-                self.compile(code)
-
             # Keep receiving messaged from FCEUX and acknowledge
             while True:
-                # Receive message from client    
-                frame_str = self.recv()
-                if(len(frame_str) == 0): 
-                    self.quit('Client had quit')
-                frame = int(frame_str)
+                frame = self.init_frame()
                 self._on_frame_func(self, frame)
         
         except BrokenPipeError:

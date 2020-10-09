@@ -9,6 +9,7 @@ import tqdm
 
 from .network import NeuralNetwork
 from .pklhandler import save
+from ._functions import huber
 
 '''
     Ref: https://github.com/keon/deep-q-learning/blob/master/ddqn.py
@@ -82,7 +83,7 @@ class DQNAgent:
         self._filename = ''
     
     def _train_minibatch(self, batch_size, optimizer, discount_factor):
-        if(batch_size > len(self._memory)): return
+        if(batch_size > len(self._memory)): return 0
 
         # Sample a mini batch
         states, actions, rewards, next_states, done = self._memory.sample(batch_size)
@@ -95,16 +96,19 @@ class DQNAgent:
         )
 
         # Train
+        cost = 0
         for i in range(batch_size):
             self._model.feed(np.array([states[i]]))
             target = np.array(self._model.get_output(), copy=True)
+            cost += huber(target[actions[i]], target_qvals[i])
             target[actions[i]] = target_qvals[i]
             grad = self._model._backpropagate(0, target)
             self._model._mparams = optimizer._optimize(self._model._mparams, grad)
                 
+        return cost/batch_size
 
     def train(self, env, nepisodes, optimizer, batch_size=64, render=False,
-        explr_rate=1, explr_min=0.01, explr_decay=0.99, disc_factor=0.95):
+        update_freq = 1, explr_rate=1, explr_min=0.01, explr_decay=0.99, disc_factor=0.95):
         '''
         Trains the agent on the given environment using deep Q learning.
 
@@ -121,6 +125,8 @@ class DQNAgent:
         render : bool
             If set to true, will call the :code:`render()` method in :code:`env`
             object.
+        update_freq : int
+            How often to update the target model in episodes. 
         explr_rate : float
             Initial exploration rate. Higher the exploration rate,
             agent will take more random actions.
@@ -134,6 +140,7 @@ class DQNAgent:
         '''
 
         self._reward_graph = []
+        self._cost_graph = []
 
         pbar = tqdm.trange(0, nepisodes, ncols=80, unit='episodes')
         for e in pbar:
@@ -141,7 +148,8 @@ class DQNAgent:
             done = False
             state = env.reset()
             total_rewards = 0
-            total_steps = 0        
+            total_steps = 0
+            total_cost = 0
             while not done:
                 if(random.random() <= explr_rate):
                     action = random.randint(0, self._act_size-1)
@@ -162,22 +170,25 @@ class DQNAgent:
                 state = next_state
 
                 # Sample mini batch and train
-                self._train_minibatch(batch_size, optimizer, disc_factor)
+                cost = self._train_minibatch(batch_size, optimizer, disc_factor)
+                total_cost += cost
 
             # Decrase exploration rate
             if(explr_rate > explr_min): explr_rate*=explr_decay
 
             # Update target model
-            self._target_model._mparams = np.array(self._model._mparams, copy=True)
+            if(e%update_freq == 0):
+                self._target_model._mparams = np.array(self._model._mparams, copy=True)
 
             # Update progress bar
             pbar.set_postfix(steps=total_steps, rewards=total_rewards)
             self._reward_graph.append(total_rewards)
+            self._cost_graph.append(total_cost/total_steps)
 
             # Save agent
             if(self._save_freq != 0):
                 if((e+1)%self._save_freq == 0): 
-                    save(self, self._filename+'_episode'+str(e)+'.pkl')
+                    save(self, self._filename+'_episode'+str(e+1)+'.pkl')
 
         env.close()
 
@@ -195,10 +206,15 @@ class DQNAgent:
         self._save_freq = freq
         self._filename = name
 
-    def plot_performance(self):
+    def plot_performance(self, N=30):
         '''
         Plots logged performance data after training. 
         Should be called after :py:func:`train`.
+
+        Parameters
+        ----------
+        N : int
+            How many points to take for the running mean.
 
         Raises
         ------
@@ -211,7 +227,16 @@ class DQNAgent:
             return (cumsum[N:] - cumsum[:-N]) / float(N)
 
         plt.figure('Performance graph', figsize=(10, 7))
-        plt.plot(running_mean(self._reward_graph, 30))
+
+        plt.subplot(2, 1, 1)
+        plt.ylabel('Reward')
+        plt.plot(running_mean(np.array(self._reward_graph), N))
+        
+        plt.subplot(2, 1, 2)
+        plt.ylabel('Cost')
+        plt.xlabel('Episode')
+        plt.plot(running_mean(np.array(self._cost_graph), N))
+
         plt.show()
 
 class Environment(ABC):
@@ -260,4 +285,3 @@ class Environment(ABC):
         of the environment.
         '''
         pass
-

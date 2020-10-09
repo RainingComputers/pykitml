@@ -155,3 +155,32 @@ Start this script, then run the FCEUX emulator. Open any NES ROM
 (File > Open ROM) and then load the lua client script (File > Load Lua Script). 
 The bot will continuously spam the A button.
 
+Example bot to spam the 'A' button, second way
+----------------------------------------------
+
+.. code-block:: python
+
+    import pykitml as pk
+    
+    # Instantiate server
+    server = pk.FCEUXServer(None)
+    
+    try:
+        while True:
+            # Intialize frame, get frame count 
+            frame = server.init_frame()
+            
+            # Spam A and start button
+            if(frame%10 < 5): server.set_joypad(A=True, start=True)
+            else: server.set_joypad(A=False, start=False)    
+    
+            # Print joypad
+            print(server.get_joypad())
+    
+            # Continue emulation
+            server.frame_advance()
+    
+    except BrokenPipeError:
+        server.quit('Client has quit.')
+    except KeyboardInterrupt:
+        server.quit()
