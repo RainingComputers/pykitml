@@ -10,6 +10,8 @@ DQNAgent Class
 
     .. automethod:: train
 
+    .. automethod:: exploit
+
     .. automethod:: plot_performance
 
 .. _environment:

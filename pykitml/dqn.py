@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import tqdm
 
 from .network import NeuralNetwork
-from .pklhandler import save
+from .pklhandler import save, load
 from ._functions import huber
 
 '''
@@ -188,7 +188,7 @@ class DQNAgent:
             # Save agent
             if(self._save_freq != 0):
                 if((e+1)%self._save_freq == 0): 
-                    save(self, self._filename+'_episode'+str(e+1)+'.pkl')
+                    self.save(self._filename+'_episode'+str(e+1)+'.pkl')
 
         env.close()
 
@@ -238,6 +238,37 @@ class DQNAgent:
         plt.plot(running_mean(np.array(self._cost_graph), N))
 
         plt.show()
+
+    def exploit(self, env, render=False):
+        '''
+        Exploit the trained model to make decision. No training occurs.
+        Use to demo the trained agent.
+        
+        Parameters
+        ----------
+        env : obj
+            Object that represents the environment. See :ref:`environment`
+        render : bool
+            If set to true, will call the :code:`render()` method in :code:`env`
+        '''
+        while True:
+            done = False
+            state = env.reset()
+            while not done:
+                self._model.feed(state)
+                qval = self._model.get_output()
+                action = np.argmax(qval)
+
+                next_state, reward, done = env.step(action)
+                if(render): env.render()
+
+                state = next_state
+
+    def save(self, file_name):
+        save((self._model, self._reward_graph, self._cost_graph), file_name)
+
+    def load(self, file_name):
+        self._model, self._reward_graph, self._cost_graph = load(file_name)
 
 class Environment(ABC):
     @abstractmethod
