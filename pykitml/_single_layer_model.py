@@ -34,9 +34,9 @@ class SingleLayerModel(MinimizeModel, ABC):
         biases = np.random.rand(output_size) * 2 * epsilon - epsilon
         
         # Numpy array to store activations
-        self._input_activations = np.array([])
-        self._activations = np.array([])
-        self._weighted_sum = np.array([])
+        self._inputa = np.array([])
+        self.a = np.array([])
+        self.z = np.array([])
 
         # Put parameters in numpy dtype=object array
         W = 0 # Weights
@@ -67,12 +67,12 @@ class SingleLayerModel(MinimizeModel, ABC):
         B = 1 # Biases
 
         # feed
-        self._input_activations = input_data
-        self._weighted_sum = (input_data @ self._params[W].T) + self._params[B]
-        self._activations = self._activ_func(self._weighted_sum)
+        self._inputa = input_data
+        self.z = (input_data @ self._params[W].T) + self._params[B]
+        self.a = self._activ_func(self.z)
 
     def get_output(self):
-        return self._activations.squeeze()
+        return self.a.squeeze()
 
     def _backpropagate(self, index, target):
         # Constants
@@ -80,9 +80,9 @@ class SingleLayerModel(MinimizeModel, ABC):
         B = 1 # Biases
 
         # Gradients
-        da_dz = self._activ_func_prime(self._weighted_sum[index], self._activations[index])
-        dc_db = self._cost_func_prime(self._activations[index], target) * da_dz
-        dc_dw = np.multiply.outer(dc_db, self._input_activations[index])
+        da_dz = self._activ_func_prime(self.z[index], self.a[index])
+        dc_db = self._cost_func_prime(self.a[index], target) * da_dz
+        dc_dw = np.multiply.outer(dc_db, self._inputa[index])
         
         # Add regularization
         dc_dw += self._reg_param*self._params[W]
@@ -92,6 +92,10 @@ class SingleLayerModel(MinimizeModel, ABC):
         gradient[W] = dc_dw
         gradient[B] = dc_db
         return gradient
+
+    @property
+    def bptt(self):
+        return False
 
     def _get_norm_weights(self):
         W = 0

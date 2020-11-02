@@ -101,6 +101,22 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Boston Regression Tree",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_boston_tree.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Boston Regression Forest",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_boston_forest.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Iris Naive Bayes",
             "type": "python",
             "request": "launch",
@@ -149,5 +165,37 @@
             "program": "${workspaceFolder}/tests/test_s1_kmeans.py",
             "console": "integratedTerminal"
         },
+        {
+            "name": "LSTM ECG eye",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_lstm_eye.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "LSTM Punchout",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_punchout.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Random Search",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_search.py",
+            "console": "integratedTerminal"            
+        },
+        {
+            "name": "DQN Cartpole",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/tests",
+            "program": "${workspaceFolder}/tests/test_cartpole_dqn.py",
+            "console": "integratedTerminal"            
+        }
     ]
 }

@@ -1,9 +1,10 @@
 import numpy as np
 
 from ._classifier import Classifier
+from ._regressor import Regressor
 from . import _functions
 
-class NearestNeighbor(Classifier):
+class NearestNeighbor(Classifier, Regressor):
     '''
     This class implements nearest neighbor classifier.
     '''

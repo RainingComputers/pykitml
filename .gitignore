@@ -79,3 +79,6 @@ $RECYCLE.BIN/
 *.gv
 *.gv.png
 *.gv.pdf
+
+# temp folder
+temp/

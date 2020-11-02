@@ -18,6 +18,8 @@ Class Reference
 
     .. automethod:: accuracy
 
+    .. automethod:: r2score
+
     .. automethod:: confusion_matrix
 
 Example: Classifying Iris

@@ -2,7 +2,6 @@ from pykitml.testing import pktest_graph, pktest_nograph
 
 import pytest
 
-@pytest.mark.skip(reason='Will take too long')
 @pktest_graph
 def test_adult_forest():
     import os
@@ -25,10 +24,10 @@ def test_adult_forest():
         'categorical', 'categorical', 'categorical', 'categorical', 'categorical',
         'continues', 'continues', 'continues', 'categorical'
     ]
-    forest_adult_classifier = pk.RandomForest(13, 2, max_depth=9, feature_type=ftypes)
+    forest_adult_classifier = pk.RandomForest(13, 2, max_depth=1000, feature_type=ftypes)
 
     # Train
-    forest_adult_classifier.train(inputs_train, outputs_train, num_feature_bag=13)
+    forest_adult_classifier.train(inputs_train, outputs_train, num_trees=100)
 
     # Save it
     pk.save(forest_adult_classifier, 'forest_adult_classifier.pkl')
@@ -44,7 +43,7 @@ def test_adult_forest():
         gnames=['False', 'True'])
 
     # Assert accuracy
-    assert (forest_adult_classifier.accuracy(inputs_test, outputs_test)) >= 84
+    assert (forest_adult_classifier.accuracy(inputs_test, outputs_test)) >= 82
 
 if __name__ == '__main__':
     try:

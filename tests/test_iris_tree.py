@@ -10,7 +10,7 @@ def test_iris_tree():
     inputs_train, outputs_train, inputs_test, outputs_test = iris.load()
 
     # Create model
-    tree_iris_classifier = pk.DecisionTree(4, 3, max_depth=4, feature_type=['continues']*4)
+    tree_iris_classifier = pk.DecisionTree(4, 3, max_depth=5, feature_type=['continues']*4)
 
     # Train
     tree_iris_classifier.train(inputs_train, outputs_train)

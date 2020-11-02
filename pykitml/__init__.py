@@ -20,5 +20,11 @@ from .pklhandler import *
 from .normalize import *
 from .optimizers import *
 from .preprocessing import *
+from .cross_val import *
+from .lstm import *
+from .smote import *
+from .random_search import *
+from .fceux import *
+from .dqn import *
 
 from . import testing

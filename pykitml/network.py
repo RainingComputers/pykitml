@@ -2,11 +2,12 @@ import numpy as np
 
 from ._minimize_model import MinimizeModel
 from ._classifier import Classifier
+from ._regressor import Regressor
 from . import _functions
 
-class NeuralNetwork(MinimizeModel, Classifier):
+class NeuralNetwork(MinimizeModel, Classifier, Regressor):
     '''
-    This class implements Feed Neural Network.
+    This class implements Feed-forward Neural Network.
     '''
 
     def __init__(self, layer_sizes, reg_param=0, config='leakyrelu-softmax-cross_entropy'):
@@ -33,7 +34,7 @@ class NeuralNetwork(MinimizeModel, Classifier):
             :code:`leakyrelu`, :code:`relu`, :code:`softmax`, :code:`tanh`, :code:`sigmoid`, :code:`identity`.
 
             List of available cost functions:
-            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy).
+            :code:`mse` (Mean Squared Error), :code:`cross_entropy` (Cross Entropy), :code:`huber` (Huber loss).
 
         Raises
         ------
@@ -74,9 +75,9 @@ class NeuralNetwork(MinimizeModel, Classifier):
         for l in range(1, self.nlayers):
             layer_size = layer_sizes[l]
             input_layer_size = layer_sizes[l-1]
-            epsilon = np.sqrt(6)/(np.sqrt(layer_size) + np.sqrt(input_layer_size))
-            weights[l] = np.random.rand(layer_size, input_layer_size)*2*epsilon - epsilon
-            biases[l] = np.random.rand(layer_size) * 2 * epsilon - epsilon
+            epsilon = np.sqrt(6 / (layer_size + input_layer_size))
+            weights[l] = np.random.uniform(-epsilon, epsilon, (layer_size, input_layer_size))
+            biases[l] = np.random.uniform(-epsilon, epsilon, (layer_size))
         # Put parameters in numpy dtype=object array
         self._params = np.array(
             [np.array(weights, dtype=object), np.array(biases, dtype=object)],
@@ -84,8 +85,8 @@ class NeuralNetwork(MinimizeModel, Classifier):
         )  
 
         # List of numpy arrays for storing temporary values
-        self._weighted_sums = [np.array([])] * self.nlayers
-        self._activations = [np.array([])] * self.nlayers
+        self.z = [np.array([])] * self.nlayers
+        self.a = [np.array([])] * self.nlayers
 
     def __repr__(self):
         return 'Layers: '+str(self._lsize)+' Config: '+str(self._functs)
@@ -119,19 +120,19 @@ class NeuralNetwork(MinimizeModel, Classifier):
         B = 1 # Biases
 
         # Set inputs
-        self._activations[0] = input_data
+        self.a[0] = input_data
 
         # Feed through hidden layers
         for l in range(1, self.nlayers-1):
-            self._weighted_sums[l] = (self._activations[l-1]@self._params[W][l].T) + self._params[B][l]
-            self._activations[l] = self._activ_func(self._weighted_sums[l])
+            self.z[l] = (self.a[l-1]@self._params[W][l].T) + self._params[B][l]
+            self.a[l] = self._activ_func(self.z[l])
 
         # Feed thorugh output layer
-        self._weighted_sums[-1] = (self._activations[-2]@self._params[W][-1].T) + self._params[B][-1]
-        self._activations[-1] = self._output_activ_func(self._weighted_sums[-1])
+        self.z[-1] = (self.a[-2]@self._params[W][-1].T) + self._params[B][-1]
+        self.a[-1] = self._output_activ_func(self.z[-1])
 
     def get_output(self):
-        return self._activations[-1].squeeze()
+        return self.a[-1].squeeze()
 
     def _backpropagate(self, index, target):
         # Constants
@@ -146,7 +147,7 @@ class NeuralNetwork(MinimizeModel, Classifier):
         
         # Calculate activation_function'(z)
         def calc_da_dz(l):
-            da_dz[l] = self._activ_func_prime(self._weighted_sums[l][index], self._activations[l][index])
+            da_dz[l] = self._activ_func_prime(self.z[l][index], self.a[l][index])
         
         # Calculate the partial derivatives of the cost w.r.t all the biases of layer 
         # 'l' (NOT for output layer)
@@ -155,19 +156,19 @@ class NeuralNetwork(MinimizeModel, Classifier):
 
         # Calculate the partial derivatives of the cost w.r.t all the weights of layer 'l'
         def calc_dc_dw(l):
-            dc_dw[l] = np.multiply.outer(dc_db[l], self._activations[l-1][index])
+            dc_dw[l] = np.multiply.outer(dc_db[l], self.a[l-1][index])
             # Regularization
             dc_dw[l] += self._reg_param*self._params[W][l]
 
-        # Calculate the partial derivatives of the cost function w.r.t the ouput layer's 
+        # Calculate the partial derivatives of the cost function w.r.t the output layer's 
         # activations, weights, biases
-        da_dz[-1] = self._output_activ_func_prime(self._weighted_sums[-1][index], self._activations[-1][index])
-        dc_db[-1] = self._cost_func_prime(self._activations[-1][index], target) * da_dz[-1]
+        da_dz[-1] = self._output_activ_func_prime(self.z[-1][index], self.a[-1][index])
+        dc_db[-1] = self._cost_func_prime(self.a[-1][index], target) * da_dz[-1]
         calc_dc_dw(-1)
 
         # Calculate the partial derivatives of the cost function w.r.t the hidden layers'
         # activations, weights, biases
-        for l in range(self.nlayers - 2, 0, -1):
+        for l in range(self.nlayers-2, 0, -1):
             calc_da_dz(l)
             calc_dc_db(l)
             calc_dc_dw(l)
@@ -177,6 +178,10 @@ class NeuralNetwork(MinimizeModel, Classifier):
             [np.array(dc_dw, dtype=object), np.array(dc_db, dtype=object)],
             dtype=object
         )
+
+    @property
+    def bptt(self):
+        return False
 
     def _get_norm_weights(self):
         # If regularization is zero

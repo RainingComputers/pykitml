@@ -2,7 +2,6 @@ from pykitml.testing import pktest_graph, pktest_nograph
 
 import pytest
 
-@pytest.mark.skip(reason='Will take too long')
 @pktest_graph
 def test_adult_tree():
     import os
@@ -25,7 +24,7 @@ def test_adult_tree():
         'categorical', 'categorical', 'categorical', 'categorical', 'categorical',
         'continues', 'continues', 'continues', 'categorical'
     ]
-    tree_adult_classifier = pk.DecisionTree(13, 2, max_depth=6, feature_type=ftypes)
+    tree_adult_classifier = pk.DecisionTree(13, 2, max_depth=100, min_split=100, feature_type=ftypes)
 
     # Train
     tree_adult_classifier.train(inputs_train, outputs_train)
@@ -42,9 +41,6 @@ def test_adult_tree():
     # Plot confusion matrix
     tree_adult_classifier.confusion_matrix(inputs_test, outputs_test, 
         gnames=['False', 'True'])
-
-    # Plot descision tree
-    tree_adult_classifier.show_tree()
 
     # Assert accuracy
     assert (tree_adult_classifier.accuracy(inputs_test, outputs_test)) >= 84

@@ -103,6 +103,8 @@ class Classifier(ABC):
            The accuracy of the model over the testing data i.e how many testing examples
            did the model predict correctly.
         '''
+        self._on_test_start()
+
         # Evalute over all the testing data and get outputs
         self.feed(testing_data)
 
@@ -118,6 +120,7 @@ class Classifier(ABC):
         # Calculate accuracy
         accuracy = (no_correct/testing_data.shape[0]) * 100
 
+        self._on_test_end()
         # return accuracy
         return round(accuracy, 2) 
 
@@ -142,6 +145,7 @@ class Classifier(ABC):
             The confusion matrix. 
         '''
         print('Creating Confusion Matrix...')
+        self._on_test_start()
 
         # feed the data
         self.feed(test_data)
@@ -212,4 +216,19 @@ class Classifier(ABC):
             plt.show()
 
         # return
+        self._on_test_end()
         return conf_mat
+
+    def _on_test_start(self):
+        '''
+        This method will be called before testing, 
+        override this method needed.
+        '''
+        pass
+
+    def _on_test_end(self):
+        '''
+        This method will be called after testing, 
+        override this method needed.
+        '''
+        pass

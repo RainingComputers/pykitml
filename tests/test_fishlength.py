@@ -28,7 +28,7 @@ def test_fishlength():
         training_data=inputs_poly,
         targets=outputs, 
         batch_size=22, 
-        epochs=1000, 
+        epochs=200, 
         optimizer=pk.Adam(learning_rate=0.02, decay_rate=0.99), 
         testing_freq=1,
         decay_freq=10
@@ -39,6 +39,9 @@ def test_fishlength():
 
     # Plot performance
     fish_classifier.plot_performance()
+
+    # Print r2 score
+    print('r2score:', fish_classifier.r2score(inputs_poly, outputs))
 
     # Assert if it has enough accuracy
     assert fish_classifier.cost(inputs_poly, outputs) <= 0

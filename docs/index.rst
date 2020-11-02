@@ -24,6 +24,7 @@ Installation
    LogisticRegression
    SVM
    FeedForwardNetwork
+   LSTM
    Optimizers
    NearestNeighbor
    DecisionTree
@@ -32,10 +33,15 @@ Installation
    GaussianNaiveBayes
    KMeans
    PrincipalComponentAnalysis
+   RandomSearch
    Normalization
    PreprocessingDatasets
+   SMOTE
+   CrossValidation
    Datasets
    SavingAndLoading
+   FCEUX
+   DQN
 
 
 Indices and tables

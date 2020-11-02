@@ -82,6 +82,18 @@ Sonar Rocks and Mines - pykitml.datasets.sonar module
 .. autofunction:: pykitml.datasets.sonar.load
 
 
+.. _boston_dataset:
+
+Boston Housing - pykitml.boston.s1clustering module
+----------------------------------------------------
+
+.. automodule:: pykitml.datasets.boston
+
+.. autofunction:: pykitml.datasets.boston.get
+
+.. autofunction:: pykitml.datasets.boston.load
+
+
 .. _s1clustering_dataset:
 
 S1 Clustering - pykitml.datasets.s1clustering module
