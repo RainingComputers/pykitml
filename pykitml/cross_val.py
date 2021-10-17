@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def cross_validate(inputs, outputs, folds=5):
     '''
     Python generator function for making K-fold cross validation easier.
@@ -26,11 +27,11 @@ def cross_validate(inputs, outputs, folds=5):
     -------
     >>> import numpy as np
     >>> import pykitml as pk
-    >>> 
+    >>>
     >>> # Mock training data
     ... x = np.arange(30).reshape((10, 3))
     >>> y = x + 10
-    >>> 
+    >>>
     >>> # 5-fold cross validation
     ... # Training data is split into 5 blocks, each block takes its turn
     ... # to be the test data.
@@ -42,12 +43,14 @@ def cross_validate(inputs, outputs, folds=5):
     '''
     size = inputs.shape[0]
     block_size = size//folds
-    remainder = size%folds
+    remainder = size % folds
 
     # Calculate block sizes
     def get_block_size(block):
-        if(block < remainder): return block_size+1
-        else: return block_size
+        if block < remainder:
+            return block_size+1
+        else:
+            return block_size
 
     block_sizes = [get_block_size(block) for block in range(folds)]
 
@@ -65,9 +68,9 @@ def cross_validate(inputs, outputs, folds=5):
         test_inputs, test_outputs = make_block(i, inputs), make_block(i, outputs)
 
         # Create training data
-        train_blocks_inputs = [make_block(j, inputs) for j in range(folds) if(j!=i)]
+        train_blocks_inputs = [make_block(j, inputs) for j in range(folds) if j != i]
         train_inputs = np.concatenate(train_blocks_inputs, axis=0)
-        train_blocks_outputs = [make_block(j, outputs) for j in range(folds) if(j!=i)]
+        train_blocks_outputs = [make_block(j, outputs) for j in range(folds) if j != i]
         train_outputs = np.concatenate(train_blocks_outputs, axis=0)
 
         yield train_inputs, train_outputs, test_inputs, test_outputs

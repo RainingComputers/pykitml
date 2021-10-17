@@ -1,20 +1,21 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_pca_compression():
     import os.path
     import random
 
-    import numpy as np
     import matplotlib.pyplot as plt
     import pykitml as pk
     from pykitml.datasets import mnist
-    
+
     # Download dataset
-    if(not os.path.exists('mnist.pkl')): mnist.get()
+    if not os.path.exists('mnist.pkl'):
+        mnist.get()
 
     # Load dataset
-    training_data, training_targets, testing_data, testing_targets = mnist.load()
+    training_data, _, _, _ = mnist.load()
 
     # Train PCA, reduce 784 dimensions to 250 dimensions
     pca = pk.PCA(training_data, 250)
@@ -41,9 +42,9 @@ def test_pca_compression():
     for i in range(1, 17):
         plt.subplot(4, 4, i)
         plt.imshow(recovered_examples[i-1].reshape((28, 28)), cmap='gray')
-    
+
     # Show results
-    plt.show()    
+    plt.show()
 
 
 if __name__ == '__main__':

@@ -1,17 +1,16 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
 
-import pytest
 
 @pktest_graph
 def test_sonar_forest():
     import os
 
-    import numpy as np
     import pykitml as pk
     from pykitml.datasets import sonar
 
     # Download the dataset
-    if(not os.path.exists('sonar.pkl')): sonar.get()
+    if not os.path.exists('sonar.pkl'):
+        sonar.get()
 
     # Load the sonar dataset
     inputs_train, outputs_train, inputs_test, outputs_test = sonar.load()
@@ -34,8 +33,9 @@ def test_sonar_forest():
     print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    forest_sonar_classifier.confusion_matrix(inputs_test, outputs_test, 
-        gnames=['False', 'True'])
+    forest_sonar_classifier.confusion_matrix(inputs_test, outputs_test,
+                                             gnames=['False', 'True'])
+
 
 if __name__ == '__main__':
     try:

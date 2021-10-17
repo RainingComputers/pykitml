@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 
-import numpy as np
-
 '''
 Optimizers module,
 REF: http://cs231n.github.io/neural-networks-3/
 '''
+
 
 class Optimizer(ABC):
     '''
@@ -38,6 +37,7 @@ class GradientDescent(Optimizer):
     '''
     This class implements gradient descent optimization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1):
         '''
         Parameters
@@ -70,6 +70,7 @@ class Momentum(Optimizer):
     '''
     This class implements momentum optimization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1, beta=0.9):
         '''
         Parameters
@@ -108,6 +109,7 @@ class Nesterov(Optimizer):
     '''
     This class implements neterov momentum optimization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1, beta=0.9):
         '''
         Parameters
@@ -149,6 +151,7 @@ class Adagrad(Optimizer):
     '''
     This class implements adagrad optmization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1):
         '''
         Parameters
@@ -186,6 +189,7 @@ class RMSprop(Optimizer):
     '''
     This class implements RMSprop optimization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1, beta=0.9):
         '''
         Parameters
@@ -220,12 +224,13 @@ class RMSprop(Optimizer):
         self._cache = self._beta*self._cache + (1-self._beta)*(parameter_gradient**2)
         # Update parameter and return
         return parameter + (-self._learning_rate*parameter_gradient)/((self._cache**0.5)+eps)
-        
-        
+
+
 class Adam(Optimizer):
     '''
     This class implements adam optimization.
     '''
+
     def __init__(self, learning_rate, decay_rate=1, beta1=0.9, beta2=0.9):
         '''
         Parameters

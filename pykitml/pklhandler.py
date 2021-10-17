@@ -1,9 +1,10 @@
 import pickle
 
 '''
-This module contains functions for saving and 
+This module contains functions for saving and
 loading .pkl files
 '''
+
 
 def save(object_, file_name):
     '''
@@ -26,7 +27,7 @@ def save(object_, file_name):
     file.close()
 
 
-def load(file_name):    
+def load(file_name):
     '''
     Loads an object from file.
 

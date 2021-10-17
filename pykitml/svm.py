@@ -1,10 +1,9 @@
-import functools
-
 import numpy as np
 
 from ._single_layer_model import SingleLayerModel
 from ._classifier import Classifier
 from . import _functions
+
 
 def gaussian_kernel(input_data, training_inputs, sigma=1):
     '''
@@ -20,13 +19,14 @@ def gaussian_kernel(input_data, training_inputs, sigma=1):
         Hyperparameter that determines the 'spread' of the kernel.
 
     '''
-    # Calculate squared L2 norm of each data point with 
+    # Calculate squared L2 norm of each data point with
     # every other data point
     distances = _functions.pdist(input_data, training_inputs)
     # Apply gaussian kernel
     transformed_inputs = np.exp((-1/(2*sigma**2))*distances)
     # return
     return transformed_inputs
+
 
 class SVM(SingleLayerModel, Classifier):
     '''
@@ -53,4 +53,3 @@ class SVM(SingleLayerModel, Classifier):
     @property
     def _cost_func_prime(self):
         return _functions.hinge_loss_prime
-

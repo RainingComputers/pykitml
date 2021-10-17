@@ -4,6 +4,7 @@ from ._classifier import Classifier
 from ._regressor import Regressor
 from . import _functions
 
+
 class NearestNeighbor(Classifier, Regressor):
     '''
     This class implements nearest neighbor classifier.
@@ -26,6 +27,9 @@ class NearestNeighbor(Classifier, Regressor):
         self._input_size = inputs_size
         self._output_size = output_size
 
+        self._inputs = None
+        self._outputs = None
+
     @property
     def _out_size(self):
         return self._output_size
@@ -46,7 +50,8 @@ class NearestNeighbor(Classifier, Regressor):
 
     def feed(self, input_data):
         # Make sure array is 2D
-        if(input_data.ndim == 1): input_data = np.array([input_data])
+        if input_data.ndim == 1:
+            input_data = np.array([input_data])
 
         # Get pair wise distances
         distances = _functions.pdist(input_data, self._inputs)
@@ -59,4 +64,3 @@ class NearestNeighbor(Classifier, Regressor):
 
     def get_output(self):
         return self._output.squeeze()
-    

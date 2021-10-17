@@ -6,6 +6,7 @@ import numpy as np
 This module contains helper functions for preprocessing data.
 '''
 
+
 def onehot(input_array):
     '''
     Converts input array to one-hot array.
@@ -14,7 +15,7 @@ def onehot(input_array):
     ----------
     input_array : numpy.array
         The input numpy array.
-    
+
     Returns
     -------
     one_hot : numpy.array
@@ -35,6 +36,7 @@ def onehot(input_array):
     one_hot[np.arange(array.size), array] = 1
     return one_hot
 
+
 def onehot_cols(dataset, cols):
     '''
     Converts/replaces columns of dataset to one-hot values.
@@ -54,10 +56,10 @@ def onehot_cols(dataset, cols):
 
     Example
     -------
-        
+
         >>> import pykitml as pk
         >>> import numpy as np
-        >>> a = np.array([[0, 1, 2.2], [1, 2, 3.4], [0, 0, 1.1]]) 
+        >>> a = np.array([[0, 1, 2.2], [1, 2, 3.4], [0, 0, 1.1]])
         >>> a
         array([[0. , 1. , 2.2],
                [1. , 2. , 3.4],
@@ -68,19 +70,20 @@ def onehot_cols(dataset, cols):
                [1. , 0. , 1. , 0. , 0. , 1.1]])
 
     '''
-    offset=0
+    offset = 0
     dataset_new = dataset
     for col in cols:
         onehot_colmn = onehot(dataset_new[:, col+offset])
         dataset_new = np.delete(dataset_new, col+offset, axis=1)
         dataset_new = np.insert(dataset_new, [col+offset], onehot_colmn, axis=1)
-        offset += onehot_colmn.shape[1]-1 
+        offset += onehot_colmn.shape[1]-1
 
     return dataset_new
 
-def onehot_cols_traintest(dataset_train, dataset_test,  cols):
+
+def onehot_cols_traintest(dataset_train, dataset_test, cols):
     '''
-    Converts/replaces columns of :code:`dataset_train` and 
+    Converts/replaces columns of :code:`dataset_train` and
     :code:`dataset_test` to one-hot values.
 
     Parameters
@@ -102,7 +105,7 @@ def onehot_cols_traintest(dataset_train, dataset_test,  cols):
 
     Example
     -------
-        
+
         >>> import pykitml as pk
         >>> import numpy as np
         >>> a_train = np.array([[0, 1, 3.2], [1, 2, 3.5], [0, 0, 3.4]])
@@ -120,24 +123,25 @@ def onehot_cols_traintest(dataset_train, dataset_test,  cols):
     '''
     # Combine the datasets
     dataset_new = np.concatenate((dataset_train, dataset_test), axis=0)
-    
+
     # Replace columns with on hot values
-    offset=0
+    offset = 0
     for col in cols:
         onehot_colmn = onehot(dataset_new[:, col+offset])
         dataset_new = np.delete(dataset_new, col+offset, axis=1)
         dataset_new = np.insert(dataset_new, [col+offset], onehot_colmn, axis=1)
-        offset += onehot_colmn.shape[1]-1 
+        offset += onehot_colmn.shape[1]-1
 
     split = dataset_train.shape[0]
     return dataset_new[:split, :], dataset_new[split:, :]
 
+
 def polynomial(dataset_inputs, degree=3, cols=[]):
     '''
     Generates polynomial features from the input dataset.
-    For example, if an input sample is two dimensional and of the form [a, b], 
+    For example, if an input sample is two dimensional and of the form [a, b],
     the degree-2 polynomial features are :code:`[a, b, a^2, ab, b^2]`, and degree-3
-    polynomial features are 
+    polynomial features are
     :code:`[a, b, a^2, ab, b^2, a^3, (a^2)*b, a*(b^2), b^3]`.
 
     Parameters
@@ -170,17 +174,18 @@ def polynomial(dataset_inputs, degree=3, cols=[]):
         >>> pk.polynomial(np.array([[1, 4, 5, 2], [2, 5, 6, 3]]), degree=2, cols=[0, 3])
         array([[1., 4., 5., 2., 1., 2., 4.],
                [2., 5., 6., 3., 4., 6., 9.]])
-               
+
     '''
     # Make sure 2D array
-    if(dataset_inputs.ndim == 1):
+    if dataset_inputs.ndim == 1:
         inputs = np.array([dataset_inputs])
     else:
         inputs = dataset_inputs
 
     # Choose the columns to genrate polynomial features for
-    if(len(cols) == 0): cols = range(inputs.shape[1])
-    
+    if len(cols) == 0:
+        cols = range(inputs.shape[1])
+
     poly_dataset = inputs
 
     # Generate degree terms
@@ -195,5 +200,4 @@ def polynomial(dataset_inputs, degree=3, cols=[]):
             temp[:, -1] = term
             poly_dataset = temp
 
-    return poly_dataset.squeeze() 
-
+    return poly_dataset.squeeze()

@@ -1,19 +1,20 @@
 from pykitml.testing import pktest_graph, pktest_nograph
 
+
 @pktest_graph
 def test_banknote_forest():
     import os
 
-    import numpy as np
     import pykitml as pk
     from pykitml.datasets import banknote
 
-    # Download the dataset 
-    if(not os.path.exists('banknote.pkl')): banknote.get()
+    # Download the dataset
+    if not os.path.exists('banknote.pkl'):
+        banknote.get()
 
     # Load heart data set
     inputs_train, outputs_train, inputs_test, outputs_test = banknote.load()
-    
+
     # Change 0/False to [1, 0]
     # Change 1/True to [0, 1]
     outputs_train = pk.onehot(outputs_train)
@@ -36,16 +37,15 @@ def test_banknote_forest():
     print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    forest_banknote_classifier.confusion_matrix(inputs_test, outputs_test, 
-        gnames=['False', 'True'])
+    forest_banknote_classifier.confusion_matrix(inputs_test, outputs_test,
+                                                gnames=['False', 'True'])
 
     # Assert accuracy
     assert (forest_banknote_classifier.accuracy(inputs_test, outputs_test)) >= 98
 
+
 @pktest_nograph
 def test_predict_banknote_forest():
-    import os.path
-
     import numpy as np
     import pykitml as pk
 
@@ -61,7 +61,8 @@ def test_predict_banknote_forest():
     model_output = forest_banknote_classifier.get_output()
 
     # Print result
-    print(model_output)  
+    print(model_output)
+
 
 if __name__ == '__main__':
     try:
@@ -69,4 +70,3 @@ if __name__ == '__main__':
         test_predict_banknote_forest.__wrapped__()
     except AssertionError:
         pass
-

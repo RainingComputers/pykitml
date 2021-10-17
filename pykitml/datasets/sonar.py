@@ -9,6 +9,7 @@ from .. import pklhandler
 This module contains helper functions to download the sonar dataset.
 '''
 
+
 def get():
     '''
     Downloads sonar dataset from
@@ -27,11 +28,11 @@ def get():
     Note
     ----
     You only need to call this method once, i.e, after the dataset has been downloaded
-    and you have the `sonar.pkl` file, you don't need to call 
+    and you have the `sonar.pkl` file, you don't need to call
     this method again.
     '''
     # Url to download the dataset from
-    url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/connectionist-bench/sonar/sonar.all-data'
+    url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/connectionist-bench/sonar/sonar.all-data'  # pylint: disable=line-too-long
 
     # Download the dataset
     print('Downloading sonar.all-data...')
@@ -39,7 +40,7 @@ def get():
     print('Download complete.')
 
     out_dict = {
-        'R\n':0, 'M\n':1
+        'R\n': 0, 'M\n': 1
     }
 
     # Parse data and save it as pkl file
@@ -58,17 +59,18 @@ def get():
     # Delete files
     os.remove('sonar.all-data')
 
+
 def load():
     '''
     Loads the adult dataset from `sonar.pkl` file.
 
-    Each pattern is a set of 60 numbers in the range 0.0 to 1.0. 
-    Each number represents the energy within a particular frequency band, 
-    integrated over a certain period of time. The integration aperture for 
-    higher frequencies occur later in time, since these frequencies are 
+    Each pattern is a set of 60 numbers in the range 0.0 to 1.0.
+    Each number represents the energy within a particular frequency band,
+    integrated over a certain period of time. The integration aperture for
+    higher frequencies occur later in time, since these frequencies are
     transmitted later during the chirp.
 
-    The label associated with each record contains the letter 
+    The label associated with each record contains the letter
     "R" if the object is a rock and "M" if it is a mine (metal cylinder).
 
     Returns
@@ -85,9 +87,9 @@ def load():
     Raises
     ------
         filesNotFoundError
-            If `sonar.pkl` file does not exist, 
-            i.e, if the dataset was not downloaded and saved using the 
-            :py:func:`~get` method.     
+            If `sonar.pkl` file does not exist,
+            i.e, if the dataset was not downloaded and saved using the
+            :py:func:`~get` method.
 
     '''
     # Load the data from pkl file

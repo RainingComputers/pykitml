@@ -1,11 +1,10 @@
-from pykitml.testing import pktest_graph, pktest_nograph
-
 import pytest
 
+from pykitml.testing import pktest_graph
+
+@pytest.mark.skip()
 @pktest_graph
 def test_cartpole():
-    import random
-
     import numpy as np
     import gym
     import pykitml as pk
@@ -23,7 +22,7 @@ def test_cartpole():
 
             # Reward function, from
             # https://github.com/keon/deep-q-learning/blob/master/ddqn.py
-            x, x_dot, theta, theta_dot = obs
+            x, _, theta, _ = obs
             r1 = (self._env.x_threshold - abs(x)) / self._env.x_threshold - 0.8
             r2 = (self._env.theta_threshold_radians - abs(theta)) / self._env.theta_threshold_radians - 0.5
             reward = r1 + r2

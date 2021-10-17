@@ -1,15 +1,16 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_adult():
     import os.path
 
-    import numpy as np
     import pykitml as pk
     from pykitml.datasets import adult
 
-    # Download the dataset 
-    if(not os.path.exists('adult.data.pkl')): adult.get()
+    # Download the dataset
+    if not os.path.exists('adult.data.pkl'):
+        adult.get()
 
     # Load adult data set
     inputs_train, outputs_train, inputs_test, outputs_test = adult.load()
@@ -28,22 +29,22 @@ def test_adult():
     # Train the model
     adult_classifier.train(
         training_data=inputs_train,
-        targets=outputs_train, 
-        batch_size=10, 
-        epochs=1500, 
+        targets=outputs_train,
+        batch_size=10,
+        epochs=1500,
         optimizer=pk.Adam(learning_rate=0.015, decay_rate=0.99),
         testing_data=inputs_test,
-        testing_targets=outputs_test, 
+        testing_targets=outputs_test,
         testing_freq=30,
         decay_freq=40
     )
 
     # Save it
-    pk.save(adult_classifier, 'adult_classifier.pkl') 
-    
+    pk.save(adult_classifier, 'adult_classifier.pkl')
+
     # Plot performance
     adult_classifier.plot_performance()
-    
+
     # Print accuracy
     accuracy = adult_classifier.accuracy(inputs_train, outputs_train)
     print('Train accuracy:', accuracy)

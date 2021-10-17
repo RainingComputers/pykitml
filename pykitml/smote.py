@@ -1,5 +1,7 @@
-from ._functions import pdist
 import numpy as np
+
+from ._functions import pdist
+
 
 def smote(minority_data_points, k=1):
     '''
@@ -16,16 +18,16 @@ def smote(minority_data_points, k=1):
     Returns
     -------
     new_points : numpy.array
-        New generated data points (Excluding data points passed to the 
+        New generated data points (Excluding data points passed to the
         function). :code:`k*minority_data_points.shape[0]` points will be
         generated.
     '''
     npoints = minority_data_points.shape[0]
     nfeatures = minority_data_points.shape[1]
-    
+
     # Calculate distance between each point and evry other point
     distances = pdist(minority_data_points, minority_data_points)
-    
+
     # Get indices of closest k neigbours for each point
     indices = np.argsort(distances, axis=1)[:, 1:k+1]
 

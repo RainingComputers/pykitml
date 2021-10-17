@@ -1,8 +1,8 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_iris():
-    import numpy as np
     import pykitml as pk
     from pykitml.datasets import iris
 
@@ -20,10 +20,10 @@ def test_iris():
     # Train the model
     iris_classifier.train(
         training_data=inputs_train,
-        targets=outputs_train, 
-        batch_size=10, 
-        epochs=1500, 
-        optimizer=pk.Adam(learning_rate=0.4, decay_rate=0.99), 
+        targets=outputs_train,
+        batch_size=10,
+        epochs=1500,
+        optimizer=pk.Adam(learning_rate=0.4, decay_rate=0.99),
         testing_data=inputs_test,
         testing_targets=outputs_test,
         testing_freq=30,
@@ -31,7 +31,7 @@ def test_iris():
     )
 
     # Save it
-    pk.save(iris_classifier, 'iris_classifier.pkl') 
+    pk.save(iris_classifier, 'iris_classifier.pkl')
 
     # Print accuracy
     accuracy = iris_classifier.accuracy(inputs_train, outputs_train)
@@ -43,11 +43,12 @@ def test_iris():
     iris_classifier.plot_performance()
 
     # Plot confusion matrix
-    iris_classifier.confusion_matrix(inputs_test, outputs_test, 
-        gnames=['Setosa', 'Versicolor', 'Virginica'])
+    iris_classifier.confusion_matrix(inputs_test, outputs_test,
+                                     gnames=['Setosa', 'Versicolor', 'Virginica'])
 
     # Assert if it has enough accuracy
     assert iris_classifier.accuracy(inputs_train, outputs_train) >= 98
+
 
 if __name__ == '__main__':
     try:

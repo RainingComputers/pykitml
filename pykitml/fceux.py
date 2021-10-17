@@ -1,5 +1,5 @@
-import warnings
 import socket
+
 
 class FCEUXServer:
     '''
@@ -7,14 +7,15 @@ class FCEUXServer:
     Visit https://www.fceux.com for info. You will also need to
     load client lua script in the emulator.
     '''
+
     def __init__(self, frame_func, quit_func=None, ip='localhost', port=1234):
         '''
         Parameters
         ----------
         frame_func : function
             This function will be called every frame. The function should
-            accept two argument, :code:`server` (reference to this class) 
-            and :code:`frame` (number of frames executed). 
+            accept two argument, :code:`server` (reference to this class)
+            and :code:`frame` (number of frames executed).
         quit_func : function
             This function will be executed when the server disconnects from
             the emulator
@@ -28,7 +29,7 @@ class FCEUXServer:
         self._serversocket.bind((ip, port))
         self._serversocket.listen(5)
         self._clientsocket, self._address = self._serversocket.accept()
-        
+
         # This function will be called every frame
         self._on_frame_func = frame_func
         self._on_quit_func = quit_func
@@ -51,7 +52,7 @@ class FCEUXServer:
         ----------
         msg : str
         '''
-        if(not type(msg) is str):
+        if not isinstance(msg, str):
             self.quit()
             raise TypeError('Arguments have to be string')
 
@@ -78,9 +79,9 @@ class FCEUXServer:
         int
             Frame count
         '''
-        # Receive message from client    
+        # Receive message from client
         frame_str = self.recv()
-        if(len(frame_str) == 0): 
+        if len(frame_str) == 0:
             self.quit('Client had quit')
         frame = int(frame_str)
 
@@ -97,7 +98,7 @@ class FCEUXServer:
             while True:
                 frame = self.init_frame()
                 self._on_frame_func(self, frame)
-        
+
         except BrokenPipeError:
             self.quit('Client has quit.')
         except KeyboardInterrupt:
@@ -105,7 +106,7 @@ class FCEUXServer:
 
     def frame_advance(self):
         '''
-        Move to next frame, should be called at the end of 
+        Move to next frame, should be called at the end of
         :code:`frame_func`.
         '''
         # Send back continue message
@@ -121,14 +122,14 @@ class FCEUXServer:
         self.send('JOYPAD')
         return self.recv()
 
-    def set_joypad(self, up=False, down=False, left=False, 
-            right=False, A=False, B=False, start=False, select=False):
+    def set_joypad(self, up=False, down=False, left=False,
+                   right=False, A=False, B=False, start=False, select=False):
         '''
         Set joypad button states.
         '''
         self.send('SETJOYPAD')
         joypad = str(up)+' '+str(down)+' '+str(left)+' '+str(right)\
-            +' '+str(A)+' '+str(B)+' '+str(start)+' '+str(select)
+            + ' '+str(A)+' '+str(B)+' '+str(start)+' '+str(select)
         self.send(joypad)
 
     def read_mem(self, addr, signed=False):
@@ -140,7 +141,7 @@ class FCEUXServer:
         addr : int
             The memory address to read
         signed : bool
-            If :code:`True`, returns signed integer 
+            If :code:`True`, returns signed integer
 
         Returns
         -------
@@ -151,8 +152,8 @@ class FCEUXServer:
         self.send(str(addr))
         unsigned = int(self.recv())
 
-        if(signed):
-            return unsigned-256 if unsigned>127 else unsigned
+        if signed:
+            return unsigned-256 if unsigned > 127 else unsigned
         else:
             return unsigned
 
@@ -171,21 +172,21 @@ class FCEUXServer:
         reason : str
             Reason for quitting.
         '''
-        if(self._on_quit_func is not None):
+        if self._on_quit_func is not None:
             self._on_quit_func()
         self._serversocket.close()
         self._clientsocket.close()
         print(reason)
         print('Server has quit.')
         exit()
-    
-if(__name__ == '__main__'):
+
+
+if __name__ == '__main__':
     def on_frame(server, frame):
         print(frame)
         print(server.get_joypad())
         server.frame_advance()
 
-    server = FCEUXServer(on_frame)
-    print(server.info)
-    server.start()
-
+    fceux_server = FCEUXServer(on_frame)
+    print(fceux_server.info)
+    fceux_server.start()

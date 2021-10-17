@@ -1,4 +1,5 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_mnist_svm():
@@ -7,9 +8,10 @@ def test_mnist_svm():
     import numpy as np
     import pykitml as pk
     from pykitml.datasets import mnist
-    
+
     # Download dataset
-    if(not os.path.exists('mnist.pkl')): mnist.get()
+    if not os.path.exists('mnist.pkl'):
+        mnist.get()
 
     # Load mnist data set
     inputs_train, outputs_train, inputs_test, outputs_test = mnist.load()
@@ -24,8 +26,8 @@ def test_mnist_svm():
     gaussian_inputs_test = pk.gaussian_kernel(inputs_test, inputs_train, sigma)
 
     # Format the outputs for svm training, zeros to -1
-    svm_outputs_train = np.where(outputs_train==0, -1, 1)
-    svm_outputs_test = np.where(outputs_test==0, -1, 1)
+    svm_outputs_train = np.where(outputs_train == 0, -1, 1)
+    svm_outputs_test = np.where(outputs_test == 0, -1, 1)
 
     # Create model
     svm_mnist_classifier = pk.SVM(gaussian_inputs_train.shape[1], 10)
@@ -33,12 +35,12 @@ def test_mnist_svm():
     # Train the model
     svm_mnist_classifier.train(
         training_data=gaussian_inputs_train,
-        targets=svm_outputs_train, 
-        batch_size=20, 
-        epochs=1000, 
+        targets=svm_outputs_train,
+        batch_size=20,
+        epochs=1000,
         optimizer=pk.Adam(learning_rate=3.5, decay_rate=0.95),
         testing_data=gaussian_inputs_test,
-        testing_targets=svm_outputs_test, 
+        testing_targets=svm_outputs_test,
         testing_freq=30,
         decay_freq=10
     )
@@ -61,17 +63,17 @@ def test_mnist_svm():
     # Assert if it has enough accuracy
     assert svm_mnist_classifier.accuracy(gaussian_inputs_train, outputs_train) >= 90
 
+
 @pktest_graph
 def test_predict_mnist_svm():
     import random
 
-    import numpy as np
     import matplotlib.pyplot as plt
     import pykitml as pk
     from pykitml.datasets import mnist
 
     # Load dataset
-    inputs_train, outputs_train, inputs_test, outputs_test = mnist.load()
+    inputs_train, outputs_train, _, _ = mnist.load()
 
     # Use only first 10000
     inputs_train = inputs_train[:10000]
@@ -95,6 +97,7 @@ def test_predict_mnist_svm():
     svm_mnist_classifier.feed(input_data)
     model_output = svm_mnist_classifier.get_output_onehot()
     print('Predicted: ', model_output)
+
 
 if __name__ == '__main__':
     try:

@@ -1,3 +1,5 @@
+# pylint: disable=attribute-defined-outside-init
+
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -5,13 +7,14 @@ import matplotlib.pyplot as plt
 
 import tqdm
 
+
 class MinimizeModel(ABC):
     '''
     Abstract base class for all models that use gradients and minimize a cost function.
     '''
 
     def train(self, training_data, targets, batch_size, epochs, optimizer,
-            testing_data=None, testing_targets=None, testing_freq=1, decay_freq=1):
+              testing_data=None, testing_targets=None, testing_freq=1, decay_freq=1):
         '''
         Trains the model on the training data, after training is complete, you can call
         :py:func:`plot_performance` to plot performance graphs.
@@ -35,7 +38,7 @@ class MinimizeModel(ABC):
             numpy array containing testing targets, corresponding to the testing data.
         testing_freq : int
             How frequently the model should be tested, i.e the model will be tested
-            after every :code:`testing_freq` epochs. You may want to increase this to reduce 
+            after every :code:`testing_freq` epochs. You may want to increase this to reduce
             training time.
         decay_freq : int
             How frequently the model should decay the learning rate. The learning rate
@@ -44,8 +47,8 @@ class MinimizeModel(ABC):
         Raises
         ------
         ValueError
-            If :code:`training_data`, :code:`targets`, :code:`testing_data` or 
-            :code:`testing_targets` has invalid dimensions/shape. 
+            If :code:`training_data`, :code:`targets`, :code:`testing_data` or
+            :code:`testing_targets` has invalid dimensions/shape.
         '''
         print('Training Model...')
 
@@ -54,8 +57,8 @@ class MinimizeModel(ABC):
         self._performance_log['epoch'] = []
         self._performance_log['cost_train'] = []
         self._performance_log['learning_rate'] = []
-        if(testing_data is not None):
-            self._performance_log['cost_test'] = []   
+        if testing_data is not None:
+            self._performance_log['cost_test'] = []
 
         self._init_train(batch_size)
 
@@ -68,24 +71,26 @@ class MinimizeModel(ABC):
             self._mparams = optimizer._optimize(self._mparams, total_gradient)
 
             # Decay the learning rate
-            if((epoch+1) % decay_freq == 0): optimizer._decay()
+            if (epoch+1) % decay_freq == 0:
+                optimizer._decay()
 
             # Log and print performance
-            if((epoch+1)%testing_freq == 0):
+            if (epoch+1) % testing_freq == 0:
                 # log epoch
                 self._performance_log['epoch'].append(epoch+1)
-                
+
                 # log learning rate
                 learning_rate = optimizer._learning_rate
                 self._performance_log['learning_rate'].append(learning_rate)
-                
+
                 # get cost of the model on training data
                 cost_train = self.cost(training_data, targets)
                 pbar.set_postfix(cost=cost_train)
                 self._performance_log['cost_train'].append(cost_train)
-                
+
                 # get cost of the model on testing data if it is provided
-                if(testing_data is None): continue
+                if testing_data is None:
+                    continue
                 cost_test = self.cost(testing_data, testing_targets)
                 self._performance_log['cost_test'].append(cost_test)
 
@@ -107,22 +112,22 @@ class MinimizeModel(ABC):
         targets : numpy.array
             numpy array containing training targets, corresponding to the training data.
         '''
-        # Total gradient for the batch 
+        # Total gradient for the batch
         total_gradient = 0
-        
+
         # feed the batch
-        start_index = (epoch*batch_size)%training_data.shape[0]
+        start_index = (epoch*batch_size) % training_data.shape[0]
         end_index = start_index+batch_size
         indices = np.arange(start_index, end_index) % training_data.shape[0]
         self.feed(training_data[indices])
 
-        if(self.bptt):
+        if self.bptt:
             return self._backpropagate(None, targets[indices])
         else:
             # Loop through the batch
             for example in range(0, batch_size):
                 # Add the calculated gradients to the total
-                index = ((epoch*batch_size) + example)%training_data.shape[0]
+                index = ((epoch*batch_size) + example) % training_data.shape[0]
                 # Get gradient
                 total_gradient += self._backpropagate(example, targets[index])
 
@@ -131,7 +136,7 @@ class MinimizeModel(ABC):
 
     def plot_performance(self):
         '''
-        Plots logged performance data after training. 
+        Plots logged performance data after training.
         Should be called after :py:func:`train`.
 
         Raises
@@ -152,9 +157,9 @@ class MinimizeModel(ABC):
 
         # Plot average cost vs epochs on training data
         plt.plot(graph['epoch'], graph['cost_train'], label='Training data')
-        
+
         # Plot average cost on testing data
-        if('cost_test' in graph.keys()):
+        if 'cost_test' in graph.keys():
             plt.plot(graph['epoch'], graph['cost_test'], label='Test data')
 
         # Axis labels
@@ -171,7 +176,7 @@ class MinimizeModel(ABC):
         # Axis labels
         plt.ylabel('Learning Rate')
         plt.xlabel('No. of epochs')
-        plt.legend()        
+        plt.legend()
 
         # Show the plot
         plt.show()
@@ -180,13 +185,12 @@ class MinimizeModel(ABC):
         '''
         This function will be called before training starts.
         Override this function to do initialization.
-        
+
         Parameters
         ----------
         batch_size : int
-            Size of the batch.       
+            Size of the batch.
         '''
-        pass
 
     def cost(self, testing_data, testing_targets):
         '''
@@ -199,7 +203,7 @@ class MinimizeModel(ABC):
             numpy array containing testing data.
         testing_targets : numpy.array
             numpy array containing testing targets, corresponding to the testing data.
-        
+
         Returns
         -------
         cost : float
@@ -208,7 +212,7 @@ class MinimizeModel(ABC):
         Raises
         ------
         ValueError
-            If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.      
+            If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.
         '''
         self._on_test_start()
 
@@ -220,7 +224,7 @@ class MinimizeModel(ABC):
         cost = np.sum(self._cost_function(output_targets, testing_targets))
         # Add regularization
         cost += self._get_norm_weights()
-        
+
         # Average the cost
         cost = cost/testing_data.shape[0]
 
@@ -231,17 +235,15 @@ class MinimizeModel(ABC):
 
     def _on_test_start(self):
         '''
-        This method will be called before testing, 
+        This method will be called before testing,
         override this method needed.
         '''
-        pass
 
     def _on_test_end(self):
         '''
-        This method will be called after testing, 
+        This method will be called after testing,
         override this method needed.
         '''
-        pass
 
     @property
     @abstractmethod
@@ -249,15 +251,13 @@ class MinimizeModel(ABC):
         '''
         @property method to get model parameters
         '''
-        pass
-    
+
     @_mparams.setter
     @abstractmethod
     def _mparams(self, mparams):
         '''
         @params.setter method to set model parameters
         '''
-        pass
 
     @property
     @abstractmethod
@@ -266,7 +266,6 @@ class MinimizeModel(ABC):
         Return True if the model requires BPTT
         (Backpropagation through time), otherwise return false
         '''
-        pass
 
     @abstractmethod
     def feed(self, input_data):
@@ -281,14 +280,13 @@ class MinimizeModel(ABC):
         Raises
         ------
         ValueError
-            If the input data has invalid dimensions/shape.      
+            If the input data has invalid dimensions/shape.
 
         Note
         ----
         This function only feeds the input data, to get the output after calling this
         function use :py:func:`get_output` or :py:func:`get_output_onehot`
         '''
-        pass
 
     @abstractmethod
     def get_output(self):
@@ -300,12 +298,11 @@ class MinimizeModel(ABC):
         numpy.array
             The output activations.
         '''
-        pass
 
     @abstractmethod
     def _backpropagate(self, index, targets):
         '''
-        This function calculates gradient of the cost function w.r.t all weights and 
+        This function calculates gradient of the cost function w.r.t all weights and
         biases of the model by backpropagating the error through the model.
 
         Parameters
@@ -328,8 +325,7 @@ class MinimizeModel(ABC):
         Note
         ----
         You have to call :py:func:`~feed` before you call this function.
-        ''' 
-        pass
+        '''
 
     @property
     @abstractmethod
@@ -337,7 +333,6 @@ class MinimizeModel(ABC):
         '''
         Return the cost function used in the model.
         '''
-        pass
 
     @abstractmethod
     def _get_norm_weights(self):
@@ -345,6 +340,3 @@ class MinimizeModel(ABC):
         Return the norm of all the regularized parameters of the models
         multiplied by the regularization parameter.
         '''
-        pass
-
-    

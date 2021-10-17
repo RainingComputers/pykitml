@@ -1,12 +1,14 @@
 import numpy as np
 
+
 class PCA:
     '''
     This class implements Principle Component Analysis.
     '''
+
     def __init__(self, data_points, no_components):
         '''
-        This class implements Principle Component Analysis, used for 
+        This class implements Principle Component Analysis, used for
         dimensionality reduction.
 
         Parameters
@@ -17,11 +19,11 @@ class PCA:
             Number of principle components to use.
         '''
         # Calculate covariance matrix
-        covariance_matrix = (data_points.T) @ data_points;
+        covariance_matrix = (data_points.T) @ data_points
         covariance_matrix = covariance_matrix/data_points.shape[0]
 
         # Perform Singular Value Decomposition on the comvariance matrix
-        u, s, v = np.linalg.svd(covariance_matrix, full_matrices=True)
+        u, s, _ = np.linalg.svd(covariance_matrix, full_matrices=True)
 
         # Calculate amount of variance retained
         self._retention = np.sum(s[0:no_components])/np.sum(s)
@@ -32,7 +34,7 @@ class PCA:
     def transform(self, data_points):
         '''
         Transforms the input dataset to lower dimensions.
-        
+
         Parameters
         ----------
         data_points : numpy.array
