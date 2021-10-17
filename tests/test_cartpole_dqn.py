@@ -2,7 +2,6 @@ import pytest
 
 from pykitml.testing import pktest_graph
 
-@pytest.mark.skip()
 @pktest_graph
 def test_cartpole():
     import numpy as np

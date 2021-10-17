@@ -30,7 +30,7 @@ def kmeans(training_data, nclusters, max_iter=1000, trials=50):
     '''
 
     # Keep track of trial with the least cost
-    min_cost = np.float('infinity')
+    min_cost = float('infinity')
     distances = None
     clusters_min_cost = None
     clusters = None
