@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='pykitml',
-    version='0.1.1',
+    version='0.1.2',
     author='RainingComputers',
     author_email='vishnu.vish.shankar@gmail.com',
     description='Machine Learning library written in Python and NumPy.',
