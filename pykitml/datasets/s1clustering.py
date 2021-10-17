@@ -7,12 +7,13 @@ from .. import pklhandler
 
 '''
 This module contains helper functions to download and load
-the S1 clustering dataset. 
+the S1 clustering dataset.
 '''
+
 
 def get():
     '''
-    Downloads the s1 clustering dataset from 
+    Downloads the s1 clustering dataset from
     http://cs.joensuu.fi/sipu/datasets/
     and save is as a pkl file `s1.pkl`.
 
@@ -46,20 +47,21 @@ def get():
     os.remove('s1.txt')
     print('Deleted unnecessary files.')
 
+
 def load():
     '''
-    Loads x, y points from the s1 clustering dataset from saved pickle file `s1.pkl` to 
+    Loads x, y points from the s1 clustering dataset from saved pickle file `s1.pkl` to
     numpy array. S1 clustering dataset contains 15 clusters.
 
     Returns
     -------
     training_data : numpy.array
-        5000x2 numpy array containing x, y points. 
+        5000x2 numpy array containing x, y points.
 
     Raises
     ------
         FileNotFoundError
-            If `s1.pkl` file does not exist, i.e, if the dataset was not 
-            downloaded and saved using the :py:func:`~get` method.  
+            If `s1.pkl` file does not exist, i.e, if the dataset was not
+            downloaded and saved using the :py:func:`~get` method.
     '''
     return pklhandler.load('s1.pkl')

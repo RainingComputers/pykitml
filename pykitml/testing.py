@@ -4,7 +4,6 @@ from unittest.mock import patch
 from functools import wraps
 
 import matplotlib.pyplot as plt
-from graphviz import Digraph 
 
 import numpy as np
 
@@ -23,12 +22,12 @@ def _profile(test_func):
     # Call the test function and profile it
     profiler = cProfile.Profile()
     profiler.runcall(test_func)
-    profiler.dump_stats(test_func.__name__+'.dat') 
+    profiler.dump_stats(test_func.__name__+'.dat')
 
 
 def pktest_graph(test_func):
     '''
-    To test and profile function under pytest. Will prevent 
+    To test and profile function under pytest. Will prevent
     :code:`matplotlib.pyplot.show()` from blocking other tests.
 
     Parameters
@@ -43,14 +42,13 @@ def pktest_graph(test_func):
         plt.close()
         plt.clf()
 
-        with patch('matplotlib.pyplot.show') as show_func, patch('graphviz.Digraph.view') as view_func:
+        with patch('matplotlib.pyplot.show') as show_func, patch('graphviz.Digraph.view') as _:
             # Run the test function
             _profile(test_func)
-        
+
             # Test if graph worked
             if "PYTEST_CURRENT_TEST" in os.environ:
                 assert show_func.called
-                
 
     return test_wrapper
 

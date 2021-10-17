@@ -1,8 +1,8 @@
 from pykitml.testing import pktest_graph, pktest_nograph
 
+
 @pktest_graph
 def test_iris_bayes():
-    import numpy as np
     import pykitml as pk
     from pykitml.datasets import iris
 
@@ -25,18 +25,19 @@ def test_iris_bayes():
     print('Test accuracy:', accuracy)
 
     # Plot confusion matrix
-    bayes_iris_classifier.confusion_matrix(inputs_test, outputs_test, 
-        gnames=['Setosa', 'Versicolor', 'Virginica'])
+    bayes_iris_classifier.confusion_matrix(inputs_test, outputs_test,
+                                           gnames=['Setosa', 'Versicolor', 'Virginica'])
 
     # Assert accuracy
     assert (bayes_iris_classifier.accuracy(inputs_train, outputs_train)) >= 95
+
 
 @pktest_nograph
 def test_predict_iris_bayes():
     import numpy as np
     import pykitml as pk
 
-    # Predict type of species with 
+    # Predict type of species with
     # sepal-length sepal-width petal-length petal-width
     # 5.8, 2.7, 3.9, 1.2
     input_data = np.array([5.8, 2.7, 3.9, 1.2])
@@ -50,6 +51,7 @@ def test_predict_iris_bayes():
 
     # Print result
     print(model_output)
+
 
 if __name__ == '__main__':
     try:

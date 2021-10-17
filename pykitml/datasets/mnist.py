@@ -1,14 +1,13 @@
 '''
-This module contains helper functions to download and load MNIST and MNIST like datasets.   
+This module contains helper functions to download and load MNIST and MNIST like datasets.
 '''
 
-# ============================================================  
+# ============================================================
 # = Forked from: https://github.com/hsjeong5/MNIST-for-Numpy =
 # = Modified with minor changes                              =
 # ============================================================
 
 import gzip
-import pickle
 import os
 from urllib import request
 
@@ -16,7 +15,8 @@ import numpy as np
 
 from .. import pklhandler
 
-def get(type = 'classic'):
+
+def get(type='classic'):  # pylint: disable=redefined-builtin
     '''
     Downloads the MNIST dataset and saves it as a pickle file, `mnist.pkl`.
 
@@ -40,20 +40,20 @@ def get(type = 'classic'):
 
     Note
     ----
-    You only need to call this method once, i.e, after the dataset has been 
+    You only need to call this method once, i.e, after the dataset has been
     downloaded and you have the `mnist.pkl` file, you don't need to call this method again.
     '''
     # dict of URLs containing MNIST like datasets
-    type_URLs = {'classic':'http://yann.lecun.com/exdb/mnist/',
-            'fashion':'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/'
-    }
+    type_URLs = {'classic': 'http://yann.lecun.com/exdb/mnist/',
+                 'fashion': 'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/'
+                 }
 
     # MNIST files to download
     filename = [
-        ['training_images','train-images-idx3-ubyte.gz'],
-        ['test_images','t10k-images-idx3-ubyte.gz'],
-        ['training_labels','train-labels-idx1-ubyte.gz'],
-        ['test_labels','t10k-labels-idx1-ubyte.gz']
+        ['training_images', 'train-images-idx3-ubyte.gz'],
+        ['test_images', 't10k-images-idx3-ubyte.gz'],
+        ['training_labels', 'train-labels-idx1-ubyte.gz'],
+        ['test_labels', 't10k-labels-idx1-ubyte.gz']
     ]
 
     def download_mnist():
@@ -69,7 +69,7 @@ def get(type = 'classic'):
         mnist = {}
         for name in filename[:2]:
             with gzip.open(name[1], 'rb') as f:
-                mnist[name[0]] = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1,28*28)
+                mnist[name[0]] = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1, 28*28)
         for name in filename[-2:]:
             with gzip.open(name[1], 'rb') as f:
                 mnist[name[0]] = np.frombuffer(f.read(), np.uint8, offset=8)
@@ -98,7 +98,7 @@ def load():
         training_data : numpy.array
             60,000x784 numpy array, each row contains flattened version of training images.
         training_targets : numpy.array
-            60,000x10 numpy array that contains one hot target array of the corresponding 
+            60,000x10 numpy array that contains one hot target array of the corresponding
             training images.
         testing_data : numpy.array
             10,000x784 numpy array, each row contains flattened version of test images.
@@ -110,7 +110,7 @@ def load():
     ------
         FileNotFoundError
             If `mnist.pkl` file does not exist, i.e, if the dataset was not downloaded and
-            saved using the :py:func:`~get` method. 
+            saved using the :py:func:`~get` method.
     '''
     mnist = pklhandler.load('mnist.pkl')
     # Normalize data
@@ -128,4 +128,3 @@ def load():
 
 if __name__ == '__main__':
     get()
-    

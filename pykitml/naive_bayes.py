@@ -6,9 +6,11 @@ import tqdm
 from ._classifier import Classifier
 from ._exceptions import _valid_list, InvalidDistributionType
 
+
 def _gaussian(x, mean, std_dev):
     sqrt_2pi = np.sqrt(2*np.pi)
     return (1/(std_dev*sqrt_2pi))*np.exp(-0.5*(((x-mean)/std_dev)**2))
+
 
 class NaiveBayes(Classifier):
     '''
@@ -29,13 +31,13 @@ class NaiveBayes(Classifier):
         output_size: int
             Number of categories or groups.
         distribution : list
-            List of strings describing the distribution to use 
-            for each feature. Option are :code:`'gaussian'`, 
+            List of strings describing the distribution to use
+            for each feature. Option are :code:`'gaussian'`,
             :code:`'binomial'`, :code:`'multinomial'`.
         reg_param : int
             If a given class and feature value never occur together in the training data,
             then the frequency-based probability estimate will be zero.
-            This is problematic because it will wipe out all information in the other 
+            This is problematic because it will wipe out all information in the other
             probabilities when they are multiplied.
             So, the probability will become :code:`log(reg_param)`.
             This is a way to regularize Naive Bayes classifier.
@@ -44,7 +46,7 @@ class NaiveBayes(Classifier):
         Raises
         ------
         InvalidDistributionType
-            If invalid distribution. Can only be :code:`'gaussian'`, 
+            If invalid distribution. Can only be :code:`'gaussian'`,
             :code:`'binomial'`, :code:`'multinomial'`.
         IndexError
             If the input_size does not match the length of distribution length.
@@ -62,7 +64,7 @@ class NaiveBayes(Classifier):
             raise InvalidDistributionType
 
         # indices of categorical features
-        self._categorical = [i for i, x in enumerate(distributions) if x!='gaussian']
+        self._categorical = [i for i, x in enumerate(distributions) if x != 'gaussian']
 
         # for each class/group, p(class), std_dev, mean, freq and range
         self._pclass = np.zeros((output_size))
@@ -80,14 +82,15 @@ class NaiveBayes(Classifier):
 
     def feed(self, input_data):
         # Make sure array is 2D
-        if(input_data.ndim == 1): input_data = np.array([input_data])
+        if input_data.ndim == 1:
+            input_data = np.array([input_data])
 
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
-        
+
         # Loop through each group and find probability
         for C in range(0, self._output_size):
-            
+
             # Loop through each feature and multiply prod(p(xi|Ci))=p(x|Ci)
             # We are doing sum(log(p(xi|Ci))) instead of prod(p(xi|Ci)) to prevent
             # the product from going to zero due to very small numbers.
@@ -95,15 +98,15 @@ class NaiveBayes(Classifier):
             p_xci = np.zeros((input_data.shape[0]))
             for x in range(0, self._input_size):
                 # p(xi|Ci) if catgorical feature
-                if(self._dists[x] != 'gaussian'):
+                if self._dists[x] != 'gaussian':
                     p_xici = self._freqp[C][x][input_data[:, x].astype(int)]
                 # p(xi|Ci) if continues feature
-                else:    
+                else:
                     p_xici = _gaussian(input_data[:, x], self._mean[C][x], self._std_dev[C][x])
-                
+
                 # log(p(x|Ci)) = sum(log(p(xi|Ci)))
                 p_xci += np.log(p_xici)
-            
+
             # log(p(Ci|x)) = log(p(Ci))+log(p(x|Ci))
             self._output[:, C] = np.log(self._pclass[C])+p_xci
 
@@ -139,7 +142,7 @@ class NaiveBayes(Classifier):
             group_examples = self._get_group_examples(training_data, targets, group)
             # Get mean and standard deviation for the group examples
             self._get_mean_std(group, group_examples, training_data.shape[0])
-            # Get frequency/probability for categorical 
+            # Get frequency/probability for categorical
             self._get_freq(group, group_examples)
 
     def _get_group_examples(self, training_data, targets, group):
@@ -168,13 +171,14 @@ class NaiveBayes(Classifier):
             freqp = np.bincount(group_examples[:, feature].astype(int))
             freqp = freqp/group_examples.shape[0]
             # Replace with reg_param where p(xi|Ci) is zero
-            # AKA regularization            
+            # AKA regularization
             freqp_reg = np.ones((int(self._max[feature])+1))*self._reg_param
             freqp_reg[0:freqp.shape[0]] = freqp
             self._freqp[group][feature] = freqp_reg
 
 
 class GaussianNaiveBayes(NaiveBayes):
+    # pylint: disable=super-init-not-called
     def __init__(self, input_size, output_size):
         '''
         Parameters
@@ -198,19 +202,20 @@ class GaussianNaiveBayes(NaiveBayes):
 
     def feed(self, input_data):
         # Make sure array in 2D
-        if(input_data.ndim == 1): input_data = np.array([input_data])
+        if input_data.ndim == 1:
+            input_data = np.array([input_data])
 
         # Set output to correct size
         self._output = np.zeros((input_data.shape[0], self._output_size))
-        
+
         # Loop through each group and find probability
         for C in range(0, self._output_size):
             # Calculate p(xi|Ci)
             p_xici = _gaussian(input_data, self._mean[C], self._std_dev[C])
-            
+
             # log(p(x|Ci)) = sum(log(p(xi|Ci)))
             p_xci = np.log(p_xici).sum(axis=1)
-            
+
             # log(p(Ci|x)) = log(p(Ci))+log(p(x|Ci))
             self._output[:, C] = np.log(self._pclass[C])+p_xci
 

@@ -7,6 +7,7 @@ This module contains helper functions to draw heatmaps.
 REF: https://matplotlib.org/3.1.1/gallery/images_contours_and_fields/image_annotated_heatmap.html
 '''
 
+
 def heatmap(data, row_labels, col_labels, ax=None, cbar_kw={}, cbarlabel='', **kwargs):
     '''
     Create a heatmap from a numpy array and two lists of labels.
@@ -54,7 +55,8 @@ def heatmap(data, row_labels, col_labels, ax=None, cbar_kw={}, cbarlabel='', **k
     plt.setp(ax.get_xticklabels(), rotation=-30, ha='right', rotation_mode='anchor')
 
     # Turn spines off and create white grid.
-    for _, spine in ax.spines.items(): spine.set_visible(False)
+    for _, spine in ax.spines.items():
+        spine.set_visible(False)
 
     ax.set_xticks(np.arange(data.shape[1]+1)-.5, minor=True)
     ax.set_yticks(np.arange(data.shape[0]+1)-.5, minor=True)
@@ -65,7 +67,7 @@ def heatmap(data, row_labels, col_labels, ax=None, cbar_kw={}, cbarlabel='', **k
 
 
 def annotate_heatmap(im, data=None, valfmt='{x:.2f}', textcolors=['black', 'white'],
-                threshold=None, **textkw):
+                     threshold=None, **textkw):
     '''
     A function to annotate a heatmap.
 

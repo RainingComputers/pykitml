@@ -1,15 +1,16 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_heart_tree():
     import os.path
-    
-    import numpy as np
+
     import pykitml as pk
     from pykitml.datasets import heartdisease
 
-    # Download the dataset 
-    if(not os.path.exists('heartdisease.pkl')): heartdisease.get()
+    # Download the dataset
+    if not os.path.exists('heartdisease.pkl'):
+        heartdisease.get()
 
     # Load heart data set
     inputs, outputs = heartdisease.load()
@@ -35,8 +36,8 @@ def test_heart_tree():
     print('Accuracy:', accuracy)
 
     # Plot confusion matrix
-    tree_heart_classifier.confusion_matrix(inputs, outputs, 
-        gnames=['False', 'True'])
+    tree_heart_classifier.confusion_matrix(inputs, outputs,
+                                           gnames=['False', 'True'])
 
     # Plot descision tree
     tree_heart_classifier.show_tree()

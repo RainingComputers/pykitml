@@ -1,16 +1,17 @@
-from pykitml.testing import pktest_graph, pktest_nograph
+from pykitml.testing import pktest_graph
+
 
 @pktest_graph
 def test_s1_kmeans():
     import os
-    
-    import numpy as np
+
     import pykitml as pk
     from pykitml.datasets import s1clustering
     import matplotlib.pyplot as plt
 
-    # Download the dataset 
-    if(not os.path.exists('s1.pkl')): s1clustering.get()
+    # Download the dataset
+    if not os.path.exists('s1.pkl'):
+        s1clustering.get()
 
     # Load the dataset
     train_data = s1clustering.load()
@@ -19,7 +20,7 @@ def test_s1_kmeans():
     clusters, cost = pk.kmeans(train_data, 15)
 
     # Plot dataset, x and y
-    plt.scatter(train_data[:, 0], train_data[:, 1])    
+    plt.scatter(train_data[:, 0], train_data[:, 1])
 
     # Plot clusters, x and y
     plt.scatter(clusters[:, 0], clusters[:, 1], c='red')
@@ -29,6 +30,7 @@ def test_s1_kmeans():
 
     # Assert cost
     assert cost <= 1790000000
+
 
 if __name__ == '__main__':
     try:

@@ -4,6 +4,7 @@ import numpy as np
 
 from ._minimize_model import MinimizeModel
 
+
 class SingleLayerModel(MinimizeModel, ABC):
     '''
     General base class for single layer models.
@@ -19,7 +20,7 @@ class SingleLayerModel(MinimizeModel, ABC):
             Number of categories or groups.
         reg_param : int
             Regularization parameter for the model, also known as 'weight decay'.
-        '''        
+        '''
         # Save sizes
         self._input_size = input_size
         self._output_size = output_size
@@ -27,20 +28,20 @@ class SingleLayerModel(MinimizeModel, ABC):
         # Initialize regularization parameter
         self._reg_param = reg_param
         self._reg_param_half = reg_param/2
-    
+
         # Initialize weights and parameters
         epsilon = np.sqrt(6)/(np.sqrt(output_size) + np.sqrt(input_size))
         weights = np.random.rand(output_size, input_size)*2*epsilon - epsilon
         biases = np.random.rand(output_size) * 2 * epsilon - epsilon
-        
+
         # Numpy array to store activations
         self._inputa = np.array([])
         self.a = np.array([])
         self.z = np.array([])
 
         # Put parameters in numpy dtype=object array
-        W = 0 # Weights
-        B = 1 # Biases
+        W = 0  # Weights
+        B = 1  # Biases
         self._params = np.array([None, None], dtype=object)
         self._params[W] = weights
         self._params[B] = biases
@@ -48,7 +49,7 @@ class SingleLayerModel(MinimizeModel, ABC):
     @property
     def _mparams(self):
         return self._params
-    
+
     @_mparams.setter
     def _mparams(self, mparams):
         self._params = mparams
@@ -63,8 +64,8 @@ class SingleLayerModel(MinimizeModel, ABC):
 
     def feed(self, input_data):
         # Constants
-        W = 0 # Weights
-        B = 1 # Biases
+        W = 0  # Weights
+        B = 1  # Biases
 
         # feed
         self._inputa = input_data
@@ -74,19 +75,19 @@ class SingleLayerModel(MinimizeModel, ABC):
     def get_output(self):
         return self.a.squeeze()
 
-    def _backpropagate(self, index, target):
+    def _backpropagate(self, index, targets):
         # Constants
-        W = 0 # Weights
-        B = 1 # Biases
+        W = 0  # Weights
+        B = 1  # Biases
 
         # Gradients
         da_dz = self._activ_func_prime(self.z[index], self.a[index])
-        dc_db = self._cost_func_prime(self.a[index], target) * da_dz
+        dc_db = self._cost_func_prime(self.a[index], targets) * da_dz
         dc_dw = np.multiply.outer(dc_db, self._inputa[index])
-        
+
         # Add regularization
         dc_dw += self._reg_param*self._params[W]
-        
+
         # Return gradient
         gradient = np.array([None, None], dtype=object)
         gradient[W] = dc_dw

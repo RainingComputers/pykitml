@@ -4,7 +4,7 @@ import math
 
 class RandomSearch:
     '''
-    This class is used to search for hyperparameters. 
+    This class is used to search for hyperparameters.
     '''
 
     def __init__(self):
@@ -37,12 +37,12 @@ class RandomSearch:
         '''
         Generator function to loop through randomly generated hyperparameters.
         Total number of hyperparameters sampled will be :code:`nsamples*nzoom`.
-        First :code:`nsamples` points will be sampled, then the function will 
-        'zoom in' around the best sample, and :code:`nsamples` more points will 
+        First :code:`nsamples` points will be sampled, then the function will
+        'zoom in' around the best sample, and :code:`nsamples` more points will
         be sampled. This will be repeated :code:`nzoom` times.
         The range for each hyperparameter should be passed as a list to
-        :code:`*args`. The range should be :code:`[from, to, 'type']`, 
-        for e.g. :code:`[0.8, 1, 'float']`. Three range types are available, 
+        :code:`*args`. The range should be :code:`[from, to, 'type']`,
+        for e.g. :code:`[0.8, 1, 'float']`. Three range types are available,
         :code:`'float'`, :code:`'int'`, :code:`'log'`.
 
         Parameters
@@ -67,9 +67,12 @@ class RandomSearch:
                 for rtype in range_types:
                     l = rtype[0]
                     u = rtype[1]
-                    if(rtype[2] == 'int'): params.append(random.randint(int(l), int(u)))
-                    elif(rtype[2] == 'float'): params.append(random.uniform(l, u))
-                    elif(rtype[2] == 'log'): params.append(10**random.uniform(l, u))
+                    if rtype[2] == 'int':
+                        params.append(random.randint(int(l), int(u)))
+                    elif rtype[2] == 'float':
+                        params.append(random.uniform(l, u))
+                    elif rtype[2] == 'log':
+                        params.append(10**random.uniform(l, u))
 
                 print('Testing {}/{}, zoomlvl {},'.format(i+1, nsamples, z+1), 'params =', params)
 
@@ -77,7 +80,7 @@ class RandomSearch:
                 yield params
 
                 # Track best ones
-                if(self._curr_cost < min_cost):
+                if self._curr_cost < min_cost:
                     min_cost = self._curr_cost
                     best_params = params
                     self._best = True
@@ -90,12 +93,12 @@ class RandomSearch:
                 l = rtype[0]
                 u = rtype[1]
                 diff = u-l
-                if(rtype[2] == 'log'): best_param = math.log10(best_param)
+                if rtype[2] == 'log':
+                    best_param = math.log10(best_param)
                 new_l = best_param-(diff/zoomratio)
                 new_u = best_param+(diff/zoomratio)
                 new_range_types.append([new_l, new_u, rtype[2]])
             range_types = new_range_types
-
 
         # Print the best one
         print('\nSearch Finished')

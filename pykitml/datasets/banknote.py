@@ -11,12 +11,13 @@ This module contains helper functions to download and load
 the banknote dataset.
 '''
 
+
 def get():
     '''
     Downloads the banknote dataset from
     http://archive.ics.uci.edu/ml/datasets/banknote+authentication
     and saves it as a pkl file `banknote.pkl`.
-    
+
     Raises
     ------
         urllib.error.URLError
@@ -29,11 +30,11 @@ def get():
     Note
     ----
     You only need to call this method once, i.e, after the dataset has been downloaded
-    and you have the `banknote.pkl` file, you don't need to call this method again.   
+    and you have the `banknote.pkl` file, you don't need to call this method again.
     '''
     # Url to download the dataset from
     url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt'
-    
+
     # Download the dataset
     print('Downloading data_banknote_authentication.txt')
     request.urlretrieve(url, 'data_banknote_authentication.txt')
@@ -46,16 +47,17 @@ def get():
     os.remove('data_banknote_authentication.txt')
     print('Deleted unnecessary files.')
 
+
 def load():
     '''
     Loads the banknote data from pkl file.
-    
+
     The inputs have the following columns:
 
     - Variance of Wavelet Transformed image (continuous)
-    - Skewness of Wavelet Transformed image (continuous) 
-    - Curtosis of Wavelet Transformed image (continuous) 
-    - Entropy of image (continuous) 
+    - Skewness of Wavelet Transformed image (continuous)
+    - Curtosis of Wavelet Transformed image (continuous)
+    - Entropy of image (continuous)
 
     The outputs are:
 
@@ -72,7 +74,7 @@ def load():
         270x4 numpy array containing testing inputs.
     outputs_test : numpy.array
         Numpy array of size 270.
-    
+
     '''
     data_array = pklhandler.load('banknote.pkl')
 
@@ -92,10 +94,10 @@ def load():
 
     # Shuffle the dataset
     shuff_indices = np.arange(train.shape[0])
-    np.random.shuffle(shuff_indices)    
+    np.random.shuffle(shuff_indices)
     train = train[shuff_indices]
     shuff_indices = np.arange(test.shape[0])
-    np.random.shuffle(shuff_indices)   
+    np.random.shuffle(shuff_indices)
     test = test[shuff_indices]
 
     inputs_train = train[:, :-1]
@@ -104,4 +106,3 @@ def load():
     outputs_test = test[:, -1]
 
     return inputs_train, outputs_train, inputs_test, outputs_test
-        

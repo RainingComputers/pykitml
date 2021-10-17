@@ -7,8 +7,9 @@ from .. import pklhandler
 
 '''
 This module contains helper functions to download and load
-the heart disease dataset. 
+the heart disease dataset.
 '''
+
 
 def get():
     '''
@@ -56,6 +57,7 @@ def get():
     os.remove('processed.cleveland.data')
     print('Deleted unnecessary files.')
 
+
 def load():
     '''
     Loads heart disease dataset from saved pickle file `heartdisease.pkl` to numpy arrays.
@@ -65,7 +67,7 @@ def load():
     -------
     inputs : numpy.array
         297x13 numpy array. 297 training examples, each example having 13 inputs(columns).
-        The 13 columns corresponds to: 
+        The 13 columns corresponds to:
         :code:`age sex cp trestbps chol fbs restecg thalach exang oldpeak slope ca thal`.
 
         - age : Age in years
@@ -75,30 +77,29 @@ def load():
         - chol : Serum cholesterol in mg/dl
         - fbs : Fasting blood sugar > 120 mg/dl? (1=true, 0=false)
         - restecg : Resting electrocardiographic results (0=normal, 1=ST-T-abnormality 2= left-ventricular-hypertrophy)
-        - thalach : Maximum heart rate achieved 
-        - exang : Exercise induced angina (1=yes, 0=no) 
+        - thalach : Maximum heart rate achieved
+        - exang : Exercise induced angina (1=yes, 0=no)
         - oldpeak : ST depression induced by exercise relative to rest
         - slope: Slope of the peak exercise ST segment (1=upsloping 2=flat 3=downsloping)
         - ca : Number of major vessels colored by flourosopy (0-3)
         - thal: 3=normal, 6=fixed-defect, 7=reversable-defect
 
     outputs : numpy.array
-        Numpy array with 297 elements. 
-        
-        - 0: < 50% diameter narrowing 
-        - 1: > 50% diameter narrowing    
+        Numpy array with 297 elements.
+
+        - 0: < 50% diameter narrowing
+        - 1: > 50% diameter narrowing
 
     Raises
     ------
         FileNotFoundError
-            If `heartdisease.pkl` file does not exist, i.e, if the dataset was not 
-            downloaded and saved using the :py:func:`~get` method.  
+            If `heartdisease.pkl` file does not exist, i.e, if the dataset was not
+            downloaded and saved using the :py:func:`~get` method.
     '''
     # Load data from pkl file.
-    heartdisease_data_array = pklhandler.load('heartdisease.pkl')   
-    inputs =  heartdisease_data_array[:,:-1]
-    outputs = (heartdisease_data_array[:,-1]>0)*1
+    heartdisease_data_array = pklhandler.load('heartdisease.pkl')
+    inputs = heartdisease_data_array[:, :-1]
+    outputs = (heartdisease_data_array[:, -1] > 0)*1
 
     # return data
     return inputs, outputs
-

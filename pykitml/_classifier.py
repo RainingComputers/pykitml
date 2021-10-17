@@ -9,6 +9,7 @@ import tqdm
 from . import _heatmap
 from . import preprocessing
 
+
 class Classifier(ABC):
     '''
     Mix-in class for classifier models.
@@ -24,7 +25,6 @@ class Classifier(ABC):
         numpy.array
             The output activations.
         '''
-        pass
 
     @abstractmethod
     def feed(self, input_data):
@@ -39,14 +39,13 @@ class Classifier(ABC):
         Raises
         ------
         ValueError
-            If the input data has invalid dimensions/shape.      
+            If the input data has invalid dimensions/shape.
 
         Note
         ----
         This function only feeds the input data, to get the output after calling this
         function use :py:func:`get_output` or :py:func:`get_output_onehot`
         '''
-        pass
 
     @property
     @abstractmethod
@@ -54,25 +53,24 @@ class Classifier(ABC):
         '''
         Returns number of nodes/neurons in the output layer.
         '''
-        pass
 
     def get_output_onehot(self):
         '''
         Returns the output layer activations of the model as a one-hot array. A one-hot array
         is an array of bits in which only `one` of the bits is high/true. In this case, the
         corresponding bit to the neuron/node having the highest activation will be high/true.
-        
+
         Returns
         -------
         numpy.array
-            The one-hot output activations array. 
+            The one-hot output activations array.
         '''
         output_targets = self.get_output()
 
-        if(self._out_size == 1):
+        if self._out_size == 1:
             # For binary classification
-            return np.where(output_targets>0.5, 1, 0)
-        elif(output_targets.ndim == 1):
+            return np.where(output_targets > 0.5, 1, 0)
+        elif output_targets.ndim == 1:
             # If output is a vector/1D array, axis=1 will not work
             index = np.argmax(output_targets)
             output_onehot = np.zeros((self._out_size))
@@ -96,7 +94,7 @@ class Classifier(ABC):
             numpy array containing testing data.
         testing_targets : numpy.array
             numpy array containing testing targets, corresponding to the testing data.
-        
+
         Returns
         -------
         accuracy : float
@@ -112,19 +110,19 @@ class Classifier(ABC):
         output_onehot = self.get_output_onehot()
 
         # Calculate how many examples it classified correctly
-        if(self._out_size == 1):
+        if self._out_size == 1:
             no_correct = (testing_targets == output_onehot).sum()
-        else:    
+        else:
             no_correct = (testing_targets == output_onehot).all(axis=1).sum()
-        
+
         # Calculate accuracy
         accuracy = (no_correct/testing_data.shape[0]) * 100
 
         self._on_test_end()
         # return accuracy
-        return round(accuracy, 2) 
+        return round(accuracy, 2)
 
-    def confusion_matrix(self, test_data, test_targets, gnames=[], plot=True,):   
+    def confusion_matrix(self, test_data, test_targets, gnames=[], plot=True,):
         '''
         Returns and plots confusion matrix on the given test data.
 
@@ -142,7 +140,7 @@ class Classifier(ABC):
         Returns
         -------
         confusion_matrix : numpy.array
-            The confusion matrix. 
+            The confusion matrix.
         '''
         print('Creating Confusion Matrix...')
         self._on_test_start()
@@ -154,7 +152,7 @@ class Classifier(ABC):
         outputs = self.get_output_onehot()
 
         # Binary classification
-        if(self._out_size == 1):
+        if self._out_size == 1:
             # Number of groups
             ngroups = 2
             # Column/Row labels
@@ -163,21 +161,21 @@ class Classifier(ABC):
             outputs = preprocessing.onehot(outputs)
             targets = preprocessing.onehot(test_targets)
             # Prevent bugs that show up when outputs are all zeros
-            if(outputs.shape[1] == 1):
-                outputs = np.pad(outputs, ((0, 0), (0 ,1)), 'constant', constant_values=0)
+            if outputs.shape[1] == 1:
+                outputs = np.pad(outputs, ((0, 0), (0, 1)), 'constant', constant_values=0)
 
         # Multiclass classification
         else:
             # Number of groups
             ngroups = self._out_size
             # Column/Row labels
-            if(len(gnames) != 0):
+            if len(gnames) != 0:
                 labels = gnames
             else:
                 labels = [str(x) for x in range(0, ngroups)]
             # Targets
             targets = test_targets
-        
+
         # Confusion matrix
         conf_mat = np.zeros((ngroups, ngroups))
 
@@ -194,22 +192,23 @@ class Classifier(ABC):
 
             # Count
             out_count = np.all(outputs == pred_vec, axis=1)
-            target_count  = np.all(targets == act_vec, axis=1)
+            target_count = np.all(targets == act_vec, axis=1)
             tot_count = np.logical_and(out_count, target_count).sum()
             conf_mat[predicted][actual] = tot_count
 
         # Plot the confusion matrix
-        if(plot):
+        if plot:
+            # pylint: disable=invalid-name
             # Plot confusion matrix
             fig, ax = plt.subplots(figsize=(10, 7))
             im, _ = _heatmap.heatmap(conf_mat, labels, labels, ax=ax,
-                            cmap="YlGn", cbarlabel="Count")
+                                     cmap="YlGn", cbarlabel="Count")
             _heatmap.annotate_heatmap(im, valfmt="{x:.0f}")
 
             # Labels
-            fig.canvas.set_window_title('Confusion Matrix') 
+            fig.canvas.set_window_title('Confusion Matrix')
             ax.set_xlabel('Actual')
-            ax.xaxis.set_label_position('top') 
+            ax.xaxis.set_label_position('top')
             ax.set_ylabel('Predicted')
 
             # Show
@@ -221,14 +220,12 @@ class Classifier(ABC):
 
     def _on_test_start(self):
         '''
-        This method will be called before testing, 
+        This method will be called before testing,
         override this method needed.
         '''
-        pass
 
     def _on_test_end(self):
         '''
-        This method will be called after testing, 
+        This method will be called after testing,
         override this method needed.
         '''
-        pass

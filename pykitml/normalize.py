@@ -4,6 +4,7 @@ import numpy as np
 # = Functions for Normalization/Feature-scaling =
 # ===============================================
 
+
 def get_minmax(array):
     '''
     Returns two row arrays, one array containing minimum values of each column
@@ -22,6 +23,7 @@ def get_minmax(array):
         Array containing maximum values of each column.
     '''
     return np.amin(array, axis=0), np.amax(array, axis=0)
+
 
 def normalize_minmax(array, array_min, array_max, cols=[]):
     '''
@@ -53,10 +55,10 @@ def normalize_minmax(array, array_min, array_max, cols=[]):
     normalized_array = array.astype(float)
     all_normalized = (array - array_min) / (array_max - array_min)
 
-    if(len(cols) == 0):
+    if len(cols) == 0:
         # Normalize all columns
         normalized_array = all_normalized
-    elif(array.ndim == 1):
+    elif array.ndim == 1:
         # Normalize only specified columns, 1D array
         normalized_array[cols] = all_normalized[cols]
     else:
@@ -64,6 +66,7 @@ def normalize_minmax(array, array_min, array_max, cols=[]):
         normalized_array[:, cols] = all_normalized[:, cols]
 
     return normalized_array
+
 
 def denormalize_minmax(array, array_min, array_max, cols=[]):
     '''
@@ -94,10 +97,10 @@ def denormalize_minmax(array, array_min, array_max, cols=[]):
     denormalized_array = array.astype(float)
     all_denormalized = (array * (array_max - array_min)) + array_min
 
-    if(len(cols) == 0):
+    if len(cols) == 0:
         # Deormalize all columns
         denormalized_array = all_denormalized
-    elif(array.ndim == 1):
+    elif array.ndim == 1:
         # Denormalize only specified columns, 1D array
         denormalized_array[cols] = all_denormalized[cols]
     else:
@@ -125,6 +128,7 @@ def get_meanstd(array):
         Array containing standard deviation values of each column.
     '''
     return np.mean(array, axis=0), np.std(array, axis=0)
+
 
 def normalize_mean(array, array_mean, array_stddev, cols=[]):
     '''
@@ -156,10 +160,10 @@ def normalize_mean(array, array_mean, array_stddev, cols=[]):
     normalized_array = array.astype(float)
     all_normalized = (array-array_mean)/array_stddev
 
-    if(len(cols) == 0):
+    if len(cols) == 0:
         # Normalize all columns
         normalized_array = all_normalized
-    elif(array.ndim == 1):
+    elif array.ndim == 1:
         # Normalize only specified columns, 1D array
         normalized_array[cols] = all_normalized[cols]
     else:
@@ -167,6 +171,7 @@ def normalize_mean(array, array_mean, array_stddev, cols=[]):
         normalized_array[:, cols] = all_normalized[:, cols]
 
     return normalized_array
+
 
 def denormalize_mean(array, array_mean, array_stddev, cols=[]):
     '''
@@ -194,10 +199,10 @@ def denormalize_mean(array, array_mean, array_stddev, cols=[]):
     denormalized_array = array.astype(float)
     all_denormalized = (array*array_stddev) + array_mean
 
-    if(len(cols) == 0):
+    if len(cols) == 0:
         # Denormalize all columns
         denormalized_array = all_denormalized
-    elif(array.ndim == 1):
+    elif array.ndim == 1:
         # Denormalize only specified columns, 1D array
         denormalized_array[cols] = all_denormalized[cols]
     else:

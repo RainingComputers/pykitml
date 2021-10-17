@@ -1,7 +1,6 @@
 import os
 from urllib import request
 
-import numpy as np
 from numpy import genfromtxt
 
 from .. import pklhandler
@@ -11,12 +10,13 @@ This module contains helper functions to download and load
 the boston housing dataset.
 '''
 
+
 def get():
     '''
     Downloads the boston dataset from
     https://archive.ics.uci.edu/ml/machine-learning-databases/housing/
     and saves it as a pkl file `boston.pkl`.
-    
+
     Raises
     ------
         urllib.error.URLError
@@ -29,11 +29,11 @@ def get():
     Note
     ----
     You only need to call this method once, i.e, after the dataset has been downloaded
-    and you have the `boston.pkl` file, you don't need to call this method again.   
+    and you have the `boston.pkl` file, you don't need to call this method again.
     '''
     # Url to download the dataset from
     url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data'
-    
+
     # Download the dataset
     print('Downloading housing.data...')
     request.urlretrieve(url, 'housing.data')
@@ -44,6 +44,7 @@ def get():
     # Delete unnecessary files
     os.remove('housing.data')
     print('Deleted unnecessary files.')
+
 
 def load():
     '''
@@ -57,27 +58,27 @@ def load():
       proportion of residential land zoned for lots over 25,000 sq.ft.
     - INDUS :
       proportion of non-retail business acres per town
-    - CHAS :    
+    - CHAS :
       Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)
-    - NOX :      
+    - NOX :
       nitric oxides concentration (parts per 10 million)
-    - RM :       
+    - RM :
       average number of rooms per dwelling
-    - AGE :      
+    - AGE :
       proportion of owner-occupied units built prior to 1940
-    - DIS :      
+    - DIS :
       weighted distances to five Boston employment centres
-    - RAD :      
+    - RAD :
       index of accessibility to radial highways
-    - TAX :     
+    - TAX :
       full-value property-tax rate per $10,000
-    - PTRATIO : 
+    - PTRATIO :
       pupil-teacher ratio by town
-    - B :       
+    - B :
       1000(Bk - 0.63)^2 where Bk is the proportion of black by town
-    - LSTAT :   
+    - LSTAT :
       % lower status of the population
-    
+
     The outputs are
 
     - MEDV :

@@ -1,5 +1,4 @@
 import os
-import random
 import multiprocessing as mp
 from math import ceil
 from contextlib import redirect_stdout
@@ -12,23 +11,24 @@ from ._regressor import Regressor
 from ._classifier import Classifier
 from . import decision_tree
 
+
 class _RandomTree(decision_tree.DecisionTree):
-    def __init__(self, input_size, output_size, num_features, feature_type=[], 
-        max_depth=6, min_split=2, max_splits_eval=100, regression=False):
+    def __init__(self, input_size, output_size, num_features, feature_type=[],
+                 max_depth=6, min_split=2, max_splits_eval=100, regression=False):
         # Initialize parent class
         super(_RandomTree, self).__init__(input_size, output_size, feature_type, max_depth,
-            min_split, max_splits_eval, regression)
+                                          min_split, max_splits_eval, regression)
 
         # Select only a few random columns of the dataset for training
         self._cols_train = np.random.choice(input_size, num_features, replace=False)
 
         # Disable progress bar
         self._pbardis = True
-        
+
 
 class RandomForest(Classifier, Regressor):
     def __init__(self, input_size, output_size, feature_type=[], max_depth=6, min_split=2,
-        max_splits_eval=100, regression=False):
+                 max_splits_eval=100, regression=False):
         '''
         Parameters
         ----------
@@ -38,15 +38,15 @@ class RandomForest(Classifier, Regressor):
             Number of categories or groups.
         feature_type : list
             List of string describing the type of feature for
-            each column. Can be :code:`'continues'`, 
+            each column. Can be :code:`'continues'`,
             :code:`'ranked'`, or :code:`'categorical'`.
         max_depth : int
             The maximum depth the trees can grow to.
         min_split : int
-            The minimum number of data points a node should have to get 
+            The minimum number of data points a node should have to get
             split.
         max_splits_eval : int
-            The maximum number of split points to evaluate for an 
+            The maximum number of split points to evaluate for an
             attribute. If the number of candidate split points exceed
             this, :code:`max_splits_eval` split candidates will be
             randomly sampled from the candidates and only the sampled
@@ -57,7 +57,7 @@ class RandomForest(Classifier, Regressor):
         Raises
         ------
         InvalidFeatureType
-            Invalid/Unknown feature type. Can only be :code:`'continues'`, 
+            Invalid/Unknown feature type. Can only be :code:`'continues'`,
             :code:`'ranked'`, or :code:`'categorical'`.
         '''
         # Save values
@@ -78,7 +78,7 @@ class RandomForest(Classifier, Regressor):
     @property
     def _out_size(self):
         return self._output_size
-    
+
     @property
     def trees(self):
         '''
@@ -112,20 +112,19 @@ class RandomForest(Classifier, Regressor):
         print('Training Model...')
 
         # Number of features to bag/choose for each tree
-        if(num_feature_bag is None): 
-            if(not self._regression):
+        if num_feature_bag is None:
+            if not self._regression:
                 num_feature_bag = ceil(np.sqrt(self._input_size))
             else:
                 num_feature_bag = int(self._input_size/3)
-        
-        def train_trees(input_q, ret_q, inputs_sh, inputs_shape, outputs_sh, outputs_shape):
+
+        def train_trees(input_q, ret_q, inputs_sh, inputs_shape):
             # Retrive numpy arrays from multiprocessing arrays
             inputs = _shared_array.shm_as_ndarray(inputs_sh, inputs_shape)
-            output = _shared_array.shm_as_ndarray(outputs_sh, outputs_shape)
-            
+
             # Supress print statements
             with redirect_stdout(open(os.devnull, 'w')):
-                while(True):
+                while True:
                     # Get tree from input queue
                     try:
                         tree = input_q.get(block=False)
@@ -138,44 +137,42 @@ class RandomForest(Classifier, Regressor):
                     bootstrapped_outputs = outputs[indices]
 
                     # Grow the tree
-                    tree.train(bootstrapped_inputs, bootstrapped_outputs)  
+                    tree.train(bootstrapped_inputs, bootstrapped_outputs)
 
                     # Put the trained tree in output queue
-                    ret_q.put(tree)  
+                    ret_q.put(tree)
 
         # Create queues
         input_q = mp.Queue()
         ret_q = mp.Queue()
 
         # Initialize input queue
-        for i in range(num_trees):
+        for _ in range(num_trees):
             # Create tree
-            tree = _RandomTree(self._input_size, self._output_size, num_feature_bag, 
-                self._ftype, self._max_depth, self._min_split, self._max_splits_eval,
-                self._regression)
+            tree = _RandomTree(self._input_size, self._output_size, num_feature_bag,
+                               self._ftype, self._max_depth, self._min_split, self._max_splits_eval,
+                               self._regression)
             # Put it in queue
             input_q.put(tree)
 
         # Create shared multiprocess array for inputs and outputs
         inputs_sh = _shared_array.ndarray_to_shm(inputs)
-        outputs_sh = _shared_array.ndarray_to_shm(outputs)
 
         # Start multiprocess
-        for i in range(os.cpu_count()):
+        for _ in range(os.cpu_count()):
             p = mp.Process(
-                target=train_trees, args=(input_q, ret_q, 
-                    inputs_sh, inputs.shape, outputs_sh, outputs.shape)
+                target=train_trees, args=(input_q, ret_q, inputs_sh, inputs.shape)
             )
             p.start()
 
         # Progress bar and append trained trees to list
         pbar = tqdm.tqdm(total=num_trees, ncols=80, unit='trees')
-        
-        while(len(self._trees) != num_trees):
+
+        while len(self._trees) != num_trees:
             tree = ret_q.get()
             self._trees.append(tree)
             pbar.update()
-        
+
         # Return if done
         pbar.close()
 
@@ -185,13 +182,9 @@ class RandomForest(Classifier, Regressor):
         for tree in self._trees:
             tree.feed(input_data)
             total += tree.get_output()
-        
+
         # Average
         self._output = total/len(self._trees)
-        
-    
+
     def get_output(self):
         return self._output.squeeze()
-
-        
-
