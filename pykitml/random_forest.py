@@ -12,6 +12,32 @@ from ._classifier import Classifier
 from . import decision_tree
 
 
+def _train_trees(input_q, ret_q, inputs_sh, inputs_shape, outputs_sh, outputs_shape):
+    # Retrive numpy arrays from multiprocessing arrays
+    inputs = _shared_array.shm_as_ndarray(inputs_sh, inputs_shape)
+    outputs = _shared_array.shm_as_ndarray(outputs_sh, outputs_shape)
+
+    # Suppress print statements
+    with redirect_stdout(open(os.devnull, 'w')):
+        while True:
+            # Get tree from input queue
+            try:
+                tree = input_q.get(block=False)
+            except mp.queues.Empty:
+                break
+
+            # Create bootstraped datset
+            indices = np.random.choice(inputs.shape[0], inputs.shape[0])
+            bootstrapped_inputs = inputs[indices]
+            bootstrapped_outputs = outputs[indices]
+
+            # Grow the tree
+            tree.train(bootstrapped_inputs, bootstrapped_outputs)
+
+            # Put the trained tree in output queue
+            ret_q.put(tree)
+
+
 class _RandomTree(decision_tree.DecisionTree):
     def __init__(self, input_size, output_size, num_features, feature_type=[],
                  max_depth=6, min_split=2, max_splits_eval=100, regression=False):
@@ -118,30 +144,6 @@ class RandomForest(Classifier, Regressor):
             else:
                 num_feature_bag = int(self._input_size/3)
 
-        def train_trees(input_q, ret_q, inputs_sh, inputs_shape):
-            # Retrive numpy arrays from multiprocessing arrays
-            inputs = _shared_array.shm_as_ndarray(inputs_sh, inputs_shape)
-
-            # Supress print statements
-            with redirect_stdout(open(os.devnull, 'w')):
-                while True:
-                    # Get tree from input queue
-                    try:
-                        tree = input_q.get(block=False)
-                    except mp.queues.Empty:
-                        break
-
-                    # Create bootstraped datset
-                    indices = np.random.choice(inputs.shape[0], inputs.shape[0])
-                    bootstrapped_inputs = inputs[indices]
-                    bootstrapped_outputs = outputs[indices]
-
-                    # Grow the tree
-                    tree.train(bootstrapped_inputs, bootstrapped_outputs)
-
-                    # Put the trained tree in output queue
-                    ret_q.put(tree)
-
         # Create queues
         input_q = mp.Queue()
         ret_q = mp.Queue()
@@ -157,11 +159,12 @@ class RandomForest(Classifier, Regressor):
 
         # Create shared multiprocess array for inputs and outputs
         inputs_sh = _shared_array.ndarray_to_shm(inputs)
+        outputs_sh = _shared_array.ndarray_to_shm(outputs)
 
         # Start multiprocess
         for _ in range(os.cpu_count()):
             p = mp.Process(
-                target=train_trees, args=(input_q, ret_q, inputs_sh, inputs.shape)
+                target=_train_trees, args=(input_q, ret_q, inputs_sh, inputs.shape, outputs_sh, outputs.shape)
             )
             p.start()
 
