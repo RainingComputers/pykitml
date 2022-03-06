@@ -19,10 +19,7 @@ graphviz = "*"
 gprof2dot = "*"
 gym = "*"
 autopep8 = "*"
+pygame = "*"
 
 [requires]
-python_version = "3.8"
-
-[packages.pykitml]
-editable = true
-path = "."
+python_version = "3.9.10"
