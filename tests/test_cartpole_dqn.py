@@ -9,7 +9,7 @@ def test_cartpole():
     # Wrapper class around the environment
     class Environment:
         def __init__(self):
-            self._env = gym.make('CartPole-v0')
+            self._env = gym.make('CartPole-v1')
 
         def reset(self):
             return self._env.reset()
