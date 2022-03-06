@@ -206,7 +206,7 @@ class Classifier(ABC):
             _heatmap.annotate_heatmap(im, valfmt="{x:.0f}")
 
             # Labels
-            fig.canvas.set_window_title('Confusion Matrix')
+            fig.canvas.manager.set_window_title('Confusion Matrix')
             ax.set_xlabel('Actual')
             ax.xaxis.set_label_position('top')
             ax.set_ylabel('Predicted')
