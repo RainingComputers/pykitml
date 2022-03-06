@@ -22,4 +22,4 @@ autopep8 = "*"
 pygame = "*"
 
 [requires]
-python_version = "3.9.10"
+python_version = "3.10.0"
