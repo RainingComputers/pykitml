@@ -1,5 +1,3 @@
-import pytest
-
 from pykitml.testing import pktest_graph
 
 @pktest_graph
