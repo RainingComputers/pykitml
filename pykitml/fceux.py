@@ -24,7 +24,7 @@ class FCEUXServer:
         port : int
             Port to listen to.
         '''
-        # Eshtablish connection with client
+        # Establish connection with client
         self._serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._serversocket.bind((ip, port))
         self._serversocket.listen(5)

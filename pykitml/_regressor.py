@@ -64,7 +64,7 @@ class Regressor(ABC):
         Raises
         ------
         ValueError
-            If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.
+            If :code:`testing_data` or :code:`testing_targets` has invalid dimensions/shape.
         '''
         self.feed(testing_data)
         output = self.get_output()

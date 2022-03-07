@@ -232,7 +232,7 @@ class DecisionTree(Classifier, Regressor):
             outputs_train = outputs
 
         # Grow the tree
-        pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='expls', disable=self._pbardis)
+        pbar = tqdm.tqdm(total=inputs.shape[0], ncols=80, unit='examples', disable=self._pbardis)
         self._iterative_grow(inputs, outputs_train, pbar)
         # Close progress bar
         pbar.close()
@@ -280,10 +280,10 @@ class DecisionTree(Classifier, Regressor):
 
         nodes_to_build = []
 
-        if not self._regression:
-            value, score = self._gini_index(outputs)
-        else:
+        if self._regression:
             value, score = self._regression_score(outputs)
+        else:
+            value, score = self._gini_index(outputs)
 
         nodes_to_build.append(
             {

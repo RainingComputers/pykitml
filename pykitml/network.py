@@ -69,7 +69,7 @@ class NeuralNetwork(MinimizeModel, Classifier, Regressor):
         # Number of layers
         self._nlayers = len(layer_sizes)
 
-        # Intialize parameters
+        # Initialize parameters
         weights = [np.array([])] * self.nlayers
         biases = [np.array([])] * self.nlayers
         # Loop through each layer and initialize random weights and biases

@@ -55,7 +55,7 @@ class PCA:
         Parameters
         ----------
         pca_points : numpy.array
-            The trasformed points.
+            The transformed points.
 
         '''
         # Transform from principle components back to approx feature

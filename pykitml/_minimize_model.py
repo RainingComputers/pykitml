@@ -123,16 +123,16 @@ class MinimizeModel(ABC):
 
         if self.bptt:
             return self._backpropagate(None, targets[indices])
-        else:
-            # Loop through the batch
-            for example in range(0, batch_size):
-                # Add the calculated gradients to the total
-                index = ((epoch*batch_size) + example) % training_data.shape[0]
-                # Get gradient
-                total_gradient += self._backpropagate(example, targets[index])
 
-            # return the total
-            return total_gradient/batch_size
+        # Loop through the batch
+        for example in range(0, batch_size):
+            # Add the calculated gradients to the total
+            index = ((epoch*batch_size) + example) % training_data.shape[0]
+            # Get gradient
+            total_gradient += self._backpropagate(example, targets[index])
+
+        # return the total
+        return total_gradient/batch_size
 
     def plot_performance(self):
         '''
@@ -159,7 +159,7 @@ class MinimizeModel(ABC):
         plt.plot(graph['epoch'], graph['cost_train'], label='Training data')
 
         # Plot average cost on testing data
-        if 'cost_test' in graph.keys():
+        if 'cost_test' in graph:
             plt.plot(graph['epoch'], graph['cost_test'], label='Test data')
 
         # Axis labels
@@ -212,7 +212,7 @@ class MinimizeModel(ABC):
         Raises
         ------
         ValueError
-            If :code:`testing_data` or :code:`testing_tagets` has invalid dimensions/shape.
+            If :code:`testing_data` or :code:`testing_targets` has invalid dimensions/shape.
         '''
         self._on_test_start()
 

@@ -74,7 +74,7 @@ class RandomSearch:
                     elif rtype[2] == 'log':
                         params.append(10**random.uniform(l, u))
 
-                print('Testing {}/{}, zoomlvl {},'.format(i+1, nsamples, z+1), 'params =', params)
+                print(f'Testing {i+1}/{nsamples}, zoomlvl {z+1}, params ={params}')
 
                 # Yield
                 yield params

@@ -165,20 +165,25 @@ class LSTM(MinimizeModel, Classifier, Regressor):
             self.z_ws[l][t] = self.y[l-1][t]@self._params[Wz][l].T + \
                 self.last_y[l]@self._params[Rz][l].T + self._params[Bz][l]
             self.z[l][t] = tanh(self.z_ws[l][t])
+
             # Input gate
             self.i_ws[l][t] = self.y[l-1][t]@self._params[Wi][l].T + \
                 self.last_y[l]@self._params[Ri][l].T + self._params[Bi][l]
             self.i[l][t] = sigmoid(self.i_ws[l][t])
+
             # Forget gate
             self.f_ws[l][t] = self.y[l-1][t]@self._params[Wf][l].T + \
                 self.last_y[l]@self._params[Rf][l].T + self._params[Bf][l]
             self.f[l][t] = sigmoid(self.f_ws[l][t])
+
             # Output gate
             self.o_ws[l][t] = self.y[l-1][t]@self._params[Wo][l].T + \
                 self.last_y[l]@self._params[Ro][l].T + self._params[Bo][l]
             self.o[l][t] = sigmoid(self.o_ws[l][t])
+
             # Cell state
             self.c[l][t] = self.z[l][t]*self.i[l][t] + self.last_c[l]*self.f[l][t]
+
             # Block output
             self.y[l][t] = tanh(self.c[l][t])*self.o[l][t]
 

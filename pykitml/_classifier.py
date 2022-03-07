@@ -70,17 +70,18 @@ class Classifier(ABC):
         if self._out_size == 1:
             # For binary classification
             return np.where(output_targets > 0.5, 1, 0)
-        elif output_targets.ndim == 1:
+
+        if output_targets.ndim == 1:
             # If output is a vector/1D array, axis=1 will not work
             index = np.argmax(output_targets)
             output_onehot = np.zeros((self._out_size))
             output_onehot[index] = 1
-        else:
-            # Create a onehot array from outputs
-            output_onehot = np.zeros(output_targets.shape)
-            output_onehot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+            return output_onehot
 
-        # Return one hot array
+        # Create a onehot array from outputs
+        output_onehot = np.zeros(output_targets.shape)
+        output_onehot[np.arange(output_targets.shape[0]), np.argmax(output_targets, axis=1)] = 1
+
         return output_onehot
 
     def accuracy(self, testing_data, testing_targets):

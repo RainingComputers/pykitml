@@ -102,10 +102,10 @@ def softmax(weighted_sum):
     if weighted_sum.ndim == 1:
         exps = np.exp(weighted_sum - np.max(weighted_sum))
         return exps / np.sum(exps)
-    else:
-        normalized = weighted_sum - np.expand_dims(np.max(weighted_sum, axis=1), axis=1)
-        exps = np.exp(normalized)
-        return exps / np.expand_dims(np.sum(exps, axis=1), 1)
+
+    normalized = weighted_sum - np.expand_dims(np.max(weighted_sum, axis=1), axis=1)
+    exps = np.exp(normalized)
+    return exps / np.expand_dims(np.sum(exps, axis=1), 1)
 
 
 def identity(weighted_sum):
