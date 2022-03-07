@@ -44,7 +44,7 @@ class GradientDescent(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
         '''
         self._learning_rate = learning_rate
         self._decay_rate = decay_rate
@@ -77,7 +77,7 @@ class Momentum(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
             beta : float
                 Should be between 0 to 1.
         '''
@@ -107,7 +107,7 @@ class Momentum(Optimizer):
 
 class Nesterov(Optimizer):
     '''
-    This class implements neterov momentum optimization.
+    This class implements nesterov momentum optimization.
     '''
 
     def __init__(self, learning_rate, decay_rate=1, beta=0.9):
@@ -116,7 +116,7 @@ class Nesterov(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
             beta : float
                 Should be between 0 to 1.
         '''
@@ -149,7 +149,7 @@ class Nesterov(Optimizer):
 
 class Adagrad(Optimizer):
     '''
-    This class implements adagrad optmization.
+    This class implements adagrad optimization.
     '''
 
     def __init__(self, learning_rate, decay_rate=1):
@@ -158,7 +158,7 @@ class Adagrad(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
         '''
         self._learning_rate = learning_rate
         self._decay_rate = decay_rate
@@ -196,7 +196,7 @@ class RMSprop(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
             beta : float
                 Should be between 0 to 1.
         '''
@@ -237,7 +237,7 @@ class Adam(Optimizer):
         ----------
             learning_rate : float
             decay_rate : float
-                Decay rate for leraning rate
+                Decay rate for learning rate
             beta1 : float
                 Should be between 0 to 1.
             beta2 : float

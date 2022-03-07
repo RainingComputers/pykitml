@@ -73,10 +73,10 @@ def onehot_cols(dataset, cols):
     offset = 0
     dataset_new = dataset
     for col in cols:
-        onehot_colmn = onehot(dataset_new[:, col+offset])
+        onehot_column = onehot(dataset_new[:, col+offset])
         dataset_new = np.delete(dataset_new, col+offset, axis=1)
-        dataset_new = np.insert(dataset_new, [col+offset], onehot_colmn, axis=1)
-        offset += onehot_colmn.shape[1]-1
+        dataset_new = np.insert(dataset_new, [col+offset], onehot_column, axis=1)
+        offset += onehot_column.shape[1]-1
 
     return dataset_new
 
@@ -127,10 +127,10 @@ def onehot_cols_traintest(dataset_train, dataset_test, cols):
     # Replace columns with on hot values
     offset = 0
     for col in cols:
-        onehot_colmn = onehot(dataset_new[:, col+offset])
+        onehot_column = onehot(dataset_new[:, col+offset])
         dataset_new = np.delete(dataset_new, col+offset, axis=1)
-        dataset_new = np.insert(dataset_new, [col+offset], onehot_colmn, axis=1)
-        offset += onehot_colmn.shape[1]-1
+        dataset_new = np.insert(dataset_new, [col+offset], onehot_column, axis=1)
+        offset += onehot_column.shape[1]-1
 
     split = dataset_train.shape[0]
     return dataset_new[:split, :], dataset_new[split:, :]
@@ -147,9 +147,9 @@ def polynomial(dataset_inputs, degree=3, cols=[]):
     Parameters
     ----------
     dataset_inputs : numpy.array
-        The input dataset to generate the ploynomials from.
+        The input dataset to generate the polynomials from.
     degree : int
-        The dgree of the polynomial.
+        The degree of the polynomial.
     cols : list
         The columns to use to generate polynomial features, columns
         not in this list will be ignored. If empty (default), all columns will

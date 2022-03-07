@@ -97,7 +97,7 @@ class NaiveBayes(Classifier):
             # So the result will be log(p(x|Ci)) instead of p(x|Ci)
             p_xci = np.zeros((input_data.shape[0]))
             for x in range(0, self._input_size):
-                # p(xi|Ci) if catgorical feature
+                # p(xi|Ci) if categorical feature
                 if self._dists[x] != 'gaussian':
                     p_xici = self._freqp[C][x][input_data[:, x].astype(int)]
                 # p(xi|Ci) if continues feature

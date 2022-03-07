@@ -44,7 +44,8 @@ def pktest_graph(test_func):
 
         with patch('matplotlib.pyplot.show') as show_func, patch('graphviz.Digraph.view') as _:
             # Run the test function
-            _profile(test_func)
+            #_profile(test_func)
+            test_func()
 
             # Test if graph worked
             if "PYTEST_CURRENT_TEST" in os.environ:

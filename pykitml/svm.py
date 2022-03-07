@@ -7,7 +7,7 @@ from . import _functions
 
 def gaussian_kernel(input_data, training_inputs, sigma=1):
     '''
-    Transforms the give input data using the gaussian kernal.
+    Transforms the give input data using the gaussian kernel.
 
     Parameters
     ----------

@@ -25,17 +25,17 @@ def smote(minority_data_points, k=1):
     npoints = minority_data_points.shape[0]
     nfeatures = minority_data_points.shape[1]
 
-    # Calculate distance between each point and evry other point
+    # Calculate distance between each point and every other point
     distances = pdist(minority_data_points, minority_data_points)
 
-    # Get indices of closest k neigbours for each point
+    # Get indices of closest k neighbours for each point
     indices = np.argsort(distances, axis=1)[:, 1:k+1]
 
     # Get the closest k neighbours for each point
     neighbours = minority_data_points[indices].squeeze()
     neighbours = neighbours.reshape(k*npoints, nfeatures)
 
-    # Calculate diffrence between points and k neighbours
+    # Calculate difference between points and k neighbours
     minority_data_points_dups = minority_data_points[np.tile(np.arange(npoints).reshape(npoints, 1), k)]
     minority_data_points_dups = minority_data_points_dups.reshape(k*npoints, nfeatures)
     diff = neighbours - minority_data_points_dups

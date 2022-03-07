@@ -167,7 +167,8 @@ disable=print-statement,
         no-self-use,
         consider-using-in,
         too-many-statements,
-        import-outside-toplevel
+        import-outside-toplevel,
+        unspecified-encoding
 
 
 

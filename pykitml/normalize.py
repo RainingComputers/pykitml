@@ -62,7 +62,7 @@ def normalize_minmax(array, array_min, array_max, cols=[]):
         # Normalize only specified columns, 1D array
         normalized_array[cols] = all_normalized[cols]
     else:
-        # Normalize onlt specified columns, 2D array
+        # Normalize only specified columns, 2D array
         normalized_array[:, cols] = all_normalized[:, cols]
 
     return normalized_array
@@ -98,13 +98,13 @@ def denormalize_minmax(array, array_min, array_max, cols=[]):
     all_denormalized = (array * (array_max - array_min)) + array_min
 
     if len(cols) == 0:
-        # Deormalize all columns
+        # Denormalize all columns
         denormalized_array = all_denormalized
     elif array.ndim == 1:
         # Denormalize only specified columns, 1D array
         denormalized_array[cols] = all_denormalized[cols]
     else:
-        # Denormalize onlt specified columns, 2D array
+        # Denormalize only specified columns, 2D array
         denormalized_array[:, cols] = all_denormalized[:, cols]
 
     return denormalized_array
@@ -206,7 +206,7 @@ def denormalize_mean(array, array_mean, array_stddev, cols=[]):
         # Denormalize only specified columns, 1D array
         denormalized_array[cols] = all_denormalized[cols]
     else:
-        # Denormalize onlt specified columns, 2D array
+        # Denormalize only specified columns, 2D array
         denormalized_array[:, cols] = all_denormalized[:, cols]
 
     return denormalized_array
