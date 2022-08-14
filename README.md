@@ -93,6 +93,6 @@ print('Predicted: ', model_output)
 
 ![Performance Graph](https://raw.githubusercontent.com/RainingComputers/pykitml/master/docs/demo_pics/neural_network_perf_graph.png)
 
-## Confusion Matrix
+### Confusion Matrix
 
 ![Confusion Matrix](https://raw.githubusercontent.com/RainingComputers/pykitml/master/docs/demo_pics/neural_network_confusion_matrix.png)
