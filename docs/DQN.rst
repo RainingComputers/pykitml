@@ -29,8 +29,8 @@ Environment Class
 
     .. automethod:: render
 
-Example : Cartpole using OpenAI Gym
------------------------------------
+Example : Cartpole using gymnasium
+----------------------------------
 
 .. literalinclude:: ../tests/test_cartpole_dqn.py
    :pyobject: test_cartpole

@@ -44,7 +44,7 @@ def get(type='classic'):  # pylint: disable=redefined-builtin
     downloaded and you have the `mnist.pkl` file, you don't need to call this method again.
     '''
     # dict of URLs containing MNIST like datasets
-    type_URLs = {'classic': 'http://yann.lecun.com/exdb/mnist/',
+    type_URLs = {'classic': 'https://ossci-datasets.s3.amazonaws.com/mnist/',
                  'fashion': 'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/'
                  }
 

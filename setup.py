@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='pykitml',
-    version='0.1.2',
+    version='0.1.3',
     author='RainingComputers',
     author_email='vishnu.vish.shankar@gmail.com',
     description='Machine Learning library written in Python and NumPy.',
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/RainingComputers/pykitml',
     packages=setuptools.find_packages(exclude=['docs', 'tests']),
-    python_requires='>=3.5',
+    python_requires='>=3.10',
     install_requires=[
         'numpy', 'matplotlib', 'tqdm', 'graphviz'
     ],

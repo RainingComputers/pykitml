@@ -17,7 +17,7 @@ sphinx-bootstrap-theme = "*"
 tqdm = "*"
 graphviz = "*"
 gprof2dot = "*"
-gym = "*"
+gymnasium = "*"
 autopep8 = "*"
 pygame = "*"
 
