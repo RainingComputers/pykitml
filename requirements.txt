@@ -2,3 +2,4 @@ numpy
 matplotlib
 tqdm
 graphviz
+sphinx-rtd-theme
